@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 리터러시 포트폴리오 - 박채은</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // 테마 설정 초기화
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neon: '#39FF14',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Refined */
+        .glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.05),
+                0 10px 20px -5px rgba(0, 0, 0, 0.1),
+                inset 0 1px 1px rgba(255, 255, 255, 0.6);
+        }
+
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                0 10px 30px -10px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.1);
+        }
+
+        /* 폴더 모양 카드 스타일 */
+        .folder-shape {
+            position: relative;
+            clip-path: polygon(0% 15%, 35% 15%, 45% 0%, 100% 0%, 100% 100%, 0% 100%);
+            padding-top: 3rem !important;
+        }
+
+        .neon-glow:hover {
+            box-shadow: 
+                0 25px 50px -12px rgba(57, 255, 20, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8);
+            border-color: rgba(57, 255, 20, 0.6);
+        }
+
+        /* 스파클 효과 스타일 */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #39FF14;
+            pointer-events: none;
+            z-index: 100;
+            animation: sparkle-anim 0.8s linear forwards;
+        }
+
+        @keyframes sparkle-anim {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1.5) rotate(180deg) translateY(20px); opacity: 0; }
+        }
+
+        .modal-enter {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .futura { font-family: 'Futura', sans-serif; }
+
+        /* 프로필 이미지 보더 효과 */
+        .profile-frame {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2.5rem;
+            transition: all 0.5s ease;
+        }
+        .profile-frame::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 2px solid transparent;
+            border-radius: 2.5rem;
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.5), transparent) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+        }
+    </style>
+</head>
+<body class="bg-[#f0f9ff] dark:bg-[#020617] text-slate-800 dark:text-slate-100 selection:bg-neon/30">
+
+    <div id="sparkle-container"></div>
+
+    <!-- 배경 요소 -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-neon/10 dark:bg-neon/5 rounded-full blur-[120px] animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-300/20 dark:bg-blue-900/20 rounded-full blur-[100px]"></div>
+    </div>
+
+    <!-- 네비게이션 -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 py-6 bg-transparent">
+        <div class="max-w-7xl mx-auto px-8 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-tight">
+                <span class="text-neon drop-shadow-sm futura">AI</span> LITERACY
+            </h1>
+            <div class="flex gap-8 text-sm font-medium">
+                <a href="#hero" class="hover:text-neon transition-colors">Home</a>
+                <a href="#gallery" class="hover:text-neon transition-colors">Projects</a>
+                <a href="#footer" class="hover:text-neon transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 테마 토글 -->
+    <button id="theme-toggle" class="fixed bottom-8 right-8 z-[60] w-14 h-14 glass rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-xl">
+        <i id="theme-icon-light" data-lucide="sun" class="hidden text-orange-400"></i>
+        <i id="theme-icon-dark" data-lucide="moon" class="hidden text-blue-400"></i>
+    </button>
+
+    <!-- 히어로 섹션 -->
+    <section id="hero" class="relative pt-48 pb-32 px-8 z-10">
+        <div class="max-w-7xl mx-auto text-left">
+            <div class="inline-block px-4 py-1 rounded-full bg-white/40 dark:bg-slate-800/40 border border-white/60 dark:border-slate-700 mb-6 text-sm font-semibold text-slate-500 dark:text-slate-400 shadow-sm">
+                2026 Portfolio
+            </div>
+            <h2 id="hero-title" class="text-7xl md:text-8xl futura font-black mb-8 leading-tight tracking-tighter cursor-default">
+                Data to <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-neon">Narrative</span>:<br />
+                AI Literacy Journey
+            </h2>
+            <p class="text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl leading-relaxed">
+                현실 세계의 복잡한 문제를 발견하고,<br />
+                이를 AI 기술로 해결하는 비판적 사고와 기술적 활용 능력을 기록합니다.
+            </p>
+            <div class="flex justify-start gap-4">
+                <button class="px-8 py-4 bg-neon text-slate-900 rounded-full font-bold hover:scale-105 transition-transform flex items-center gap-2 shadow-[0_15px_30px_-5px_rgba(57,255,20,0.4)] border-t border-white/40">
+                    View Journey <i data-lucide="book-open" class="w-5 h-5 text-slate-900"></i>
+                </button>
+                <button class="glass px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform">
+                    About Me
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로젝트 갤러리 -->
+    <section id="gallery" class="relative py-24 px-8 z-10 bg-white/20 dark:bg-slate-900/20">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-16">
+                <div>
+                    <h3 class="text-5xl font-black futura mb-4">PROJECT ARCHIVE</h3>
+                    <p class="text-slate-500 italic dark:text-slate-400 text-lg">총 10단계의 학습 여정</p>
+                </div>
+                <div class="hidden md:block h-[1px] flex-1 mx-10 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent"></div>
+            </div>
+
+            <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                <!-- 폴더 카드 동적 생성 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer id="footer" class="relative py-20 px-8 z-10 border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="glass p-8 md:p-12 rounded-[3rem] flex flex-col md:flex-row items-center gap-10 md:gap-16">
+                <!-- 프로필 이미지 영역 -->
+                <div class="flex-shrink-0">
+                    <div class="profile-frame w-48 h-48 md:w-56 md:h-56 bg-slate-100 dark:bg-slate-800 flex items-center justify-center group shadow-xl">
+                        <!-- 이미지 태그 -->
+                        <img id="profile-img" 
+                             src="https://i.pinimg.com/736x/0d/86/91/0d8691b9febfaced1df9f7c629593512.jpg" 
+                             alt="박채은 프로필 사진" 
+                             class="w-full h-full object-cover opacity-0 transition-opacity duration-500" 
+                             onload="this.classList.remove('opacity-0'); document.getElementById('profile-placeholder').classList.add('hidden')"
+                             onerror="this.classList.add('hidden'); document.getElementById('profile-placeholder').classList.remove('hidden')">
+                        
+                        <!-- 플레이스홀더 -->
+                        <div id="profile-placeholder" class="text-center p-4">
+                            <i data-lucide="user" class="w-12 h-12 mx-auto mb-2 text-slate-300 dark:text-slate-600"></i>
+                            <p class="text-[10px] uppercase font-bold text-slate-400 tracking-tighter">Loading Profile</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 text-center md:text-left">
+                    <div class="flex items-center gap-3 mb-4 justify-center md:justify-start">
+                        <i data-lucide="shield-check" class="text-neon w-8 h-8"></i>
+                        <h3 class="text-2xl font-bold">Designer & AI Literate</h3>
+                    </div>
+                    <!-- 수정됨: 줄바꿈 적용 -->
+                    <p class="text-lg text-slate-600 dark:text-slate-400 max-w-md leading-relaxed">
+                        단순한 기술 활용을 넘어,<br />
+                        AI의 윤리와 한계를 이해하는 비판적 사고로<br />
+                        기술과 인간의 조화를 설계합니다.
+                    </p>
+                </div>
+                
+                <div class="space-y-4 text-center md:text-right flex-shrink-0">
+                    <p class="text-sm uppercase tracking-[0.2em] font-bold text-slate-400">Profile Contact</p>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-xl font-bold">디자인학과 | 박채은</span>
+                        <a href="mailto:ehd.qor414@gmail.com" class="text-blue-500 dark:text-neon hover:underline transition-colors flex items-center justify-center md:justify-end gap-2 futura">
+                            ehd.qor414@gmail.com <i data-lucide="mail" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 text-center text-slate-400 dark:text-slate-500 text-xs">
+                © 2026 AI Literacy Portfolio. Designed with Future Vision.
+            </div>
+        </div>
+    </footer>
+
+    <!-- 모달 -->
+    <div id="modal-overlay" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 transition-all duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" id="close-modal-bg"></div>
+        <div class="glass w-full max-w-2xl rounded-[2.5rem] overflow-hidden relative z-10 modal-enter">
+            <button id="close-modal-btn" class="absolute top-6 right-6 p-2 bg-slate-100/50 dark:bg-slate-800/50 rounded-full hover:bg-red-500 hover:text-white transition-all">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div id="modal-content" class="p-12"></div>
+        </div>
+    </div>
+
+    <script>
+        const projects = [
+            { 
+                id: 1, 
+                title: "AI의 이해", 
+                tools: "NotebookLM",
+                summary: "NotebookLM을 활용하여 인공지능의 정의, 발전 역사 및 생성형 AI의 핵심 개념 정리 및 분석",
+                url: "./02/index.html"
+            },
+            { id: 2, title: "프롬프트 엔지니어링 기초", tools: "ChatGPT, Claude", summary: "효율적인 결과 도출을 위한 구조적 프롬프트 설계 실습" },
+            { id: 3, title: "데이터 시각화와 스토리텔링", tools: "Python, Pandas", summary: "복잡한 데이터를 직관적인 그래프와 내러티브로 변환" },
+            { id: 4, title: "AI 이미지 생성 워크플로우", tools: "Midjourney, DALL-E", summary: "예술적 컨셉을 시각화하는 생성형 AI 도구 활용법" },
+            { id: 5, title: "비판적 미디어 리터러시", tools: "Deepfake Detector", summary: "딥페이크와 가짜 뉴스 식별을 통한 정보 판별 능력 함양" },
+            { id: 6, title: "자동화 스크립트 제작", tools: "Python, Zapier", summary: "반복적인 워크플로우를 AI로 자동화하여 효율성 증대" },
+            { id: 7, title: "AI 윤리 가이드라인 설계", tools: "Notion", summary: "인간 중심의 AI 활용을 위한 개인적 윤리 원칙 수립" },
+            { id: 8, title: "LLM 기반 챗봇 기획", tools: "OpenAI API", summary: "특정 도메인 지식을 학습한 맞춤형 대화형 인터페이스 설계" },
+            { id: 9, title: "미래 직업 변화 예측 보고서", tools: "Perplexity", summary: "AI 도입에 따른 산업계 변화와 필요한 역량 분석" },
+            { id: 10, title: "최종 프로젝트: AI 솔루션", tools: "Full Stack AI", summary: "실생활의 문제를 AI 기술로 해결하는 통합 포트폴리오 완성" }
+        ];
+
+        const projectGrid = document.getElementById('project-grid');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        const navbar = document.getElementById('navbar');
+        const sparkleContainer = document.getElementById('sparkle-container');
+
+        // 1. 테마 초기화
+        function initTheme() {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            lucide.createIcons();
+        }
+
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+        });
+
+        // 2. 스파클 효과 로직
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            
+            const size = Math.random() * 4 + 2;
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+            
+            sparkleContainer.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 800);
+        }
+
+        function handleSparkleMove(e) {
+            createSparkle(e.clientX, e.clientY);
+        }
+
+        // 3. 네비게이션 효과
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass', 'py-4');
+                navbar.classList.remove('py-6', 'bg-transparent');
+            } else {
+                navbar.classList.remove('glass', 'py-4');
+                navbar.classList.add('py-6', 'bg-transparent');
+            }
+        });
+
+        // 4. 프로젝트 카드 렌더링
+        function renderCards() {
+            projectGrid.innerHTML = projects.map(p => `
+                <div class="glass folder-shape group p-8 rounded-b-[2rem] cursor-pointer transition-all duration-500 hover:-translate-y-2 neon-glow sparkle-target" onclick="handleCardClick(${p.id})">
+                    <div class="absolute top-2 left-6 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                        Archive No. ${p.id < 10 ? '0' + p.id : p.id}
+                    </div>
+                    
+                    <div class="flex justify-between items-start mb-6 mt-2">
+                        <span class="text-3xl font-black text-neon/20 group-hover:text-neon transition-colors duration-500">
+                            STEP ${p.id}
+                        </span>
+                        <div class="p-3 bg-white/40 dark:bg-slate-800/40 rounded-2xl group-hover:bg-neon/10 transition-colors shadow-inner">
+                            <i data-lucide="folder" class="w-6 h-6 text-slate-400 group-hover:text-neon"></i>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 group-hover:text-blue-500 dark:group-hover:text-neon transition-colors">${p.title}</h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 line-clamp-2 leading-relaxed">${p.summary}</p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        ${p.tools.split(', ').map(tool => `
+                            <span class="text-[9px] uppercase tracking-wider font-bold px-3 py-1 bg-white/40 dark:bg-slate-800/40 border border-white/20 rounded-full text-slate-500">
+                                ${tool}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+            
+            document.querySelectorAll('.sparkle-target').forEach(el => {
+                el.addEventListener('mousemove', handleSparkleMove);
+            });
+            
+            lucide.createIcons();
+        }
+
+        // 카드 클릭 핸들러 (에러 수정됨)
+        window.handleCardClick = function(id) {
+            const p = projects.find(item => item.id === id);
+            // url이 존재하고 빈 문자열이 아닌지 확인
+            if (p && p.url && p.url.trim() !== "") {
+                window.location.href = p.url;
+            } else {
+                openModal(id);
+            }
+        };
+
+        document.getElementById('hero-title').addEventListener('mousemove', handleSparkleMove);
+
+        window.openModal = function(id) {
+            const p = projects.find(item => item.id === id);
+            if (!p) return;
+            modalContent.innerHTML = `
+                <div class="inline-block px-4 py-1 rounded-full bg-neon/10 text-neon text-xs font-bold mb-6 italic tracking-tighter">DATA RECORD #${p.id}</div>
+                <h2 class="text-4xl font-black mb-6 leading-tight">${p.title}</h2>
+                <div class="space-y-8">
+                    <div>
+                        <h5 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Core Narrative</h5>
+                        <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">${p.summary}</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-6 bg-white/30 dark:bg-slate-800/30 rounded-3xl border border-white/20">
+                            <h6 class="text-xs font-bold text-slate-400 mb-2 uppercase">Used Systems</h6>
+                            <p class="font-bold">${p.tools}</p>
+                        </div>
+                        <div class="p-6 bg-white/30 dark:bg-slate-800/30 rounded-3xl border border-white/20">
+                            <h6 class="text-xs font-bold text-slate-400 mb-2 uppercase">Verified Competency</h6>
+                            <p class="font-bold">AI Critical Literacy</p>
+                        </div>
+                    </div>
+                    <button class="w-full py-5 bg-neon text-slate-900 font-black rounded-2xl hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg">
+                        Access Full File <i data-lucide="lock-open" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            `;
+            modalOverlay.classList.remove('hidden');
+            modalOverlay.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        };
+
+        function closeModal() {
+            modalOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+        document.getElementById('close-modal-bg').addEventListener('click', closeModal);
+
+        initTheme();
+        renderCards();
+    </script>
+</body>
+</html>
