@@ -121,15 +121,26 @@
             backdrop-filter: blur(20px);
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .modal-content {
-            width: 90%;
-            max-width: 1000px;
+            width: 100%;
+            max-width: 1200px;
             max-height: 90vh;
-            overflow: auto;
+            overflow: hidden;
             position: relative;
+            display: flex;
+            flex-direction: column;
             animation: modalScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-image-container {
+            overflow: auto;
+            flex-grow: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
         }
 
         @keyframes modalScale {
@@ -174,13 +185,18 @@
 
     <!-- Modal for Infographic -->
     <div id="infographic-modal" onclick="closeModal()">
-        <div class="modal-content glass-card p-4 relative" onclick="event.stopPropagation()">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-2xl font-bold text-gray-500 hover:text-black">&times;</button>
-            <h2 class="text-xl font-bold mb-4 text-center text-blue-600">인공지능 역사 인포그래픽</h2>
-            <div class="rounded-xl overflow-hidden border border-white/50 bg-white/20">
-                <img src="https://placehold.co/1200x800/e0f7fa/00aaff?text=AI_History+Infographic+Visual" alt="AI_History" class="w-full h-auto">
+        <div class="modal-content glass-card p-6 relative" onclick="event.stopPropagation()">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-3xl font-bold text-blue-500 hover:text-blue-800 transition-colors z-10">&times;</button>
+            <h2 class="text-2xl font-bold mb-4 text-center text-blue-600">인공지능 역사 인포그래픽</h2>
+            
+            <div class="modal-image-container border border-white/50 shadow-inner">
+                <img src="AI_History.png" alt="AI_History" class="w-full h-auto block rounded-lg shadow-sm" onerror="this.src='https://placehold.co/1200x2000/e0f7fa/00aaff?text=AI_History.png+Not+Found'">
             </div>
-            <p class="mt-4 text-center text-sm text-gray-600">이 인포그래픽은 AI의 주요 마일스톤을 시각적으로 보여줍니다.</p>
+            
+            <div class="mt-4 flex justify-between items-center text-sm text-gray-600">
+                <p>💡 마우스 휠로 스크롤하여 상세 내용을 확인하세요.</p>
+                <button onclick="closeModal()" class="text-blue-600 font-bold hover:underline">닫기</button>
+            </div>
         </div>
     </div>
 
