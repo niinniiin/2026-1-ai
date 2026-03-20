@@ -79,7 +79,7 @@
         /* Tabs/Action Buttons Styles */
         .nav-btn {
             background: linear-gradient(to bottom, #74ebd5, #9face6);
-            padding: 8px 24px;
+            padding: 10px 28px;
             color: white;
             font-weight: 500;
         }
@@ -87,7 +87,7 @@
         /* Hero Action Buttons */
         .download-btn {
             background: linear-gradient(to bottom, #00d2ff, #3a7bd5);
-            padding: 12px 28px;
+            padding: 14px 32px;
             color: white;
             font-weight: bold;
             text-transform: uppercase;
@@ -97,7 +97,7 @@
 
         .video-btn {
             background: linear-gradient(to bottom, #43e97b, #38f9d7);
-            padding: 12px 28px;
+            padding: 14px 32px;
             color: #1a5c32;
             font-weight: bold;
             text-transform: uppercase;
@@ -175,11 +175,11 @@
             align-items: center;
             justify-content: center;
             box-shadow: 4px 4px 10px rgba(0,0,0,0.1), inset -2px -2px 5px rgba(255,255,255,0.8);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-6 md:p-12 pt-24 md:pt-32">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
 
@@ -200,25 +200,25 @@
         </div>
     </div>
 
-    <header class="max-w-5xl mx-auto text-center mb-12">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500">
+    <header class="max-w-5xl mx-auto text-center mb-24">
+        <h1 class="text-5xl md:text-7xl font-bold mb-8 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500">
             AI의 심층적 이해
         </h1>
-        <p class="text-lg text-gray-600">개념적 토대부터 생성형 AI 혁신까지 한눈에 보기</p>
+        <p class="text-xl text-gray-600 mb-12">개념적 토대부터 생성형 AI 혁신까지 한눈에 보기</p>
         
         <!-- Hero Action Buttons -->
-        <div class="flex flex-wrap justify-center gap-4 mt-8">
+        <div class="flex flex-wrap justify-center gap-6">
             <!-- Slides Download Button -->
-            <a href="AI_03.pdf" download="AI_03.pdf" class="glossy-btn hero-btn download-btn gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <a href="AI_03.pdf" download="AI_03.pdf" class="glossy-btn hero-btn download-btn gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 Download Slides
             </a>
 
             <!-- Watch Video Button -->
-            <a href="AI_04.mp4" target="_blank" class="glossy-btn hero-btn video-btn gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <a href="AI_04.mp4" target="_blank" class="glossy-btn hero-btn video-btn gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -229,7 +229,7 @@
 
     <main class="max-w-5xl mx-auto">
         <!-- Navigation Tabs -->
-        <nav class="flex flex-wrap justify-center gap-4 mb-12">
+        <nav class="flex flex-wrap justify-center gap-6 mb-20">
             <button onclick="showTab('concept')" class="glossy-btn nav-btn">1. 기본 개념</button>
             <button onclick="showTab('history')" class="glossy-btn nav-btn">2. 역사적 진화</button>
             <button onclick="showTab('generative')" class="glossy-btn nav-btn">3. 생성형 혁명</button>
@@ -239,113 +239,113 @@
         <!-- Tab Contents -->
         
         <!-- Section 1: Concept -->
-        <section id="concept" class="tab-content active">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass-card p-6 flex flex-col items-center text-center">
+        <section id="concept" class="tab-content active space-y-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-10 flex flex-col items-center text-center">
                     <div class="icon-circle">🌐</div>
-                    <h3 class="text-xl font-bold mb-2">인공지능 (AI)</h3>
-                    <p class="text-sm text-gray-700">인간의 지능적 행동을 컴퓨터로 구현하고 시뮬레이션하는 포괄적 분야</p>
+                    <h3 class="text-2xl font-bold mb-4">인공지능 (AI)</h3>
+                    <p class="text-base text-gray-700 leading-relaxed">인간의 지능적 행동을 컴퓨터로 구현하고 시뮬레이션하는 포괄적 분야</p>
                 </div>
-                <div class="glass-card p-6 flex flex-col items-center text-center">
+                <div class="glass-card p-10 flex flex-col items-center text-center">
                     <div class="icon-circle">🧠</div>
-                    <h3 class="text-xl font-bold mb-2">머신러닝 (ML)</h3>
-                    <p class="text-sm text-gray-700">명시적 규칙 대신 데이터를 통해 스스로 알고리즘을 구축하는 기술</p>
+                    <h3 class="text-2xl font-bold mb-4">머신러닝 (ML)</h3>
+                    <p class="text-base text-gray-700 leading-relaxed">명시적 규칙 대신 데이터를 통해 스스로 알고리즘을 구축하는 기술</p>
                 </div>
-                <div class="glass-card p-6 flex flex-col items-center text-center">
+                <div class="glass-card p-10 flex flex-col items-center text-center">
                     <div class="icon-circle">🕸️</div>
-                    <h3 class="text-xl font-bold mb-2">딥러닝 (DL)</h3>
-                    <p class="text-sm text-gray-700">인간 뇌를 모방한 인공 신경망을 다층으로 쌓아 올린 고도화 구조</p>
+                    <h3 class="text-2xl font-bold mb-4">딥러닝 (DL)</h3>
+                    <p class="text-base text-gray-700 leading-relaxed">인간 뇌를 모방한 인공 신경망을 다층으로 쌓아 올린 고도화 구조</p>
                 </div>
             </div>
             
-            <div class="glass-card mt-8 p-8">
-                <h3 class="text-2xl font-bold mb-4 text-blue-600">데이터와 보상에 따른 학습 유형</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-4 bg-white/30 rounded-lg border border-white/50">
-                        <span class="font-bold text-blue-700">● 지도 학습 (Supervised)</span>
-                        <p class="text-sm mt-1">정답(Label)이 포함된 데이터를 활용해 입력-출력 매핑 학습 (예: 이미지 인식)</p>
+            <div class="glass-card p-10">
+                <h3 class="text-3xl font-bold mb-8 text-blue-600">데이터와 보상에 따른 학습 유형</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="p-6 bg-white/30 rounded-xl border border-white/50">
+                        <span class="font-bold text-blue-700 text-lg">● 지도 학습 (Supervised)</span>
+                        <p class="text-base mt-2">정답(Label)이 포함된 데이터를 활용해 입력-출력 매핑 학습 (예: 이미지 인식)</p>
                     </div>
-                    <div class="p-4 bg-white/30 rounded-lg border border-white/50">
-                        <span class="font-bold text-blue-700">● 비지도 학습 (Unsupervised)</span>
-                        <p class="text-sm mt-1">정답 없이 데이터 내부의 숨겨진 패턴과 구조를 발견 (예: 클러스터링)</p>
+                    <div class="p-6 bg-white/30 rounded-xl border border-white/50">
+                        <span class="font-bold text-blue-700 text-lg">● 비지도 학습 (Unsupervised)</span>
+                        <p class="text-base mt-2">정답 없이 데이터 내부의 숨겨진 패턴과 구조를 발견 (예: 클러스터링)</p>
                     </div>
-                    <div class="p-4 bg-white/30 rounded-lg border border-white/50">
-                        <span class="font-bold text-blue-700">● 강화 학습 (Reinforcement)</span>
-                        <p class="text-sm mt-1">시행착오와 보상을 통해 최적의 행동 전략을 수립 (예: 게임 AI)</p>
+                    <div class="p-6 bg-white/30 rounded-xl border border-white/50">
+                        <span class="font-bold text-blue-700 text-lg">● 강화 학습 (Reinforcement)</span>
+                        <p class="text-base mt-2">시행착오와 보상을 통해 최적의 행동 전략을 수립 (예: 게임 AI)</p>
                     </div>
-                    <div class="p-4 bg-white/30 rounded-lg border border-white/50">
-                        <span class="font-bold text-blue-700">● 준지도 학습 (Semi-supervised)</span>
-                        <p class="text-sm mt-1">소량의 라벨 데이터와 대량의 미라벨 데이터를 결합해 학습</p>
+                    <div class="p-6 bg-white/30 rounded-xl border border-white/50">
+                        <span class="font-bold text-blue-700 text-lg">● 준지도 학습 (Semi-supervised)</span>
+                        <p class="text-base mt-2">소량의 라벨 데이터와 대량의 미라벨 데이터를 결합해 학습</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Section 2: History -->
-        <section id="history" class="tab-content">
-            <div class="glass-card p-8">
-                <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                    <h3 class="text-2xl font-bold text-blue-600">인공지능의 황금기부터 딥러닝의 부활까지</h3>
-                    <button onclick="openModal()" class="glossy-btn nav-btn text-sm flex items-center gap-2">
+        <section id="history" class="tab-content space-y-12">
+            <div class="glass-card p-10">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+                    <h3 class="text-3xl font-bold text-blue-600">인공지능의 역사적 진화</h3>
+                    <button onclick="openModal()" class="glossy-btn nav-btn text-base flex items-center gap-2">
                         <span>🖼️</span> View Infographic
                     </button>
                 </div>
 
-                <div class="relative border-l-2 border-blue-200 ml-4 pl-8 space-y-8">
+                <div class="relative border-l-2 border-blue-200 ml-6 pl-12 space-y-12">
                     <div class="relative">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                        <h4 class="font-bold text-lg">1950s-1960s: 초기 탐색</h4>
-                        <p class="text-gray-700">앨런 튜링의 튜링 테스트 제시, 기호 논리학 중심의 초기 AI 연구 시작.</p>
+                        <div class="absolute -left-[57px] top-1 w-5 h-5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)] border-4 border-white"></div>
+                        <h4 class="font-bold text-xl mb-2">1950s-1960s: 초기 탐색</h4>
+                        <p class="text-gray-700 text-base leading-relaxed">앨런 튜링의 튜링 테스트 제시, 기호 논리학 중심의 초기 AI 연구 시작.</p>
                     </div>
                     <div class="relative">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-green-500"></div>
-                        <h4 class="font-bold text-lg">1980s: 전문가 시스템</h4>
-                        <p class="text-gray-700">특정 분야의 지식을 규칙화한 전문가 시스템 등장, 비즈니스 영역 적용 시도.</p>
+                        <div class="absolute -left-[57px] top-1 w-5 h-5 rounded-full bg-green-500 border-4 border-white"></div>
+                        <h4 class="font-bold text-xl mb-2">1980s: 전문가 시스템</h4>
+                        <p class="text-gray-700 text-base leading-relaxed">특정 분야의 지식을 규칙화한 전문가 시스템 등장, 비즈니스 영역 적용 시도.</p>
                     </div>
                     <div class="relative">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-blue-400"></div>
-                        <h4 class="font-bold text-lg">2010s: 딥러닝의 부활</h4>
-                        <p class="text-gray-700">빅데이터와 GPU 연산력의 결합으로 신경망 기술이 비약적으로 발전 (AlexNet 등).</p>
+                        <div class="absolute -left-[57px] top-1 w-5 h-5 rounded-full bg-blue-400 border-4 border-white"></div>
+                        <h4 class="font-bold text-xl mb-2">2010s: 딥러닝의 부활</h4>
+                        <p class="text-gray-700 text-base leading-relaxed">빅데이터와 GPU 연산력의 결합으로 신경망 기술이 비약적으로 발전 (AlexNet 등).</p>
                     </div>
                     <div class="relative">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.8)]"></div>
-                        <h4 class="font-bold text-lg">2020s: 생성형 혁명</h4>
-                        <p class="text-gray-700">트랜스포머 아키텍처 기반의 초거대 언어 모델과 생성형 AI의 대중화.</p>
+                        <div class="absolute -left-[57px] top-1 w-5 h-5 rounded-full bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.8)] border-4 border-white"></div>
+                        <h4 class="font-bold text-xl mb-2">2020s: 생성형 혁명</h4>
+                        <p class="text-gray-700 text-base leading-relaxed">트랜스포머 아키텍처 기반의 초거대 언어 모델과 생성형 AI의 대중화.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Section 3: Generative -->
-        <section id="generative" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-card p-6">
+        <section id="generative" class="tab-content space-y-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="glass-card p-10">
                     <div class="icon-circle">📖</div>
-                    <h3 class="text-xl font-bold mb-4">트랜스포머 (Transformer)</h3>
-                    <p class="text-gray-700 mb-4">현대 모든 언어 모델의 표준 아키텍처입니다.</p>
-                    <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-200">
-                        <p class="text-xs font-mono mb-2">핵심 메커니즘: Self-Attention</p>
-                        <p class="text-sm">문장 내 모든 단어 간의 관계를 동시에 계산하여 맥락을 파악합니다.</p>
-                        <div class="mt-4 text-center p-2 bg-white rounded shadow-inner italic text-xs">
+                    <h3 class="text-2xl font-bold mb-6">트랜스포머 (Transformer)</h3>
+                    <p class="text-gray-700 text-base mb-6 leading-relaxed">현대 모든 언어 모델의 표준 아키텍처입니다.</p>
+                    <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-200">
+                        <p class="text-sm font-mono mb-3 text-blue-800">핵심 메커니즘: Self-Attention</p>
+                        <p class="text-base text-gray-800 mb-6">문장 내 모든 단어 간의 관계를 동시에 계산하여 맥락을 파악합니다.</p>
+                        <div class="text-center p-4 bg-white rounded-xl shadow-inner italic text-sm">
                             $Attention(Q, K, V) = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})V$
                         </div>
                     </div>
                 </div>
-                <div class="glass-card p-6">
+                <div class="glass-card p-10">
                     <div class="icon-circle">🎨</div>
-                    <h3 class="text-xl font-bold mb-4">확산 모델 (Diffusion)</h3>
-                    <p class="text-gray-700 mb-4">극사실적 이미지를 생성하는 기술의 핵심입니다.</p>
-                    <ul class="text-sm space-y-3">
-                        <li class="flex items-start gap-2">
+                    <h3 class="text-2xl font-bold mb-6">확산 모델 (Diffusion)</h3>
+                    <p class="text-gray-700 text-base mb-6 leading-relaxed">극사실적 이미지를 생성하는 기술의 핵심입니다.</p>
+                    <ul class="text-base space-y-5">
+                        <li class="flex items-start gap-3">
                             <span class="text-blue-500 mt-1">▶</span>
                             <span><strong>전진 과정:</strong> 데이터에 노이즈를 단계적으로 추가해 파괴함.</span>
                         </li>
-                        <li class="flex items-start gap-2">
+                        <li class="flex items-start gap-3">
                             <span class="text-green-500 mt-1">▶</span>
                             <span><strong>역과정:</strong> 노이즈를 제거하며 원본의 형태를 복원하여 생성함.</span>
                         </li>
                     </ul>
-                    <div class="mt-4 h-24 bg-gradient-to-r from-gray-300 via-blue-200 to-white rounded-lg flex items-center justify-center text-xs text-gray-500 italic">
+                    <div class="mt-8 h-32 bg-gradient-to-r from-gray-300 via-blue-200 to-white rounded-2xl flex items-center justify-center text-sm text-gray-500 italic border border-white/50">
                         [이미지 생성 과정 시뮬레이션: Noise -> Clear Image]
                     </div>
                 </div>
@@ -353,48 +353,48 @@
         </section>
 
         <!-- Section 4: Future -->
-        <section id="future" class="tab-content">
-            <div class="glass-card p-8">
-                <h3 class="text-2xl font-bold mb-6 text-center text-blue-600">산업별 혁신과 도전 과제</h3>
+        <section id="future" class="tab-content space-y-12">
+            <div class="glass-card p-10">
+                <h3 class="text-3xl font-bold mb-10 text-center text-blue-600">산업별 혁신과 도전 과제</h3>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <h4 class="font-bold border-b border-gray-200 pb-2">🚀 주요 적용 사례</h4>
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center">🩺</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="space-y-6">
+                        <h4 class="text-lg font-bold border-b border-gray-200 pb-3">🚀 주요 적용 사례</h4>
+                        <div class="flex items-center gap-5 p-4 bg-white/20 rounded-xl">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-xl">🩺</div>
                             <div>
-                                <p class="font-bold text-sm">의료: 알파폴드</p>
-                                <p class="text-xs text-gray-600">단백질 구조 예측으로 신약 개발 혁신</p>
+                                <p class="font-bold text-base">의료: 알파폴드</p>
+                                <p class="text-sm text-gray-600">단백질 구조 예측으로 신약 개발 혁신</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded bg-green-100 flex items-center justify-center">🎓</div>
+                        <div class="flex items-center gap-5 p-4 bg-white/20 rounded-xl">
+                            <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-xl">🎓</div>
                             <div>
-                                <p class="font-bold text-sm">교육: 소크라테스식 문답</p>
-                                <p class="text-xs text-gray-600">개인 맞춤형 튜터링 및 학습 보조</p>
+                                <p class="font-bold text-base">교육: 소크라테스식 문답</p>
+                                <p class="text-sm text-gray-600">개인 맞춤형 튜터링 및 학습 보조</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="space-y-4">
-                        <h4 class="font-bold border-b border-gray-200 pb-2">⚠️ 해결해야 할 과제</h4>
-                        <div class="bg-red-50/50 p-4 rounded-lg border border-red-100 text-sm">
-                            <p class="mb-2"><strong>1. 할루시네이션:</strong> 그럴듯한 거짓말 생성</p>
-                            <p class="mb-2"><strong>2. 저작권:</strong> 학습 데이터와 창작권 분쟁</p>
+                    <div class="space-y-6">
+                        <h4 class="text-lg font-bold border-b border-gray-200 pb-3">⚠️ 해결해야 할 과제</h4>
+                        <div class="bg-red-50/50 p-6 rounded-2xl border border-red-100 text-base space-y-4">
+                            <p><strong>1. 할루시네이션:</strong> 그럴듯한 거짓말 생성</p>
+                            <p><strong>2. 저작권:</strong> 학습 데이터와 창작권 분쟁</p>
                             <p><strong>3. 윤리적 편향성:</strong> 데이터 내 편견 학습</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-8 text-center p-6 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-2xl border border-white">
-                    <h4 class="text-xl font-bold mb-2">AGI (인공일반지능)를 향하여</h4>
-                    <p class="text-gray-700">특정 도메인을 넘어 인간의 지적 능력을 총체적으로 재현하는 시대로 나아가고 있습니다.</p>
+                <div class="mt-12 text-center p-10 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-3xl border border-white">
+                    <h4 class="text-2xl font-bold mb-4">AGI (인공일반지능)를 향하여</h4>
+                    <p class="text-lg text-gray-700 leading-relaxed">특정 도메인을 넘어 인간의 지적 능력을 총체적으로 재현하는 시대로 나아가고 있습니다.</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="max-w-5xl mx-auto mt-16 pb-8 text-center text-gray-500 text-sm">
+    <footer class="max-w-5xl mx-auto mt-24 pb-12 text-center text-gray-500 text-base">
         <p>© 2024 AI의 심층적 이해 | Interactive Learning Experience</p>
         <p class="mt-2">Frutiger Aero Theme Design</p>
     </footer>
