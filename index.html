@@ -76,14 +76,6 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
 
-        .glossy-btn {
-            background: linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 51%, rgba(255,255,255,0.3) 100%);
-            border: 1px solid rgba(255,255,255,0.4);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-        }
-
         .folder-tab {
             position: absolute;
             top: 0;
@@ -109,6 +101,15 @@
         }
 
         .futura { font-family: 'Futura', sans-serif; }
+
+        .scale-up {
+            animation: scaleUp 0.3s ease-out forwards;
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body class="selection:bg-blue-400/30">
@@ -180,7 +181,7 @@
         </div>
     </section>
 
-    <!-- 푸터 (프로필 영역) -->
+    <!-- 푸터 -->
     <footer id="footer" class="relative py-32 px-10 z-10">
         <div class="max-w-7xl mx-auto">
             <div class="aero-glass p-16 rounded-[4rem] border-2 shadow-2xl reveal flex flex-col md:flex-row items-center gap-16">
@@ -231,11 +232,17 @@
             { 
                 id: 1, 
                 title: "AI의 이해", 
-                tools: "NotebookLM", // Gemini 삭제
+                tools: "NotebookLM", 
                 summary: "NotebookLM을 활용하여 인공지능의 정의, 발전 역사 및 생성형 AI의 핵심 개념 정리 및 분석",
-                url: "./02/index.html" // 이동 경로 추가
+                url: "./02/index.html"
             },
-            { id: 2, title: "프롬프트 엔지니어링 기초", tools: "ChatGPT, Claude", summary: "효율적인 결과 도출을 위한 구조적 프롬프트 설계 실습" },
+            { 
+                id: 2, 
+                title: "데이터 스토리텔링", 
+                tools: "Gemini 스토리북", 
+                summary: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력 있는 리포트 작성하고 스토리북으로 만들기",
+                url: "./03/index.html" // 이동 경로 추가
+            },
             { id: 3, title: "데이터 시각화와 스토리텔링", tools: "Python, Pandas", summary: "복잡한 데이터를 직관적인 그래프와 내러티브로 변환" },
             { id: 4, title: "AI 이미지 생성 워크플로우", tools: "Midjourney, DALL-E", summary: "예술적 컨셉을 시각화하는 생성형 AI 도구 활용법" },
             { id: 5, title: "비판적 미디어 리터러시", tools: "Deepfake Detector", summary: "딥페이크와 가짜 뉴스 식별을 통한 정보 판별 능력 함양" },
@@ -291,19 +298,18 @@
             setTimeout(reveal, 100);
         }
 
-        // 클릭 핸들러 추가: URL이 있으면 이동, 없으면 모달
         window.handleCardClick = function(id) {
-            const p = projects.find(item => item.id === id);
-            if (p.url) {
-                window.location.href = p.url;
-            } else {
-                openModal(id);
-            }
+            // 모든 카드는 팝업을 먼저 띄우도록 유지 (사용자 경험 통일)
+            openModal(id);
         }
 
         window.openModal = function(id) {
             const p = projects.find(item => item.id === id);
             const content = document.getElementById('modal-content');
+            
+            // 이동할 URL 설정 (기본값 #)
+            const targetUrl = p.url || '#';
+
             content.innerHTML = `
                 <div class="space-y-8">
                     <div class="inline-block px-5 py-1 rounded-full aero-glass text-blue-600 font-black tracking-widest text-[10px] uppercase border">PROJECT ${p.id}</div>
@@ -312,8 +318,7 @@
                         <div>
                             <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Key Insight</span>
                             <p class="text-xl text-slate-700 dark:text-slate-300 leading-relaxed font-bold">
-                                본 프로젝트는 ${p.summary} 내용을 바탕으로 실무적 역량을 강화하는 데 초점을 맞추었습니다. 
-                                ${p.tools} 등을 활용하여 데이터 중심의 의사결정 프로세스를 학습했습니다.
+                                ${p.summary}
                             </p>
                         </div>
                         <div class="grid grid-cols-2 gap-5">
@@ -323,12 +328,12 @@
                             </div>
                             <div class="p-6 aero-glass rounded-3xl border-2">
                                 <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Skillset</span>
-                                <span class="font-black text-slate-700 dark:text-white">AI Literacy & Design</span>
+                                <span class="font-black text-slate-700 dark:text-white">Data Analysis & Storytelling</span>
                             </div>
                         </div>
                     </div>
-                    <button onclick="window.location.href='${p.url || '#'}'" class="w-full py-6 bg-slate-900 text-white font-black rounded-3xl shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
-                        VIEW FULL DOCUMENT <i data-lucide="external-link" class="w-5 h-5"></i>
+                    <button onclick="window.location.href='${targetUrl}'" class="w-full py-6 bg-slate-900 text-white font-black rounded-3xl shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
+                        결과 보기 <i data-lucide="external-link" class="w-5 h-5"></i>
                     </button>
                 </div>
             `;
