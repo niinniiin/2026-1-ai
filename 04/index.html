@@ -83,6 +83,10 @@
             transition: all 0.2s;
             font-weight: bold;
             color: #555;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
         }
         .wii-btn:hover {
             border-color: var(--wii-blue);
@@ -91,6 +95,24 @@
         .wii-btn:active {
             transform: translateY(2px);
             box-shadow: 0 2px 0 #d0d0d0;
+        }
+
+        /* 보조 버튼 스타일 */
+        .sub-btn {
+            font-size: 0.875rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            color: #0288d1;
+            transition: all 0.2s;
+            backdrop-filter: blur(5px);
+            text-decoration: none;
+            display: inline-block;
+        }
+        .sub-btn:hover {
+            background: rgba(0, 170, 255, 0.1);
+            border-color: var(--wii-blue);
         }
 
         .section-title {
@@ -130,7 +152,7 @@
             font-weight: bold;
         }
 
-        /* 모달 애니메이션 */
+        /* 모달 및 팝업 애니메이션 */
         .scale-in {
             animation: scaleIn 0.3s ease-out forwards;
         }
@@ -138,18 +160,73 @@
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
         }
+
+        /* 인포그래픽 팝업 스타일 */
+        #infographic-popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .popup-content {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+            position: relative;
+        }
+        .close-popup {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
 
-    <!-- 히어로 섹션 상단 여백 확대 (py-24 -> py-32, mb-24) -->
+    <!-- 최상단 네비게이션 바 -->
+    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-4">
+        <a href="../index.html" class="wii-btn px-6 py-2 gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+            <span>HOME</span>
+        </a>
+        <div class="flex gap-3">
+            <button onclick="openInfographic()" class="sub-btn">infographic</button>
+            <a href="https://notebooklm.google.com/notebook/c0bd0f81-be43-4486-9b94-03940d0afe9c/artifact/f1255ffc-3986-4df6-ab5e-7c66a8dd7c24" target="_blank" class="sub-btn">presentation</a>
+            <button class="sub-btn">video</button>
+        </div>
+    </nav>
+
+    <!-- 히어로 섹션 -->
     <header class="max-w-6xl mx-auto py-24 md:py-32 mb-16 text-center">
         <h1 class="text-5xl md:text-7xl mb-8 section-title tracking-tight">웹 기술의 여정</h1>
         <p class="text-xl md:text-2xl text-gray-500 font-light mb-12">물리적 신호에서 지능형 공생의 미래까지</p>
         
         <div class="mt-12 flex flex-wrap justify-center gap-6">
+            <!-- scrollToSection의 인자값이 아래 section 태그들의 id와 일치해야 합니다 -->
             <button onclick="scrollToSection('osi')" class="wii-btn text-lg px-10">인터넷의 구조</button>
             <button onclick="scrollToSection('web')" class="wii-btn text-lg px-10">웹의 진화</button>
             <button onclick="scrollToSection('tech')" class="wii-btn text-lg px-10">핵심 기술</button>
@@ -157,7 +234,6 @@
     </header>
 
     <main class="max-w-6xl mx-auto space-y-32">
-        
         <!-- 1. OSI 7계층 (데이터의 여정) -->
         <section id="osi" class="pt-12">
             <div class="flex items-center gap-5 mb-12">
@@ -170,36 +246,25 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- 하부 구조 -->
                 <div class="glass-card p-8 glossy" onclick="showDetail('물리/데이터링크', 'L1-L2: 데이터가 0과 1의 전기적 신호(비트)로 변환되어 인접 장치와 대화하는 단계입니다.')">
                     <span class="tag-blue">L1 - L2 LAYER</span>
                     <h3 class="text-2xl font-bold mt-4 text-blue-800">물리적 하부 구조</h3>
-                    <p class="text-sm text-gray-500 mt-4 leading-relaxed">인터넷의 '도로' 그 자체입니다. 광케이블과 전기 신호가 흐르는 통로입니다.</p>
-                    <div class="mt-6 bg-blue-50/80 p-4 rounded-xl text-xs font-mono text-blue-600 border border-blue-100">Bit, Frame, Ethernet</div>
+                    <p class="text-sm text-gray-500 mt-4 leading-relaxed">인터넷의 \'도로\' 그 자체입니다. 광케이블과 전기 신호가 흐르는 통로입니다.</p>
                 </div>
-
-                <!-- 중추 신경망 -->
                 <div class="glass-card p-8 glossy" onclick="showDetail('네트워크/전송', 'L3-L4: IP 주소를 통해 전 세계에서 길을 찾고, TCP를 통해 전송의 신뢰성을 보장합니다.')">
                     <span class="tag-green">L3 - L4 LAYER</span>
                     <h3 class="text-2xl font-bold mt-4 text-green-800">지능형 경로 탐색</h3>
                     <p class="text-sm text-gray-500 mt-4 leading-relaxed">목적지를 정확히 찾고 데이터를 안전하게 조립하여 배달하는 신경망입니다.</p>
-                    <div class="mt-6 bg-green-50/80 p-4 rounded-xl text-xs font-mono text-green-600 border border-green-100">IP, TCP, UDP, Router</div>
                 </div>
-
-                <!-- 소통의 규칙 -->
                 <div class="glass-card p-8 glossy" onclick="showDetail('세션/표현', 'L5-L6: 데이터를 암호화(SSL)하거나 포맷(JSON)을 맞추어 기계가 이해할 수 있게 합니다.')">
                     <span class="tag-blue">L5 - L6 LAYER</span>
                     <h3 class="text-2xl font-bold mt-4 text-blue-800">데이터 소통 규칙</h3>
                     <p class="text-sm text-gray-500 mt-4 leading-relaxed">언어 번역과 포장 단계입니다. 데이터를 안전하고 규격에 맞게 정제합니다.</p>
-                    <div class="mt-6 bg-blue-50/80 p-4 rounded-xl text-xs font-mono text-blue-600 border border-blue-100">SSL/TLS, JSON, JPEG</div>
                 </div>
-
-                <!-- 서비스 최전선 -->
                 <div class="glass-card p-8 glossy" onclick="showDetail('응용 계층', 'L7: 사용자가 마주하는 브라우저와 앱 서비스가 실제로 동작하는 최상위 영역입니다.')">
                     <span class="tag-green">L7 LAYER</span>
                     <h3 class="text-2xl font-bold mt-4 text-green-800">사용자 인터페이스</h3>
                     <p class="text-sm text-gray-500 mt-4 leading-relaxed">브라우저를 통해 우리가 경험하는 실제 웹 서비스가 이루어지는 곳입니다.</p>
-                    <div class="mt-6 bg-green-50/80 p-4 rounded-xl text-xs font-mono text-green-600 border border-green-100">HTTP, DNS, Web Dev</div>
                 </div>
             </div>
         </section>
@@ -214,59 +279,35 @@
                 </div>
                 <h2 class="text-4xl font-bold text-green-900">웹 세대별 진화 모델</h2>
             </div>
-
             <div class="evolution-track pb-16">
-                <!-- Web 1.0 -->
                 <div class="min-w-[340px] glass-card p-10 glossy border-t-8 border-t-blue-400/50">
                     <h4 class="text-blue-500 font-bold tracking-widest text-sm mb-2">WEB 1.0</h4>
                     <h3 class="text-3xl font-bold mb-6 text-blue-900">정적 정보의 시대</h3>
                     <ul class="text-base space-y-4 text-gray-600">
                         <li class="flex items-start gap-3"><span class="text-blue-400 mt-1.5">●</span> <span>단방향 정보 전달 (Read-Only)</span></li>
                         <li class="flex items-start gap-3"><span class="text-blue-400 mt-1.5">●</span> <span>디지털 도서관과 잡지 형태</span></li>
-                        <li class="flex items-start gap-3"><span class="text-blue-400 mt-1.5">●</span> <span>플랫폼 중심의 콘텐츠 소유</span></li>
                     </ul>
-                    <div class="mt-10 pt-6 border-t border-blue-50 text-center font-bold text-blue-400 text-xs tracking-tighter uppercase">Static Content Era</div>
                 </div>
-
-                <!-- Web 2.0 -->
                 <div class="min-w-[340px] glass-card p-10 glossy border-t-8 border-t-green-400/50">
                     <h4 class="text-green-500 font-bold tracking-widest text-sm mb-2">WEB 2.0</h4>
                     <h3 class="text-3xl font-bold mb-6 text-green-900">참여와 소셜 웹</h3>
                     <ul class="text-base space-y-4 text-gray-600">
                         <li class="flex items-start gap-3"><span class="text-green-400 mt-1.5">●</span> <span>양방향 소통 (Read-Write)</span></li>
                         <li class="flex items-start gap-3"><span class="text-green-400 mt-1.5">●</span> <span>SNS 및 사용자 제작 콘텐츠(UGC)</span></li>
-                        <li class="flex items-start gap-3"><span class="text-green-400 mt-1.5">●</span> <span>플랫폼 기업의 데이터 중앙화</span></li>
                     </ul>
-                    <div class="mt-10 pt-6 border-t border-green-50 text-center font-bold text-green-400 text-xs tracking-tighter uppercase">Social Network Era</div>
                 </div>
-
-                <!-- Web 3.0 -->
                 <div class="min-w-[340px] glass-card p-10 glossy border-t-8 border-t-blue-500/50">
                     <h4 class="text-blue-600 font-bold tracking-widest text-sm mb-2">WEB 3.0</h4>
                     <h3 class="text-3xl font-bold mb-6 text-blue-900">탈중앙화와 소유</h3>
                     <ul class="text-base space-y-4 text-gray-600">
                         <li class="flex items-start gap-3"><span class="text-blue-500 mt-1.5">●</span> <span>데이터 주권 (Read-Write-Own)</span></li>
                         <li class="flex items-start gap-3"><span class="text-blue-500 mt-1.5">●</span> <span>블록체인 기반의 가치 전송</span></li>
-                        <li class="flex items-start gap-3"><span class="text-blue-500 mt-1.5">●</span> <span>기계가 이해하는 시맨틱 웹</span></li>
                     </ul>
-                    <div class="mt-10 pt-6 border-t border-blue-50 text-center font-bold text-blue-500 text-xs tracking-tighter uppercase">Decentralized Era</div>
-                </div>
-
-                <!-- Web 4.0 -->
-                <div class="min-w-[340px] glass-card p-10 glossy border-t-8 border-t-green-500/50">
-                    <h4 class="text-green-600 font-bold tracking-widest text-sm mb-2">WEB 4.0</h4>
-                    <h3 class="text-3xl font-bold mb-6 text-green-900">지능형 공생의 웹</h3>
-                    <ul class="text-base space-y-4 text-gray-600">
-                        <li class="flex items-start gap-3"><span class="text-green-500 mt-1.5">●</span> <span>인간과 AI의 유기적 공생</span></li>
-                        <li class="flex items-start gap-3"><span class="text-green-500 mt-1.5">●</span> <span>예측 가능한 실시간 개인화 서비스</span></li>
-                        <li class="flex items-start gap-3"><span class="text-green-500 mt-1.5">●</span> <span>현실과 가상의 완전한 융합</span></li>
-                    </ul>
-                    <div class="mt-10 pt-6 border-t border-green-50 text-center font-bold text-green-500 text-xs tracking-tighter uppercase">Symbiotic AI Era</div>
                 </div>
             </div>
         </section>
 
-        <!-- 3. 핵심 기술 -->
+        <!-- 3. 핵심 기술 (id="tech" 확인) -->
         <section id="tech" class="pt-12 mb-20">
             <div class="glass-card p-12 md:p-16 glossy bg-white/50 border-blue-100">
                 <h2 class="text-3xl font-bold mb-16 text-center text-blue-900">현대 웹을 혁신하는 주요 기술</h2>
@@ -303,6 +344,14 @@
         </section>
     </main>
 
+    <!-- 인포그래픽 팝업 -->
+    <div id="infographic-popup" onclick="closeInfographic(event)">
+        <div class="popup-content scale-in" onclick="event.stopPropagation()">
+            <div class="close-popup" onclick="closeInfographic(event)">✕</div>
+            <img src="webtech.jpg" alt="Web Technology Infographic" class="w-full h-auto block rounded-xl">
+        </div>
+    </div>
+
     <!-- 상세 정보 모달 -->
     <div id="modal" class="fixed inset-0 bg-white/20 backdrop-blur-md hidden items-center justify-center z-50 p-6">
         <div class="glass-card max-w-md w-full p-10 bg-white/95 scale-in shadow-2xl border-blue-200">
@@ -319,7 +368,13 @@
     <script>
         function scrollToSection(id) {
             const element = document.getElementById(id);
-            const offset = 60; // 여백 확보를 위해 오프셋 조정
+            // 요소가 존재하지 않을 경우를 대비한 방어 코드
+            if (!element) {
+                console.error(`Element with id "${id}" not found.`);
+                return;
+            }
+
+            const offset = 60;
             const bodyRect = document.body.getBoundingClientRect().top;
             const elementRect = element.getBoundingClientRect().top;
             const elementPosition = elementRect - bodyRect;
@@ -329,6 +384,16 @@
                 top: offsetPosition,
                 behavior: 'smooth'
             });
+        }
+
+        function openInfographic() {
+            document.getElementById('infographic-popup').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInfographic(event) {
+            document.getElementById('infographic-popup').style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         function showDetail(title, content) {
