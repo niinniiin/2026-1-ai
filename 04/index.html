@@ -216,7 +216,8 @@
         <div class="flex gap-3">
             <button onclick="openInfographic()" class="sub-btn">infographic</button>
             <a href="https://notebooklm.google.com/notebook/c0bd0f81-be43-4486-9b94-03940d0afe9c/artifact/f1255ffc-3986-4df6-ab5e-7c66a8dd7c24" target="_blank" class="sub-btn">presentation</a>
-            <button class="sub-btn">video</button>
+            <!-- video 버튼 클릭 시 요청하신 URL로 이동하도록 수정 -->
+            <a href="https://notebooklm.google.com/notebook/c0bd0f81-be43-4486-9b94-03940d0afe9c/artifact/f69a912c-1565-42a5-b725-7d14089b2865" target="_blank" class="sub-btn">video</a>
         </div>
     </nav>
 
@@ -226,7 +227,6 @@
         <p class="text-xl md:text-2xl text-gray-500 font-light mb-12">물리적 신호에서 지능형 공생의 미래까지</p>
         
         <div class="mt-12 flex flex-wrap justify-center gap-6">
-            <!-- scrollToSection의 인자값이 아래 section 태그들의 id와 일치해야 합니다 -->
             <button onclick="scrollToSection('osi')" class="wii-btn text-lg px-10">인터넷의 구조</button>
             <button onclick="scrollToSection('web')" class="wii-btn text-lg px-10">웹의 진화</button>
             <button onclick="scrollToSection('tech')" class="wii-btn text-lg px-10">핵심 기술</button>
@@ -234,7 +234,7 @@
     </header>
 
     <main class="max-w-6xl mx-auto space-y-32">
-        <!-- 1. OSI 7계층 (데이터의 여정) -->
+        <!-- 1. OSI 7계층 -->
         <section id="osi" class="pt-12">
             <div class="flex items-center gap-5 mb-12">
                 <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white shadow-lg glossy">
@@ -269,7 +269,7 @@
             </div>
         </section>
 
-        <!-- 2. 웹의 진화 패러다임 -->
+        <!-- 2. 웹의 진화 -->
         <section id="web" class="pt-12">
             <div class="flex items-center gap-5 mb-12">
                 <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white shadow-lg glossy">
@@ -307,7 +307,7 @@
             </div>
         </section>
 
-        <!-- 3. 핵심 기술 (id="tech" 확인) -->
+        <!-- 3. 핵심 기술 -->
         <section id="tech" class="pt-12 mb-20">
             <div class="glass-card p-12 md:p-16 glossy bg-white/50 border-blue-100">
                 <h2 class="text-3xl font-bold mb-16 text-center text-blue-900">현대 웹을 혁신하는 주요 기술</h2>
@@ -348,7 +348,7 @@
     <div id="infographic-popup" onclick="closeInfographic(event)">
         <div class="popup-content scale-in" onclick="event.stopPropagation()">
             <div class="close-popup" onclick="closeInfographic(event)">✕</div>
-            <img src="webtech.jpg" alt="Web Technology Infographic" class="w-full h-auto block rounded-xl">
+            <img src="webtech.png" alt="Web Technology Infographic" class="w-full h-auto block rounded-xl">
         </div>
     </div>
 
@@ -368,7 +368,6 @@
     <script>
         function scrollToSection(id) {
             const element = document.getElementById(id);
-            // 요소가 존재하지 않을 경우를 대비한 방어 코드
             if (!element) {
                 console.error(`Element with id "${id}" not found.`);
                 return;
