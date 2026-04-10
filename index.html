@@ -153,14 +153,6 @@
                 현실 세계의 복잡한 문제를 발견하고,<br />
                 이를 AI 기술로 해결하는 비판적 사고와 기술적 활용 능력을 기록합니다.
             </p>
-            <div class="flex justify-start gap-6">
-                <button class="px-10 py-5 bg-slate-900 text-white rounded-full font-black hover:scale-105 transition-all shadow-2xl flex items-center gap-3">
-                    View Journey <i data-lucide="book-open" class="w-5 h-5"></i>
-                </button>
-                <button class="aero-glass px-10 py-5 rounded-full font-black hover:scale-105 transition-all text-slate-800 dark:text-white border-2">
-                    About Me
-                </button>
-            </div>
         </div>
     </section>
 
@@ -241,9 +233,15 @@
                 title: "데이터 스토리텔링", 
                 tools: "Gemini 스토리북", 
                 summary: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력 있는 리포트 작성하고 스토리북으로 만들기",
-                url: "./03/index.html" // 이동 경로 추가
+                url: "./03/index.html"
             },
-            { id: 3, title: "데이터 시각화와 스토리텔링", tools: "Python, Pandas", summary: "복잡한 데이터를 직관적인 그래프와 내러티브로 변환" },
+            { 
+                id: 3, 
+                title: "웹 기술의 이해", 
+                tools: "NotebookLM", 
+                summary: "NotebookLM을 활용하여 웹 기술의 정의, 종류, 발전 역사",
+                url: "./04/index.html" 
+            },
             { id: 4, title: "AI 이미지 생성 워크플로우", tools: "Midjourney, DALL-E", summary: "예술적 컨셉을 시각화하는 생성형 AI 도구 활용법" },
             { id: 5, title: "비판적 미디어 리터러시", tools: "Deepfake Detector", summary: "딥페이크와 가짜 뉴스 식별을 통한 정보 판별 능력 함양" },
             { id: 6, title: "자동화 스크립트 제작", tools: "Python, Zapier", summary: "반복적인 워크플로우를 AI로 자동화하여 효율성 증대" },
@@ -299,15 +297,12 @@
         }
 
         window.handleCardClick = function(id) {
-            // 모든 카드는 팝업을 먼저 띄우도록 유지 (사용자 경험 통일)
             openModal(id);
         }
 
         window.openModal = function(id) {
             const p = projects.find(item => item.id === id);
             const content = document.getElementById('modal-content');
-            
-            // 이동할 URL 설정 (기본값 #)
             const targetUrl = p.url || '#';
 
             content.innerHTML = `
@@ -328,7 +323,7 @@
                             </div>
                             <div class="p-6 aero-glass rounded-3xl border-2">
                                 <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Skillset</span>
-                                <span class="font-black text-slate-700 dark:text-white">Data Analysis & Storytelling</span>
+                                <span class="font-black text-slate-700 dark:text-white">AI Literacy & Design</span>
                             </div>
                         </div>
                     </div>
