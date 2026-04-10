@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹 기술의 여정 - Frutiger Aero Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wii-blue: #00aaff;
+            --wii-green: #a2ff00;
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 50%, #e8f5e9 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+            color: #333;
+        }
+
+        /* Frutiger Aero 요소: 물방울 배경 */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 20s infinite alternate;
+        }
+        .orb-1 { width: 400px; height: 400px; background: #81d4fa; top: -100px; left: -100px; }
+        .orb-2 { width: 300px; height: 300px; background: #a5d6a7; bottom: -50px; right: -50px; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 100px) scale(1.1); }
+        }
+
+        /* 유리 효과 카드 */
+        .glass-card {
+            background: var(---glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 0 15px rgba(255, 255, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 광택 효과 */
+        .glossy {
+            position: relative;
+        }
+        .glossy::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+            pointer-events: none;
+        }
+
+        /* 버튼 스타일 (Wii 메뉴 느낌) */
+        .wii-btn {
+            background: linear-gradient(to bottom, #ffffff 0%, #f0f0f0 100%);
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            padding: 10px 25px;
+            box-shadow: 0 4px 0 #ccc;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+        .wii-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #ccc;
+        }
+
+        .section-title {
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        /* 가로 스크롤 컨테이너 */
+        .evolution-track {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scrollbar-width: none;
+        }
+        .evolution-track::-webkit-scrollbar { display: none; }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(0, 170, 255, 0.1);
+            color: #0072ff;
+            border: 1px solid rgba(0, 170, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header class="max-w-6xl mx-auto mb-12 text-center">
+        <h1 class="text-4xl md:text-6xl mb-4 section-title">웹 기술의 여정</h1>
+        <p class="text-lg text-gray-600">물리적 신호에서 지능형 공생의 미래까지</p>
+        
+        <div class="mt-8 flex justify-center gap-4">
+            <button onclick="scrollToSection('osi')" class="wii-btn">인터넷의 구조</button>
+            <button onclick="scrollToSection('web')" class="wii-btn">웹의 진화</button>
+            <button onclick="scrollToSection('tech')" class="wii-btn">미래 기술</button>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-20">
+        
+        <!-- 1. OSI 7계층 (데이터의 여정) -->
+        <section id="osi">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white shadow-lg glossy">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold">인터넷은 어떻게 작동할까요? (OSI 7계층)</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 하부 구조 -->
+                <div class="glass-card p-6 glossy" onclick="showDetail('물리/데이터링크', 'L1-L2: 데이터가 비트와 프레임으로 변환되어 인접 장치(공유기 등)와 대화하는 단계입니다.')">
+                    <span class="tag">L1 - L2</span>
+                    <h3 class="text-xl font-bold mt-2">하부 구조</h3>
+                    <p class="text-sm text-gray-600 mt-2">도로와 철로 그 자체. 전기 신호가 흐르는 물리적 통로입니다.</p>
+                    <div class="mt-4 bg-blue-100 p-2 rounded-lg text-xs font-mono text-blue-700">Bit, Frame, MAC 주소</div>
+                </div>
+
+                <!-- 중추 신경망 -->
+                <div class="glass-card p-6 glossy" onclick="showDetail('네트워크/전송', 'L3-L4: IP 주소를 통해 길을 찾고(L3), TCP/UDP를 통해 전송 품질을 보장(L4)합니다.')">
+                    <span class="tag">L3 - L4</span>
+                    <h3 class="text-xl font-bold mt-2">중추 신경망</h3>
+                    <p class="text-sm text-gray-600 mt-2">전 세계 인터넷 지도. 목적지를 찾고 안전하게 배달합니다.</p>
+                    <div class="mt-4 bg-green-100 p-2 rounded-lg text-xs font-mono text-green-700">IP, TCP(신뢰), UDP(속도)</div>
+                </div>
+
+                <!-- 소통의 규칙 -->
+                <div class="glass-card p-6 glossy" onclick="showDetail('세션/표현', 'L5-L6: 통신 연결을 유지하고, 데이터를 암호화(SSL)하거나 포맷(JSON)을 맞춥니다.')">
+                    <span class="tag">L5 - L6</span>
+                    <h3 class="text-xl font-bold mt-2">소통의 규칙</h3>
+                    <p class="text-sm text-gray-600 mt-2">언어 번역과 포장. 데이터를 안전하고 이해 가능하게 만듭니다.</p>
+                    <div class="mt-4 bg-yellow-100 p-2 rounded-lg text-xs font-mono text-yellow-700">SSL/TLS, JSON, 압축</div>
+                </div>
+
+                <!-- 서비스 최전선 -->
+                <div class="glass-card p-6 glossy" onclick="showDetail('응용 계층', 'L7: 우리가 사용하는 브라우저, 이메일 등이 작동하는 사용자와 가장 가까운 계층입니다.')">
+                    <span class="tag">L7</span>
+                    <h3 class="text-xl font-bold mt-2">서비스 최전선</h3>
+                    <p class="text-sm text-gray-600 mt-2">사용자와 마주하는 곳. 실제 웹 서비스가 이루어집니다.</p>
+                    <div class="mt-4 bg-purple-100 p-2 rounded-lg text-xs font-mono text-purple-700">HTTP, DNS, SMTP</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 웹의 진화 패러다임 -->
+        <section id="web" class="relative">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg glossy">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold">웹 세대별 진화 연대기</h2>
+            </div>
+
+            <div class="evolution-track pb-10">
+                <!-- Web 1.0 -->
+                <div class="min-w-[300px] glass-card p-8 glossy border-l-4 border-l-blue-400">
+                    <h4 class="text-blue-500 font-bold">Web 1.0</h4>
+                    <h3 class="text-2xl font-bold mb-4">정적 정보 소비</h3>
+                    <ul class="text-sm space-y-2 text-gray-600">
+                        <li>• Read-Only (읽기 전용)</li>
+                        <li>• 단방향 정보 전달</li>
+                        <li>• 디지털 잡지 같은 경험</li>
+                    </ul>
+                    <div class="mt-6 pt-4 border-t border-gray-100 italic text-xs">"수동적 소비자"</div>
+                </div>
+
+                <!-- Web 2.0 -->
+                <div class="min-w-[300px] glass-card p-8 glossy border-l-4 border-l-green-400">
+                    <h4 class="text-green-500 font-bold">Web 2.0</h4>
+                    <h3 class="text-2xl font-bold mb-4">참여와 공유</h3>
+                    <ul class="text-sm space-y-2 text-gray-600">
+                        <li>• Read-Write (양방향)</li>
+                        <li>• SNS, 유튜브, 블로그</li>
+                        <li>• AJAX 기술 기반 동적 웹</li>
+                    </ul>
+                    <div class="mt-6 pt-4 border-t border-gray-100 italic text-xs">"플랫폼 중앙화"</div>
+                </div>
+
+                <!-- Web 3.0 -->
+                <div class="min-w-[300px] glass-card p-8 glossy border-l-4 border-l-purple-400">
+                    <h4 class="text-purple-500 font-bold">Web 3.0</h4>
+                    <h3 class="text-2xl font-bold mb-4">소유와 지능화</h3>
+                    <ul class="text-sm space-y-2 text-gray-600">
+                        <li>• Read-Write-Own (소유권)</li>
+                        <li>• 블록체인 및 탈중앙화</li>
+                        <li>• 시맨틱 웹 (기계가 이해)</li>
+                    </ul>
+                    <div class="mt-6 pt-4 border-t border-gray-100 italic text-xs">"데이터 주권 복구"</div>
+                </div>
+
+                <!-- Web 4.0 -->
+                <div class="min-w-[300px] glass-card p-8 glossy border-l-4 border-l-pink-400">
+                    <h4 class="text-pink-500 font-bold">Web 4.0</h4>
+                    <h3 class="text-2xl font-bold mb-4">인간과 기술의 공생</h3>
+                    <ul class="text-sm space-y-2 text-gray-600">
+                        <li>• Symbiotic Web (공생 웹)</li>
+                        <li>• 예측적(Predictive) AI</li>
+                        <li>• 초연결 및 맥락 인식</li>
+                    </ul>
+                    <div class="mt-6 pt-4 border-t border-gray-100 italic text-xs">"능동적 파트너 AI"</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 핵심 기술 비교 카드 -->
+        <section id="tech">
+            <div class="glass-card p-8 glossy bg-white/40">
+                <h2 class="text-2xl font-bold mb-6 text-center">현대 웹을 지탱하는 기술들</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center p-4">
+                        <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-inner">
+                            <span class="font-bold">API</span>
+                        </div>
+                        <h4 class="font-bold">REST vs gRPC</h4>
+                        <p class="text-xs text-gray-500 mt-2">표준적인 단순함과 초고성능 이진 통신의 대결</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-inner">
+                            <span class="font-bold">WASM</span>
+                        </div>
+                        <h4 class="font-bold">WebAssembly</h4>
+                        <p class="text-xs text-gray-500 mt-2">브라우저에서 고사양 게임과 AI를 돌리는 힘</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-inner">
+                            <span class="font-bold">SEC</span>
+                        </div>
+                        <h4 class="font-bold">SSL/TLS 보안</h4>
+                        <p class="text-xs text-gray-500 mt-2">안전한 데이터 전송을 위한 암호화 갑옷</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 상세 정보 모달 -->
+    <div id="modal" class="fixed inset-0 bg-black/20 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
+        <div class="glass-card max-w-md w-full p-8 bg-white/90 scale-in shadow-2xl">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4">상세 정보</h3>
+            <p id="modal-content" class="text-gray-600 leading-relaxed mb-8"></p>
+            <button onclick="closeModal()" class="wii-btn w-full">확인했습니다</button>
+        </div>
+    </div>
+
+    <footer class="max-w-6xl mx-auto mt-20 mb-10 text-center text-gray-400 text-sm">
+        <p>© 2024 웹 기술의 여정 커리큘럼. Frutiger Aero 디자인 스타일.</p>
+    </footer>
+
+    <script>
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showDetail(title, content) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-content').innerText = content;
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            document.getElementById('modal').classList.remove('flex');
+        }
+
+        // 모달 외 영역 클릭 시 닫기
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
