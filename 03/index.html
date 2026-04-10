@@ -1,45 +1,80 @@
-<!-- Palette: Frutiger Aero (Sky Blue: #00AEEF, Grass Green: #8CC63F, Bright White: #FFFFFF, Glossy Blue: #2E3192) -->
-<!-- Design Elements: High-gloss gradients, soft drop shadows, rounded corners (bubble-like), and glassmorphism. -->
+<!-- Palette: Vivid Frutiger Aero (Electric Blue: #00CCFF, Bright Lime: #A2FF00, Royal Blue: #0033FF, Pure White: #FFFFFF) -->
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>부산광역시 행정구별 인구 및 고령화 분석 - Frutiger Aero</title>
+    <title>부산광역시 행정구별 인구 및 고령화 분석 - Vivid Aero</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --fa-blue: #00AEEF;
-            --fa-green: #8CC63F;
-            --fa-dark-blue: #2E3192;
-            --fa-bg: #e6f7ff;
+            --vivid-blue: #00CCFF;
+            --vivid-green: #A2FF00;
+            --vivid-royal: #0033FF;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.7);
         }
 
         body {
-            background: linear-gradient(180deg, #ffffff 0%, #e6f7ff 50%, #d4f4cd 100%);
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 204, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(162, 255, 0, 0.15) 0%, transparent 40%),
+                linear-gradient(135deg, #ffffff 0%, #e0f7ff 50%, #f0ffe0 100%);
             background-attachment: fixed;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: #333;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #002244;
+            overflow-x: hidden;
         }
 
-        /* Frutiger Aero Glossy Card */
+        /* Stronger Glassmorphism */
         .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 2px solid var(--glass-border);
+            border-radius: 2.5rem;
             box-shadow: 
-                0 10px 25px rgba(0, 174, 239, 0.1),
-                inset 0 2px 10px rgba(255, 255, 255, 0.9);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                0 8px 32px rgba(0, 150, 255, 0.1),
+                inset 0 4px 10px rgba(255, 255, 255, 0.8),
+                inset 0 -2px 10px rgba(0, 150, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Glossy overlay effect */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 45%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 55%
+            );
+            transform: rotate(-45deg);
+            transition: 0.8s;
+            pointer-events: none;
+        }
+
+        /* Intense Hover Effects */
         .glass-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 15px 35px rgba(0, 174, 239, 0.2);
-            background: rgba(255, 255, 255, 0.85);
+            transform: translateY(-12px) scale(1.03);
+            background: rgba(255, 255, 255, 0.65);
+            border-color: var(--vivid-blue);
+            box-shadow: 
+                0 25px 50px rgba(0, 150, 255, 0.2),
+                inset 0 4px 15px rgba(255, 255, 255, 1);
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
         }
 
         /* Video Modal Styles */
@@ -50,58 +85,59 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 50, 100, 0.3);
+            backdrop-filter: blur(20px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .modal-content {
-            width: 90%;
-            max-width: 900px;
+            width: 100%;
+            max-width: 960px;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 2.5rem;
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            padding: 20px;
+            border-radius: 3rem;
+            border: 4px solid #fff;
+            padding: 25px;
             position: relative;
-            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 40px 100px rgba(0, 30, 80, 0.4);
+            animation: zoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes modalPop {
-            from { transform: scale(0.8); opacity: 0; }
+        @keyframes zoomIn {
+            from { transform: scale(0.7); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
 
         .close-btn {
             position: absolute;
-            top: -15px;
-            right: -15px;
-            width: 40px;
-            height: 40px;
+            top: -20px;
+            right: -20px;
+            width: 50px;
+            height: 50px;
             background: #fff;
-            border: 2px solid #00AEEF;
+            border: 3px solid var(--vivid-blue);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            color: var(--vivid-blue);
+            font-size: 1.5rem;
             font-weight: bold;
-            color: #00AEEF;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             z-index: 10;
         }
 
-        /* Typography */
-        .gradient-text-blue {
-            background: linear-gradient(135deg, #2E3192 0%, #00AEEF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Typography & Header */
+        header {
+            background: linear-gradient(135deg, var(--vivid-blue) 0%, var(--vivid-royal) 100%);
+            border-bottom: 6px solid rgba(255,255,255,0.4);
         }
 
-        .gradient-text-green {
-            background: linear-gradient(135deg, #1d5b1d 0%, #8CC63F 100%);
+        .vivid-text-gradient {
+            background: linear-gradient(135deg, var(--vivid-royal) 0%, #0099ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -109,22 +145,32 @@
         .chart-container {
             position: relative;
             width: 100%;
-            height: 350px;
-            padding: 1rem;
+            height: 380px;
         }
 
-        /* Aero Style Header */
-        header {
-            background: linear-gradient(135deg, rgba(0,174,239,0.8) 0%, rgba(140,198,63,0.8) 100%);
-            border-bottom: 4px solid rgba(255,255,255,0.3);
-        }
-
-        .orb {
-            position: absolute;
+        .minimal-dot {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            filter: blur(60px);
-            z-index: 1;
-            opacity: 0.6;
+            display: inline-block;
+            margin-right: 10px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.8);
+        }
+
+        /* Button Hover */
+        .btn-aero {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-aero:hover {
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Bold Title for Hero Section */
+        .hero-title {
+            font-weight: 900; /* Extra Bold */
+            letter-spacing: -0.02em;
+            text-shadow: 0 4px 12px rgba(0, 51, 255, 0.3);
         }
     </style>
 </head>
@@ -134,86 +180,76 @@
     <div id="videoModal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">✕</button>
-            <video id="popupVideo" controls class="w-full rounded-2xl shadow-inner border border-gray-200">
+            <video id="popupVideo" controls class="w-full rounded-[2rem] shadow-2xl border-4 border-white/50">
                 <source src="./p_mv2.mp4" type="video/mp4">
-                사용자의 브라우저가 비디오 태그를 지원하지 않습니다.
             </video>
         </div>
     </div>
 
-    <header class="relative py-16 px-6 shadow-xl overflow-hidden">
-        <!-- Background Orbs for Aero feel -->
-        <div class="orb w-64 h-64 bg-white -top-20 -left-20"></div>
-        <div class="orb w-96 h-96 bg-blue-300 bottom-0 right-0"></div>
-        
-        <nav class="max-w-6xl mx-auto mb-10 relative z-20 flex flex-wrap gap-4">
-            <a href="../index.html" class="inline-flex items-center px-6 py-2 bg-white/40 hover:bg-white/60 border border-white/50 backdrop-blur-md rounded-full transition duration-300 text-blue-900 font-bold shadow-inner">
-                <span class="mr-2">🏠</span> 홈으로 돌아가기
+    <header class="relative py-20 px-6 overflow-hidden shadow-2xl">
+        <!-- Decoration Orbs -->
+        <div class="absolute top-[-50px] left-[-50px] w-64 h-64 bg-white/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-[-100px] right-[-100px] w-96 h-96 bg-blue-400/30 rounded-full blur-3xl"></div>
+
+        <nav class="max-w-6xl mx-auto mb-12 relative z-20 flex flex-wrap gap-6 justify-center md:justify-start">
+            <a href="../index.html" class="btn-aero px-8 py-2.5 bg-white/20 hover:bg-white/40 border-2 border-white/40 backdrop-blur-xl rounded-full transition text-white font-bold text-sm tracking-wide">
+                홈으로 돌아가기
             </a>
-            <a href="https://gemini.google.com/share/1415bb769047" target="_blank" class="inline-flex items-center px-6 py-2 bg-white/40 hover:bg-white/60 border border-white/50 backdrop-blur-md rounded-full transition duration-300 text-blue-900 font-bold shadow-inner">
-                <span class="mr-2">📖</span> 스토리북 보기
+            <a href="https://gemini.google.com/share/1415bb769047" target="_blank" class="btn-aero px-8 py-2.5 bg-white/20 hover:bg-white/40 border-2 border-white/40 backdrop-blur-xl rounded-full transition text-white font-bold text-sm tracking-wide">
+                스토리북 보기
             </a>
-            <button onclick="openModal()" class="inline-flex items-center px-6 py-2 bg-white/40 hover:bg-white/60 border border-white/50 backdrop-blur-md rounded-full transition duration-300 text-blue-900 font-bold shadow-inner cursor-pointer">
-                <span class="mr-2">🎬</span> 영상 보기
+            <button onclick="openModal()" class="btn-aero px-8 py-2.5 bg-white border-2 border-white backdrop-blur-xl rounded-full transition text-blue-600 font-black text-sm shadow-xl">
+                영상 보기
             </button>
         </nav>
         
         <div class="max-w-6xl mx-auto relative z-10 text-center md:text-left">
-            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-4 text-white drop-shadow-lg">
+            <h1 class="hero-title text-5xl md:text-7xl mb-6 text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)]">
                 부산광역시 인구 구조 리포트
             </h1>
-            <p class="text-xl md:text-3xl text-white/90 font-medium drop-shadow-md">
-                데드크로스의 가속화와 지역별 양극화 (2020-2024)
+            <p class="text-xl md:text-3xl text-white/90 font-semibold max-w-3xl leading-snug">
+                데이터로 진단하는 초고령 도시의 흐름과 지역별 격차 (2020-2024)
             </p>
-            <div class="mt-8 inline-block bg-white/90 text-[#2E3192] px-6 py-2 rounded-full text-lg font-bold shadow-lg border border-white">
-                ✨ 100만 고령자 시대 진입
-            </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6 py-16 space-y-24">
+    <main class="max-w-7xl mx-auto px-6 py-20 space-y-24">
 
         <!-- KPI Section -->
         <section>
-            <div class="mb-12 text-center">
-                <h2 class="text-4xl font-black gradient-text-blue mb-4">핵심 지표 요약</h2>
-                <div class="w-24 h-2 bg-gradient-to-r from-blue-400 to-green-400 mx-auto rounded-full"></div>
-            </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="glass-card p-10 text-center relative overflow-hidden">
-                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-blue-100 rounded-full opacity-30"></div>
-                    <div class="text-6xl mb-6">📉</div>
-                    <h3 class="text-xl font-bold text-gray-600 mb-2">총인구 감소 (5년)</h3>
-                    <p class="text-5xl font-black text-red-500 mb-3">- 91,760명</p>
-                    <p class="text-gray-500 font-medium">3,349,016명 → 3,257,256명</p>
+                <div class="glass-card p-10 group">
+                    <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">총인구 감소 (5년)</h3>
+                    <p class="text-5xl font-black text-slate-800 mb-2 transition-colors group-hover:text-blue-600">- 91,760명</p>
+                    <div class="h-1.5 w-16 bg-slate-300 rounded-full mb-6 group-hover:w-full transition-all duration-500"></div>
+                    <p class="text-sm font-bold text-slate-400">3,349,016명 → 3,257,256명</p>
                 </div>
                 
-                <div class="glass-card p-10 text-center">
-                    <div class="text-6xl mb-6">📈</div>
-                    <h3 class="text-xl font-bold text-gray-600 mb-2">60세 이상 증가 (5년)</h3>
-                    <p class="text-5xl font-black gradient-text-green mb-3">+ 128,277명</p>
-                    <p class="text-gray-500 font-medium">892,277명 → 1,020,554명</p>
+                <div class="glass-card p-10 group">
+                    <h3 class="text-xs font-black text-blue-400 uppercase tracking-widest mb-3">60세 이상 증가 (5년)</h3>
+                    <p class="text-5xl font-black text-blue-500 mb-2 transition-colors group-hover:text-green-500">+ 128,277명</p>
+                    <div class="h-1.5 w-16 bg-blue-200 rounded-full mb-6 group-hover:w-full transition-all duration-500"></div>
+                    <p class="text-sm font-bold text-slate-400">892,277명 → 1,020,554명</p>
                 </div>
 
-                <div class="glass-card p-10 text-center border-b-8 border-blue-400">
-                    <div class="text-6xl mb-6">👥</div>
-                    <h3 class="text-xl font-bold text-gray-600 mb-2">2024년 고령자 비중</h3>
-                    <p class="text-5xl font-black gradient-text-blue mb-3">31.3%</p>
-                    <p class="text-gray-500 font-medium">시민 3명 중 1명은 고령자</p>
+                <div class="glass-card p-10 bg-blue-50/20 group border-b-8 border-blue-400">
+                    <h3 class="text-xs font-black text-blue-500 uppercase tracking-widest mb-3">2024년 고령자 비중</h3>
+                    <p class="text-5xl font-black text-blue-900 mb-2">31.3%</p>
+                    <div class="h-1.5 w-16 bg-blue-400 rounded-full mb-6 group-hover:w-full transition-all duration-500"></div>
+                    <p class="text-sm font-bold text-slate-500 italic">"부산 시민 3명 중 1명은 고령층"</p>
                 </div>
             </div>
         </section>
 
         <!-- Main Trend Chart -->
-        <section class="glass-card p-10 md:p-16">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+        <section class="glass-card p-12 md:p-16">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
                 <div>
-                    <h2 class="text-3xl font-black gradient-text-blue mb-2">줄어드는 도시, 늘어나는 노년층</h2>
-                    <p class="text-gray-600 text-lg">전체 인구와 고령 인구의 극명한 교차 추이</p>
+                    <h2 class="text-4xl font-black vivid-text-gradient mb-2">인구 추이 골든크로스</h2>
+                    <p class="text-slate-500 text-lg font-medium">전체 인구의 급감과 노년층 인구의 수직 상승</p>
                 </div>
-                <div class="bg-blue-50 px-6 py-3 rounded-2xl border border-blue-100">
-                    <span class="text-blue-600 font-bold">5개년 데이터 트렌드</span>
+                <div class="bg-blue-100/50 px-8 py-4 rounded-3xl border-2 border-blue-200 text-blue-700 font-black shadow-inner">
+                    5개년 시각화 리포트
                 </div>
             </div>
             <div class="chart-container">
@@ -221,20 +257,20 @@
             </div>
         </section>
 
-        <!-- District Comparison Grid -->
+        <!-- District Comparison -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <section class="glass-card p-8">
-                <h2 class="text-2xl font-bold gradient-text-green mb-6 flex items-center">
-                    <span class="mr-3">📊</span> 행정구별 인구 증감 양극화
+            <section class="glass-card p-10">
+                <h2 class="text-2xl font-black text-slate-800 mb-8 flex items-center">
+                    <span class="minimal-dot bg-blue-400"></span> 행정구별 인구 증감율 (%)
                 </h2>
                 <div class="chart-container h-[350px]">
                     <canvas id="popChangeChart"></canvas>
                 </div>
             </section>
 
-            <section class="glass-card p-8">
-                <h2 class="text-2xl font-bold text-orange-500 mb-6 flex items-center">
-                    <span class="mr-3">⚠️</span> 소멸 위험: 고령 비중 TOP 5
+            <section class="glass-card p-10">
+                <h2 class="text-2xl font-black text-slate-800 mb-8 flex items-center">
+                    <span class="minimal-dot bg-green-400"></span> 고령 비중 최고 지역 (%)
                 </h2>
                 <div class="chart-container h-[350px]">
                     <canvas id="agingRankChart"></canvas>
@@ -242,53 +278,30 @@
             </section>
         </div>
 
-        <!-- Relationship Analysis -->
-        <section class="glass-card p-10 md:p-16 border-l-8 border-green-400">
-            <div class="mb-10">
-                <h2 class="text-3xl font-black gradient-text-blue mb-3">인구 규모 vs 고령화 비율 관계</h2>
-                <p class="text-gray-600 text-lg">거품의 크기는 고령 인구의 비중을 나타냅니다.</p>
-            </div>
-            <div class="chart-container h-[450px]">
-                <canvas id="scatterChart"></canvas>
-            </div>
-        </section>
-
         <!-- Typology Grid -->
         <section>
-            <h2 class="text-4xl font-black text-center gradient-text-blue mb-16">부산시 인구 구조 3대 유형</h2>
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black vivid-text-gradient">도시 인구의 3가지 얼굴</h2>
+                <p class="text-slate-400 mt-4 font-bold tracking-widest uppercase">District Typology Analysis</p>
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 
-                <!-- Type 1 -->
-                <div class="glass-card p-8 border-t-8 border-red-400">
-                    <div class="w-16 h-16 bg-red-100 rounded-3xl flex items-center justify-center text-red-500 text-3xl font-bold shadow-inner mb-6">01</div>
-                    <h3 class="text-2xl font-black text-gray-800 mb-4">소멸 가속형</h3>
-                    <p class="text-blue-600 font-bold mb-4">#영도 #중구 #동구 #서구</p>
-                    <p class="text-gray-600 leading-relaxed mb-8">시민 10명 중 4명이 고령자인 원도심 지역으로, 인구 구조의 붕괴 위험이 매우 높습니다.</p>
-                    <div class="bg-white/50 p-4 rounded-2xl border border-red-100 italic text-sm text-red-700">
-                        "의료 및 고령 친화 인프라 최우선"
-                    </div>
+                <div class="glass-card p-10 border-t-8 border-slate-400">
+                    <h3 class="text-2xl font-black text-slate-800 mb-4">소멸 가속형</h3>
+                    <p class="text-sm font-black text-blue-500 mb-6 bg-blue-50 px-4 py-1.5 rounded-full inline-block">영도 · 중구 · 동구 · 서구</p>
+                    <p class="text-slate-600 leading-relaxed font-medium">인구 유출이 가장 극심하며, 고령 비중이 40%를 넘어서는 원도심 지역입니다. 도시 활력이 매우 낮은 위기군입니다.</p>
                 </div>
 
-                <!-- Type 2 -->
-                <div class="glass-card p-8 border-t-8 border-blue-400">
-                    <div class="w-16 h-16 bg-blue-100 rounded-3xl flex items-center justify-center text-blue-500 text-3xl font-bold shadow-inner mb-6">02</div>
-                    <h3 class="text-2xl font-black text-gray-800 mb-4">규모형 고령화</h3>
-                    <p class="text-blue-600 font-bold mb-4">#해운대 #부산진구 #사하</p>
-                    <p class="text-gray-600 leading-relaxed mb-8">고령 비중은 평균이나 절대적인 노인 수가 가장 많아 복지 예산 소요가 집중됩니다.</p>
-                    <div class="bg-white/50 p-4 rounded-2xl border border-blue-100 italic text-sm text-blue-700">
-                        "거점형 복지 클러스터 구축 필요"
-                    </div>
+                <div class="glass-card p-10 border-t-8 border-blue-500">
+                    <h3 class="text-2xl font-black text-slate-800 mb-4">규모형 고령화</h3>
+                    <p class="text-sm font-black text-blue-600 mb-6 bg-blue-50 px-4 py-1.5 rounded-full inline-block">해운대 · 부산진구 · 사하</p>
+                    <p class="text-slate-600 leading-relaxed font-medium">전체 인구 볼륨이 커서 고령 인구의 절대 숫자가 가장 많습니다. 복지 수요가 기하급수적으로 증가하는 핵심 관리군입니다.</p>
                 </div>
 
-                <!-- Type 3 -->
-                <div class="glass-card p-8 border-t-8 border-green-400">
-                    <div class="w-16 h-16 bg-green-100 rounded-3xl flex items-center justify-center text-green-500 text-3xl font-bold shadow-inner mb-6">03</div>
-                    <h3 class="text-2xl font-black text-gray-800 mb-4">신규 활력형</h3>
-                    <p class="text-green-600 font-bold mb-4">#강서구 #기장군</p>
-                    <p class="text-gray-600 leading-relaxed mb-8">부산 내 유일한 인구 성장 지역으로, 젊은 층 비중이 높아 미래 활력이 유지되고 있습니다.</p>
-                    <div class="bg-white/50 p-4 rounded-2xl border border-green-100 italic text-sm text-green-700">
-                        "정주 여건 고도화 및 보육 강화"
-                    </div>
+                <div class="glass-card p-10 border-t-8 border-green-500">
+                    <h3 class="text-2xl font-black text-slate-800 mb-4">신규 활력형</h3>
+                    <p class="text-sm font-black text-green-600 mb-6 bg-green-50 px-4 py-1.5 rounded-full inline-block">강서구 · 기장군</p>
+                    <p class="text-slate-600 leading-relaxed font-medium">부산에서 유일하게 인구가 증가하는 신도시 지역입니다. 젊은 층 비중이 높아 미래 성장 동력이 유지되고 있습니다.</p>
                 </div>
 
             </div>
@@ -296,15 +309,16 @@
 
     </main>
 
-    <footer class="bg-white/40 backdrop-blur-md border-t border-white/50 py-12 text-center">
-        <div class="max-w-6xl mx-auto px-6">
-            <p class="text-blue-900 font-bold mb-2">© 2026 부산 인구 데이터 인포그래픽 리포트</p>
-            <p class="text-blue-700/60 text-sm">본 리포트는 Frutiger Aero 테마를 적용하여 현대적인 시각화 경험을 제공합니다.</p>
+    <footer class="py-20 text-center relative">
+        <div class="absolute inset-0 bg-blue-50/20 blur-2xl"></div>
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <div class="w-16 h-1.5 bg-blue-500 mx-auto mb-8 rounded-full shadow-[0_0_15px_rgba(0,204,255,0.5)]"></div>
+            <p class="text-blue-900 font-black text-lg mb-2">Busan Demographic Dynamics 2026</p>
+            <p class="text-blue-400 text-sm font-bold tracking-widest">ADVANCED DATA VISUALIZATION REPORT</p>
         </div>
     </footer>
 
     <script>
-        // Modal Logic
         const modal = document.getElementById('videoModal');
         const video = document.getElementById('popupVideo');
 
@@ -319,22 +333,19 @@
             video.currentTime = 0;
         }
 
-        // Close modal when clicking outside content
         window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
+            if (event.target == modal) closeModal();
         }
 
-        // Chart Defaults for Aero Style
         Chart.defaults.font.family = "'Segoe UI', 'Roboto', sans-serif";
-        Chart.defaults.color = '#555';
+        Chart.defaults.font.weight = '700';
+        Chart.defaults.color = '#334155';
         
-        // 1. Trend Chart
+        // 1. Trend Chart (High Contrast)
         const trendCtx = document.getElementById('trendChart').getContext('2d');
         const blueGrad = trendCtx.createLinearGradient(0, 0, 0, 400);
-        blueGrad.addColorStop(0, 'rgba(0, 174, 239, 0.4)');
-        blueGrad.addColorStop(1, 'rgba(0, 174, 239, 0.0)');
+        blueGrad.addColorStop(0, 'rgba(0, 204, 255, 0.4)');
+        blueGrad.addColorStop(1, 'rgba(0, 204, 255, 0.0)');
 
         new Chart(trendCtx, {
             type: 'line',
@@ -342,31 +353,31 @@
                 labels: ['2020', '2021', '2022', '2023', '2024'],
                 datasets: [
                     {
-                        label: '총인구 (명)',
+                        label: '총인구',
                         data: [3349016, 3324335, 3295760, 3279604, 3257256],
-                        borderColor: '#00AEEF',
+                        borderColor: '#0033FF',
                         backgroundColor: blueGrad,
-                        borderWidth: 5,
+                        borderWidth: 6,
                         fill: true,
-                        tension: 0.4,
+                        tension: 0.3,
+                        pointRadius: 8,
+                        pointHoverRadius: 12,
                         pointBackgroundColor: '#fff',
-                        pointBorderColor: '#00AEEF',
-                        pointBorderWidth: 3,
-                        pointRadius: 6,
+                        pointBorderWidth: 4,
                         yAxisID: 'y'
                     },
                     {
-                        label: '60세 이상 (명)',
+                        label: '60세 이상',
                         data: [892277, 934024, 965387, 997993, 1020554],
-                        borderColor: '#8CC63F',
-                        backgroundColor: 'rgba(140, 198, 63, 0.2)',
-                        borderWidth: 5,
+                        borderColor: '#A2FF00',
+                        backgroundColor: 'transparent',
+                        borderWidth: 6,
                         fill: false,
-                        tension: 0.4,
+                        tension: 0.3,
+                        pointRadius: 8,
+                        pointHoverRadius: 12,
                         pointBackgroundColor: '#fff',
-                        pointBorderColor: '#8CC63F',
-                        pointBorderWidth: 3,
-                        pointRadius: 6,
+                        pointBorderWidth: 4,
                         yAxisID: 'y1'
                     }
                 ]
@@ -374,29 +385,29 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { labels: { font: { weight: 'bold' } } }
+                interaction: { intersect: false, mode: 'index' },
+                plugins: { 
+                    legend: { position: 'top', labels: { padding: 30, boxWidth: 20 } } 
                 },
                 scales: {
-                    y: { position: 'left', min: 3200000, grid: { color: 'rgba(0,0,0,0.05)' } },
-                    y1: { position: 'right', min: 800000, grid: { display: false } }
+                    y: { position: 'left', grid: { color: 'rgba(0,0,0,0.05)' } },
+                    y1: { position: 'right', grid: { display: false } }
                 }
             }
         });
 
-        // 2. Population Change
+        // 2. Population Change (Saturated Blue)
         const popChangeCtx = document.getElementById('popChangeChart').getContext('2d');
         new Chart(popChangeCtx, {
             type: 'bar',
             data: {
                 labels: ['영도구', '사상구', '중구', '기장군', '강서구'],
                 datasets: [{
-                    label: '인구 증감율 (%)',
                     data: [-9.2, -8.5, -4.4, 0.8, 5.3],
-                    backgroundColor: ['#ff9a9e', '#ff9a9e', '#fbc2eb', '#a1c4fd', '#00f2fe'],
-                    borderColor: 'rgba(255,255,255,0.8)',
+                    backgroundColor: ['#1e293b', '#334155', '#475569', '#60a5fa', '#00CCFF'],
+                    borderRadius: 12,
                     borderWidth: 2,
-                    borderRadius: 20
+                    borderColor: '#fff'
                 }]
             },
             options: {
@@ -407,7 +418,7 @@
             }
         });
 
-        // 3. Aging Rank
+        // 3. Aging Rank (Bright Blue)
         const agingRankCtx = document.getElementById('agingRankChart').getContext('2d');
         new Chart(agingRankCtx, {
             type: 'bar',
@@ -415,8 +426,8 @@
                 labels: ['영도구', '중구', '동구', '서구', '금정구'],
                 datasets: [{
                     data: [40.5, 37.9, 37.0, 36.6, 33.7],
-                    backgroundColor: '#00AEEF',
-                    borderRadius: 15,
+                    backgroundColor: '#0033FF',
+                    borderRadius: 12,
                     borderWidth: 2,
                     borderColor: '#fff'
                 }]
@@ -424,30 +435,8 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } }
-            }
-        });
-
-        // 4. Scatter Chart
-        const scatterCtx = document.getElementById('scatterChart').getContext('2d');
-        new Chart(scatterCtx, {
-            type: 'bubble',
-            data: {
-                datasets: [
-                    { label: '해운대구', data: [{x: 380000, y: 123015, r: 25}], backgroundColor: 'rgba(0, 174, 239, 0.6)' },
-                    { label: '부산진구', data: [{x: 350000, y: 108753, r: 24}], backgroundColor: 'rgba(0, 174, 239, 0.6)' },
-                    { label: '영도구', data: [{x: 105763, y: 42882, r: 35}], backgroundColor: 'rgba(239, 68, 68, 0.6)' },
-                    { label: '강서구', data: [{x: 145183, y: 27149, r: 15}], backgroundColor: 'rgba(140, 198, 63, 0.6)' },
-                    { label: '기장군', data: [{x: 173668, y: 46022, r: 18}], backgroundColor: 'rgba(140, 198, 63, 0.6)' }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { title: { display: true, text: '총인구 규모' } },
-                    y: { title: { display: true, text: '고령 인구 수' } }
-                }
+                plugins: { legend: { display: false } },
+                scales: { y: { min: 30 } }
             }
         });
     </script>
