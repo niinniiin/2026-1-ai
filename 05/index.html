@@ -65,15 +65,52 @@
         .gallery-img {
             transition: opacity 0.5s ease-in-out;
         }
+
+        /* 오디오 비주얼라이저 애니메이션 */
+        .bar {
+            width: 3px;
+            background: #a855f7;
+            margin: 0 1px;
+            border-radius: 2px;
+            animation: music-bar 1s infinite ease-in-out;
+        }
+        @keyframes music-bar {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+
+        /* 홈 버튼 스타일 */
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .home-btn:hover {
+            transform: scale(1.1) translateY(-2px);
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
+
+    <!-- 최상단 홈 버튼 -->
+    <a href="../index.html" class="home-btn flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-xl border border-white/80 rounded-full shadow-lg text-slate-700 hover:text-purple-600 hover:bg-white transition-all">
+        <i data-lucide="home" class="w-4 h-4"></i>
+        <span class="text-xs font-black uppercase tracking-wider">Home</span>
+    </a>
+
+    <!-- 배경 오디오 (반복 재생) -->
+    <audio id="bgm" loop>
+        <source src="Glasswave Lobby.mp3" type="audio/mpeg">
+        당신의 브라우저는 오디오 태그를 지원하지 않습니다.
+    </audio>
 
     <!-- 배경 장식 요소 -->
     <div class="fixed top-[-10%] right-[-5%] w-[45vw] h-[45vw] bg-pink-300/30 rounded-full blur-[120px] bg-pulse pointer-events-none"></div>
     <div class="fixed bottom-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-purple-300/30 rounded-full blur-[120px] bg-pulse pointer-events-none" style="animation-delay: 2.5s;"></div>
 
-    <main class="flex-1 flex flex-col items-center justify-center p-4 relative z-10">
+    <main class="flex-1 flex flex-col items-center justify-center p-4 relative z-10 pt-20">
         
         <!-- 네비게이션 바 -->
         <nav class="grid grid-cols-3 gap-6 mb-10 sm:flex sm:flex-row sm:gap-8">
@@ -406,7 +443,7 @@
                     </div>
                 </div>
 
-                <!-- 섹션: 갤러리 (텍스트 삭제 업데이트) -->
+                <!-- 섹션: 갤러리 -->
                 <div id="gallery" class="tab-content pt-4">
                     <div class="relative group max-w-4xl mx-auto">
                         <!-- 이미지 컨테이너 -->
@@ -433,9 +470,7 @@
                         </button>
 
                         <!-- 하단 인디케이터 -->
-                        <div id="gallery-dots" class="flex justify-center gap-3 mt-8">
-                            <!-- JS에서 생성됨 -->
-                        </div>
+                        <div id="gallery-dots" class="flex justify-center gap-3 mt-8"></div>
                     </div>
                 </div>
 
@@ -451,24 +486,77 @@
             </div>
             <div id="taskbar-links" class="hidden lg:flex gap-1.5"></div>
         </div>
-        <div id="clock" class="px-4 py-1.5 bg-white/40 backdrop-blur-md rounded-xl border border-white/40 text-[11px] font-black text-slate-700">00:00:00</div>
+        
+        <div class="flex items-center gap-4">
+            <!-- 음악 컨트롤러 -->
+            <button id="music-toggle" class="flex items-center gap-2 px-3 py-1.5 bg-white/40 backdrop-blur-md rounded-xl border border-white/40 hover:bg-white/60 transition-all group">
+                <div id="visualizer" class="flex items-end h-4 opacity-50 group-hover:opacity-100 transition-opacity hidden">
+                    <div class="bar" style="animation-delay: 0.1s"></div>
+                    <div class="bar" style="animation-delay: 0.3s"></div>
+                    <div class="bar" style="animation-delay: 0.2s"></div>
+                    <div class="bar" style="animation-delay: 0.4s"></div>
+                </div>
+                <i id="music-icon" data-lucide="volume-x" class="w-4 h-4 text-slate-700"></i>
+                <span id="music-status" class="text-[10px] font-bold text-slate-600">OFF</span>
+            </button>
+            <div id="clock" class="px-4 py-1.5 bg-white/40 backdrop-blur-md rounded-xl border border-white/40 text-[11px] font-black text-slate-700 whitespace-nowrap">00:00:00</div>
+        </div>
     </footer>
 
     <script>
         lucide.createIcons();
         let currentTab = 'profile';
         let currentSlideIndex = 0;
+        let isMusicPlaying = false;
         
-        // 갤러리 이미지 리스트 (제목 정보는 내부 로직용으로 유지)
+        const bgm = document.getElementById('bgm');
+        const musicBtn = document.getElementById('music-toggle');
+        const musicIcon = document.getElementById('music-icon');
+        const musicStatus = document.getElementById('music-status');
+        const visualizer = document.getElementById('visualizer');
+
+        // 음악 제어 함수
+        function toggleMusic() {
+            if (bgm.paused) {
+                bgm.play().then(() => {
+                    isMusicPlaying = true;
+                    musicIcon.setAttribute('data-lucide', 'volume-2');
+                    musicStatus.textContent = 'ON';
+                    visualizer.classList.remove('hidden');
+                    lucide.createIcons();
+                }).catch(err => console.log("재생 실패: 사용자의 클릭이 필요합니다."));
+            } else {
+                bgm.pause();
+                isMusicPlaying = false;
+                musicIcon.setAttribute('data-lucide', 'volume-x');
+                musicStatus.textContent = 'OFF';
+                visualizer.classList.add('hidden');
+                lucide.createIcons();
+            }
+        }
+
+        musicBtn.onclick = (e) => {
+            e.stopPropagation();
+            toggleMusic();
+        };
+
+        // 브라우저 정책상 첫 클릭 시 자동 재생 시도
+        document.body.addEventListener('click', () => {
+            if (!isMusicPlaying) {
+                bgm.play().then(() => {
+                    isMusicPlaying = true;
+                    musicIcon.setAttribute('data-lucide', 'volume-2');
+                    musicStatus.textContent = 'ON';
+                    visualizer.classList.remove('hidden');
+                    lucide.createIcons();
+                }).catch(() => {});
+            }
+        }, { once: true });
+
+        // 갤러리 이미지 리스트
         const galleryImages = [
-            { src: 'pf1.png' },
-            { src: 'pf2.png' },
-            { src: 'pf3.png' },
-            { src: 'pf4.png' },
-            { src: 'pf5.png' },
-            { src: 'pf6.png' },
-            { src: 'pf7.png' },
-            { src: 'pf8.png' }
+            { src: 'pf1.png' }, { src: 'pf2.png' }, { src: 'pf3.png' }, { src: 'pf4.png' },
+            { src: 'pf5.png' }, { src: 'pf6.png' }, { src: 'pf7.png' }, { src: 'pf8.png' }
         ];
 
         const tabTitles = {
@@ -501,17 +589,14 @@
             }
         }
 
-        // 갤러리 로직
         function initGalleryDots() {
             const dotsContainer = document.getElementById('gallery-dots');
+            if(!dotsContainer) return;
             dotsContainer.innerHTML = '';
             galleryImages.forEach((_, idx) => {
                 const dot = document.createElement('button');
                 dot.className = `w-3 h-3 rounded-full transition-all duration-300 ${idx === currentSlideIndex ? 'bg-purple-600 w-8' : 'bg-slate-300 hover:bg-slate-400'}`;
-                dot.onclick = () => {
-                    currentSlideIndex = idx;
-                    updateGallery();
-                };
+                dot.onclick = () => { currentSlideIndex = idx; updateGallery(); };
                 dotsContainer.appendChild(dot);
             });
         }
@@ -519,38 +604,25 @@
         function updateGallery() {
             const img = document.getElementById('art-image');
             const indexLabel = document.getElementById('art-index');
+            if(!img) return;
             const item = galleryImages[currentSlideIndex];
-
-            // 페이드 효과 적용
             img.style.opacity = '0';
-            
             setTimeout(() => {
                 img.src = item.src;
                 indexLabel.textContent = `Project ${String(currentSlideIndex + 1).padStart(2, '0')} / ${galleryImages.length}`;
                 img.style.opacity = '1';
-                initGalleryDots(); // 도트 상태 업데이트
+                initGalleryDots();
             }, 200);
         }
 
-        function nextSlide() { 
-            currentSlideIndex = (currentSlideIndex + 1) % galleryImages.length; 
-            updateGallery(); 
-        }
-
-        function prevSlide() { 
-            currentSlideIndex = (currentSlideIndex - 1 + galleryImages.length) % galleryImages.length; 
-            updateGallery(); 
-        }
-
-        function updateClock() { 
-            document.getElementById('clock').textContent = new Date().toLocaleTimeString(); 
-        }
+        function nextSlide() { currentSlideIndex = (currentSlideIndex + 1) % galleryImages.length; updateGallery(); }
+        function prevSlide() { currentSlideIndex = (currentSlideIndex - 1 + galleryImages.length) % galleryImages.length; updateGallery(); }
+        function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
 
         window.onload = () => {
             setInterval(updateClock, 1000);
             updateClock();
             
-            // 작업 표시줄 링크 동적 생성
             const taskbar = document.getElementById('taskbar-links');
             Object.keys(tabTitles).forEach(id => {
                 const div = document.createElement('div');
@@ -559,8 +631,6 @@
                 div.onclick = () => switchTab(id);
                 taskbar.appendChild(div);
             });
-
-            // 갤러리 도트 초기화
             initGalleryDots();
         };
     </script>
