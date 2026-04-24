@@ -61,6 +61,13 @@
             background-color: #9333ea;
             color: white;
         }
+
+        .history-img-container {
+            transition: transform 0.3s ease;
+        }
+        .history-img-container:hover {
+            transform: scale(1.01);
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -112,7 +119,7 @@
         </nav>
 
         <!-- Window Frame Container -->
-        <div id="window-container" class="flex flex-col w-full max-w-4xl glass-panel rounded-2xl overflow-hidden relative">
+        <div id="window-container" class="flex flex-col w-full max-w-5xl glass-panel rounded-2xl overflow-hidden relative">
             
             <!-- Window Title Bar -->
             <div class="relative flex items-center justify-between px-4 py-2.5 bg-gradient-to-r from-pink-400/70 via-purple-400/70 to-blue-400/70 border-b border-white/40 text-white shadow-inner">
@@ -128,7 +135,7 @@
             </div>
 
             <!-- Content Area -->
-            <div class="p-6 md:p-10 max-h-[75vh] overflow-y-auto bg-gradient-to-br from-white/40 to-white/10 custom-scrollbar relative">
+            <div class="p-6 md:p-8 max-h-[75vh] overflow-y-auto bg-gradient-to-br from-white/40 to-white/10 custom-scrollbar relative">
                 
                 <!-- Section: Profile -->
                 <div id="profile" class="tab-content active">
@@ -154,40 +161,95 @@
 
                 <!-- Section: Major -->
                 <div id="major" class="tab-content">
-                    <div class="grid md:grid-cols-3 gap-6">
-                        <div class="p-5 rounded-2xl border border-white/60 bg-gradient-to-br from-pink-100 to-pink-200 shadow-lg">
-                            <h3 class="font-bold text-pink-700 mb-2">01. 시각적 문해력</h3>
-                            <p class="text-xs md:text-sm text-slate-700 font-medium">해부학 및 드로잉 기초 원리 이해</p>
-                        </div>
-                        <div class="p-5 rounded-2xl border border-white/60 bg-gradient-to-br from-purple-100 to-purple-200 shadow-lg">
-                            <h3 class="font-bold text-purple-700 mb-2">02. 기술적 파이프라인</h3>
-                            <p class="text-xs md:text-sm text-slate-700 font-medium">3D CGI 및 자동화 공정 내재화</p>
-                        </div>
-                        <div class="p-5 rounded-2xl border border-white/60 bg-gradient-to-br from-blue-100 to-blue-200 shadow-lg">
-                            <h3 class="font-bold text-blue-700 mb-2">03. 융합 마스터리</h3>
-                            <p class="text-xs md:text-sm text-slate-700 font-medium">VFX 및 실시간 엔진 기반 전문화</p>
+                    <div class="mb-10">
+                        <h2 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
+                            <i data-lucide="graduation-cap" class="text-purple-500"></i>
+                            애니메이션 교육 체계: 3단계 아키텍처
+                        </h2>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <!-- Phase 1 -->
+                            <div class="p-5 rounded-2xl border border-white/60 bg-white/40 shadow-sm">
+                                <div class="text-xs font-bold text-pink-500 mb-1 uppercase tracking-wider">Level 01. Foundation</div>
+                                <h3 class="font-bold text-slate-800 mb-3 text-lg">기초 예술 소양</h3>
+                                <ul class="text-xs space-y-2 text-slate-600 font-medium">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-pink-400"></i> 해부학 및 드로잉 원리</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-pink-400"></i> 시각적 문해력(Visual Literacy)</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-pink-400"></i> 스토리보딩 & 타이밍 학습</li>
+                                </ul>
+                            </div>
+                            <!-- Phase 2 -->
+                            <div class="p-5 rounded-2xl border border-white/60 bg-white/40 shadow-sm ring-2 ring-purple-400/30">
+                                <div class="text-xs font-bold text-purple-500 mb-1 uppercase tracking-wider">Level 02. Technical</div>
+                                <h3 class="font-bold text-slate-800 mb-3 text-lg">기술적 심화 (Pipeline)</h3>
+                                <ul class="text-xs space-y-2 text-slate-600 font-medium">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-purple-400"></i> 3D CGI 공정 (Maya 중심)</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-purple-400"></i> 파이썬 스크립팅 자동화</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-purple-400"></i> 퍼스낼리티 애니메이션 구현</li>
+                                </ul>
+                            </div>
+                            <!-- Phase 3 -->
+                            <div class="p-5 rounded-2xl border border-white/60 bg-white/40 shadow-sm">
+                                <div class="text-xs font-bold text-blue-500 mb-1 uppercase tracking-wider">Level 03. Mastery</div>
+                                <h3 class="font-bold text-slate-800 mb-3 text-lg">전문가 융합 기술</h3>
+                                <ul class="text-xs space-y-2 text-slate-600 font-medium">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-blue-400"></i> Unreal 버추얼 프로덕션</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-blue-400"></i> VFX 합성 및 캐릭터 FX</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-blue-400"></i> 실시간 엔진 기반 에셋 제작</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-10 pt-6 border-t border-white/30 text-center">
-                        <button onclick="toggleInfographic()" class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-500 text-white rounded-full font-bold shadow-lg hover:bg-indigo-600 transition-all">
-                            View Evolution Chronology
-                        </button>
-                        <div id="infographic" class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 hidden">
-                            <div class="p-4 bg-white/50 rounded-2xl border border-white/60">
-                                <div class="w-8 h-8 rounded-lg bg-amber-400 text-white flex items-center justify-center mb-2 mx-auto"><i data-lucide="clock" class="w-4 h-4"></i></div>
-                                <h4 class="text-[10px] font-black">원시/광학 기구</h4>
+
+                    <!-- Evolutionary Chronology -->
+                    <div class="pt-8 border-t border-white/40">
+                        <!-- Added Image Section -->
+                        <div class="mb-10 history-img-container">
+                            <div class="w-full rounded-3xl overflow-hidden border-4 border-white shadow-2xl bg-white/30 backdrop-blur-sm">
+                                <img src="Animation_History.png" alt="[애니메이션 역사 이미지]" class="w-full h-auto block object-cover" onerror="this.parentElement.innerHTML='<div class=\'w-full h-48 flex items-center justify-center text-slate-400 font-bold bg-slate-100\'>Animation_History.png placeholder</div>'">
                             </div>
-                            <div class="p-4 bg-white/50 rounded-2xl border border-white/60">
-                                <div class="w-8 h-8 rounded-lg bg-pink-400 text-white flex items-center justify-center mb-2 mx-auto"><i data-lucide="palette" class="w-4 h-4"></i></div>
-                                <h4 class="text-[10px] font-black">아날로그 황금기</h4>
-                            </div>
-                            <div class="p-4 bg-white/50 rounded-2xl border border-white/60">
-                                <div class="w-8 h-8 rounded-lg bg-blue-400 text-white flex items-center justify-center mb-2 mx-auto"><i data-lucide="cpu" class="w-4 h-4"></i></div>
-                                <h4 class="text-[10px] font-black">디지털 혁명</h4>
-                            </div>
-                            <div class="p-4 bg-white/50 rounded-2xl border border-white/60">
-                                <div class="w-8 h-8 rounded-lg bg-purple-400 text-white flex items-center justify-center mb-2 mx-auto"><i data-lucide="brain" class="w-4 h-4"></i></div>
-                                <h4 class="text-[10px] font-black">AI & 미래</h4>
+                            <p class="mt-3 text-center text-xs text-slate-500 font-medium italic">Figure: 애니메이션 기술 및 시각 예술사의 발전 단계 개요</p>
+                        </div>
+
+                        <h2 class="text-xl font-black text-slate-800 mb-8 text-center uppercase tracking-widest">
+                            Anima: 기술적 진화의 연대기
+                        </h2>
+                        <div class="relative px-4 pb-10">
+                            <!-- Timeline Line -->
+                            <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-pink-300 via-purple-400 to-indigo-500 -translate-x-1/2 rounded-full opacity-30 hidden md:block"></div>
+                            
+                            <div class="space-y-12">
+                                <!-- Step 1 -->
+                                <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+                                    <div class="md:w-[45%] bg-white/50 p-5 rounded-2xl border border-white shadow-sm hover:shadow-md transition-all">
+                                        <h4 class="font-black text-pink-600 text-sm mb-1">잔상 효과와 선사 시대</h4>
+                                        <p class="text-xs text-slate-600 leading-relaxed font-medium">인간의 망막 잔상 효과(1/16초)를 이용한 움직임의 최초 시도. 쇼베 동굴 벽화와 고대 이란 도자기에서 프레임의 원형 발견.</p>
+                                    </div>
+                                    <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-pink-400 border-4 border-white shadow-lg z-10 hidden md:flex items-center justify-center text-white text-[10px] font-bold">01</div>
+                                </div>
+                                <!-- Step 2 -->
+                                <div class="relative flex flex-col md:flex-row-reverse items-center md:justify-between group">
+                                    <div class="md:w-[45%] bg-white/50 p-5 rounded-2xl border border-white shadow-sm hover:shadow-md transition-all">
+                                        <h4 class="font-black text-purple-600 text-sm mb-1">광학 기구의 황금기 (17~19세기)</h4>
+                                        <p class="text-xs text-slate-600 leading-relaxed font-medium">매직 랜턴(레이어 개념), 조이트로프, 프락시노스코프 등 기계적 투사 장치 개발. 애니메이션이 대중 매체로 진화.</p>
+                                    </div>
+                                    <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-purple-400 border-4 border-white shadow-lg z-10 hidden md:flex items-center justify-center text-white text-[10px] font-bold">02</div>
+                                </div>
+                                <!-- Step 3 -->
+                                <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+                                    <div class="md:w-[45%] bg-white/50 p-5 rounded-2xl border border-white shadow-sm hover:shadow-md transition-all">
+                                        <h4 class="font-black text-blue-600 text-sm mb-1">셀(Cel) 혁명과 산업화 (20세기)</h4>
+                                        <p class="text-xs text-slate-600 leading-relaxed font-medium">월트 디즈니의 멀티플레인 카메라, 12원칙 정립. TV 시대 리미티드 애니메이션(일본 아니메)의 미학적 탄생.</p>
+                                    </div>
+                                    <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-blue-400 border-4 border-white shadow-lg z-10 hidden md:flex items-center justify-center text-white text-[10px] font-bold">03</div>
+                                </div>
+                                <!-- Step 4 -->
+                                <div class="relative flex flex-col md:flex-row-reverse items-center md:justify-between group">
+                                    <div class="md:w-[45%] bg-white/50 p-5 rounded-2xl border border-white shadow-sm hover:shadow-md transition-all">
+                                        <h4 class="font-black text-indigo-600 text-sm mb-1">디지털 & AI 시대 (현재~미래)</h4>
+                                        <p class="text-xs text-slate-600 leading-relaxed font-medium">3D CGI 패러다임(Pixar), 생성형 AI 도구(MotionMaker) 및 언리얼 엔진 기반 실시간 가상 제작 시대로의 패러다임 전환.</p>
+                                    </div>
+                                    <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-indigo-500 border-4 border-white shadow-lg z-10 hidden md:flex items-center justify-center text-white text-[10px] font-bold">04</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -226,13 +288,22 @@
                         <div class="p-6 rounded-2xl bg-white/20 backdrop-blur-md border border-white/50 shadow-inner">
                             <h3 class="text-xl font-black text-pink-600 mb-4">예술적 파트너로서의 AI</h3>
                             <p class="text-slate-700 text-sm md:text-base leading-relaxed font-medium">
-                                반복 작업은 AI에게 위임하고, 아티스트는 캐릭터의 '연기'와 '내러티브'의 본질에 더 집중해야 합니다.
+                                보고서에 따르면, AI는 로토스코핑, 리깅, 페이셜 애니메이션 등 반복 작업의 약 60~70%를 자동화합니다. 아티스트는 이제 기술적 노동을 넘어 캐릭터의 '연기'와 '내러티브'의 본질에 더 집중해야 합니다.
                             </p>
                         </div>
                         <div class="space-y-4">
-                            <div class="px-4 py-3 bg-gradient-to-r from-purple-500/10 to-transparent border-l-4 border-purple-500 text-sm font-bold text-slate-700">Unreal 엔진 기반 실시간 제작</div>
-                            <div class="px-4 py-3 bg-gradient-to-r from-purple-500/10 to-transparent border-l-4 border-purple-500 text-sm font-bold text-slate-700">의료 및 과학 분야 시각화 확장</div>
-                            <div class="px-4 py-3 bg-gradient-to-r from-purple-500/10 to-transparent border-l-4 border-purple-500 text-sm font-bold text-slate-700">인간 고유의 불완전한 미학 보존</div>
+                            <div class="px-4 py-3 bg-gradient-to-r from-purple-500/10 to-transparent border-l-4 border-purple-500 text-sm font-bold text-slate-700 flex justify-between items-center">
+                                <span>Unreal 엔진 기반 실시간 제작</span>
+                                <span class="text-[10px] bg-purple-500 text-white px-2 py-0.5 rounded">Future Tech</span>
+                            </div>
+                            <div class="px-4 py-3 bg-gradient-to-r from-purple-500/10 to-transparent border-l-4 border-purple-500 text-sm font-bold text-slate-700 flex justify-between items-center">
+                                <span>의료/법공학 시각화로의 확장</span>
+                                <span class="text-[10px] bg-purple-500 text-white px-2 py-0.5 rounded">Value expansion</span>
+                            </div>
+                            <div class="px-4 py-3 bg-gradient-to-r from-purple-500/10 to-transparent border-l-4 border-purple-500 text-sm font-bold text-slate-700 flex justify-between items-center">
+                                <span>인간 고유의 불완전한 미학 보존</span>
+                                <span class="text-[10px] bg-purple-500 text-white px-2 py-0.5 rounded">Philosophy</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -249,7 +320,7 @@
                         <div class="bg-white/50 backdrop-blur-md p-8 rounded-[2.5rem] border border-white shadow-xl mb-10">
                             <p class="text-sm md:text-lg leading-relaxed text-slate-700 font-medium text-justify">
                                 저는 대학원 진학 및 해외 유학을 통해 학술적 탐구를 지속하고자 합니다. 
-                                미국과 프랑스의 교육 환경에서 글로벌 흐름을 익히고, 한국인 여성이자 부산이라는 지역성을 뿌리로 삼아 비주류와 약자들에게 힘이 되는 서사를 구축할 것입니다.
+                                미국(CalArts)과 프랑스(GOBELINS)의 교육 환경에서 글로벌 흐름을 익히고, 한국인 여성이자 부산이라는 지역성을 뿌리로 삼아 비주류와 약자들에게 힘이 되는 서사를 구축할 것입니다.
                             </p>
                         </div>
                         <div class="grid grid-cols-2 gap-4 w-full">
@@ -267,7 +338,6 @@
                 <div id="gallery" class="tab-content">
                     <div class="relative group">
                         <div id="gallery-container" class="overflow-hidden rounded-3xl aspect-video bg-white/20 backdrop-blur-md shadow-2xl border border-white/60 relative flex items-center justify-center">
-                            <!-- JS will inject color boxes here -->
                              <div id="art-display" class="w-full h-full bg-gradient-to-br from-pink-300 to-indigo-400 flex items-center justify-center">
                                 <span class="text-white/20 font-black text-6xl italic">Art 1</span>
                              </div>
@@ -287,9 +357,7 @@
             <div class="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white shadow-xl">
                 <i data-lucide="sparkles" class="w-5 h-5"></i>
             </div>
-            <div id="taskbar-links" class="hidden lg:flex gap-1.5">
-                <!-- Taskbar items -->
-            </div>
+            <div id="taskbar-links" class="hidden lg:flex gap-1.5"></div>
         </div>
         <div id="clock" class="px-4 py-1.5 bg-white/40 backdrop-blur-md rounded-xl border border-white/40 text-[11px] font-black text-slate-700">00:00:00</div>
     </footer>
@@ -332,7 +400,6 @@
 
         // Tab Switching Logic
         function switchTab(tabId) {
-            // Update UI Active States
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
 
@@ -344,7 +411,6 @@
                 }
             });
 
-            // Update Window Header
             document.getElementById('window-title').textContent = tabTitles[tabId];
             const iconEl = document.getElementById('window-icon');
             iconEl.setAttribute('data-lucide', tabIcons[tabId]);
@@ -370,12 +436,6 @@
             updateGallery();
         }
 
-        // Infographic Toggle
-        function toggleInfographic() {
-            const el = document.getElementById('infographic');
-            el.classList.toggle('hidden');
-        }
-
         // Clock Update
         function updateClock() {
             const now = new Date();
@@ -387,7 +447,6 @@
             setInterval(updateClock, 1000);
             updateClock();
             
-            // Generate Taskbar items
             const taskbar = document.getElementById('taskbar-links');
             Object.keys(tabTitles).forEach(id => {
                 const div = document.createElement('div');
