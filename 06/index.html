@@ -56,6 +56,28 @@
             z-index: -1;
         }
 
+        .home-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 50;
+            display: flex;
+            items-center: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            color: #1e293b;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .home-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
         @media (min-width: 768px) {
             .chart-container {
                 height: 400px;
@@ -64,6 +86,12 @@
     </style>
 </head>
 <body class="antialiased pb-20">
+
+    <!-- Home Button -->
+    <a href="../index.html" class="glass home-btn shadow-sm">
+        <span style="font-size: 1.2rem;">🏠</span>
+        <span>홈으로</span>
+    </a>
 
     <!-- Decorative Blobs for Glass Effect -->
     <div class="blob top-[-10%] left-[-10%]"></div>
