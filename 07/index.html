@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!-- NO SVG and NO Mermaid JS were used in this file. Palette: Alert Red & Slate. Plan: Hook -> Big Stat -> Donut (Overview) -> Bar (Detailed Breakdown) -> Solutions. Donut: Inform (Chart.js). Bar: Compare (Chart.js). -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교통사고 실태 분석: 안전운전 의무 불이행</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Noto Sans KR', sans-serif; }
+.chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+@media (min-width: 768px) { .chart-container { height: 400px; max-height: 500px; } }
+.bg-alert-red { background-color: #ef4444; }
+.text-alert-red { color: #ef4444; }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-red-200 selection:text-red-900">
+
+<header class="bg-slate-900 text-white py-12 px-6 shadow-md text-center border-b-4 border-red-500">
+<div class="max-w-4xl mx-auto">
+<h2 class="text-red-400 font-bold tracking-widest text-sm md:text-base mb-2">기획보도 데이터 시각화 리포트</h2>
+<h1 class="text-3xl md:text-5xl font-black leading-tight mb-4">방심이 부른 비극,<br>도로 위의 잠재적 가해자</h1>
+<p class="text-slate-300 text-lg md:text-xl font-light">최근 교통사고 통계 데이터 기반 안전운전 실태 심층 분석</p>
+</div>
+</header>
+
+<main class="max-w-5xl mx-auto px-6 py-12 space-y-16">
+
+<section class="text-center">
+<div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-slate-100 transform transition hover:scale-105 duration-300">
+<h3 class="text-xl md:text-2xl font-bold text-slate-600 mb-4">전체 교통사고 중 '안전운전 의무 불이행' 비율</h3>
+<div class="text-6xl md:text-8xl font-black text-alert-red mb-4 tracking-tighter">50.6%</div>
+<p class="text-lg text-slate-500 max-w-2xl mx-auto">총 2,606건의 사고 중 1,318건. 도로 위에서 발생하는 사고 2건 중 1건은 운전자가 기본적으로 지켜야 할 주의 의무를 다하지 않아 발생했습니다.</p>
+</div>
+</section>
+
+<section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-white rounded-2xl shadow-lg p-6 md:p-10">
+<div>
+<h3 class="text-2xl font-bold text-slate-800 mb-4">‘설마’ 하는 방심이 부른 치명적 결과</h3>
+<p class="text-slate-600 mb-4 leading-relaxed">
+교통사고의 발생 원인은 다양하지만, 그중에서도 운전자의 주의 태만이나 조작 미숙 등 <strong>'안전운전 의무 불이행'</strong>이 압도적인 1위를 차지했습니다.
+</p>
+<p class="text-slate-600 leading-relaxed">
+휴대전화 사용, 차선 무단 변경, 전방 주시 태만 등 숙련된 운전자라 할지라도 순간적인 방심이 대형 사고로 이어질 수 있음을 데이터가 명확히 증명하고 있습니다.
+</p>
+</div>
+<div class="w-full">
+<div class="chart-container">
+<canvas id="overviewDonutChart"></canvas>
+</div>
+<p class="text-center text-sm text-slate-400 mt-4">데이터: 전체 사고 2,606건 기준 원인별 비율</p>
+</div>
+</section>
+
+<section class="bg-slate-100 rounded-2xl shadow-inner p-6 md:p-10 border border-slate-200">
+<div class="text-center mb-8">
+<h3 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">특정 상황에선 위험도 폭증... 최대 70% 상회</h3>
+<p class="text-slate-600 max-w-3xl mx-auto leading-relaxed">
+데이터를 세부 상황 및 그룹별로 살펴보면 위험도가 더욱 극명하게 드러납니다. 특히 연령대나 숙련도가 높아져 운전에 익숙해진 시기에 사고 비율이 평균을 웃도는 54%대까지 치솟았으며, 특정 예외 상황에서는 무려 70.37%에 육박했습니다.
+</p>
+</div>
+
+<div class="bg-white p-4 rounded-xl shadow-md mb-6">
+<div class="chart-container" style="max-width: 100%;">
+<canvas id="detailBarChart"></canvas>
+</div>
+</div>
+<p class="text-center text-sm text-slate-400">데이터: 그룹별 발생한 사고 중 안전운전 의무 불이행이 차지하는 비율(%)</p>
+</section>
+
+<section class="bg-slate-800 text-white rounded-2xl shadow-2xl p-8 md:p-12 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-10 text-9xl">⚠️</div>
+<div class="relative z-10">
+<h3 class="text-2xl md:text-3xl font-bold mb-6 text-red-400">전문가 제언: "기본으로 돌아가야 합니다"</h3>
+<p class="text-slate-300 mb-8 leading-relaxed text-lg">
+신호 위반이나 과속처럼 눈에 보이는 법규 위반보다, 운전자의 내면적 집중력 결여가 더 무서운 결과를 초래합니다. "나 하나쯤은 괜찮겠지"라는 생각보다 "나부터 지키자"는 마음가짐이 필요합니다.
+</p>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-slate-700 p-6 rounded-xl border-t-4 border-red-500 text-center">
+<div class="text-5xl mb-4">📱</div>
+<h4 class="font-bold text-xl mb-2">스마트폰 사용 금지</h4>
+<p class="text-sm text-slate-400">주행 중 아주 짧은 시간의 화면 확인도 치명적인 전방 주시 태만으로 이어집니다.</p>
+</div>
+<div class="bg-slate-700 p-6 rounded-xl border-t-4 border-amber-500 text-center">
+<div class="text-5xl mb-4">👁️</div>
+<h4 class="font-bold text-xl mb-2">전방 주시 철저</h4>
+<p class="text-sm text-slate-400">운전의 기본은 시야 확보입니다. 운전 중 다른 조작을 최소화하고 도로 상황에 집중하세요.</p>
+</div>
+<div class="bg-slate-700 p-6 rounded-xl border-t-4 border-blue-500 text-center">
+<div class="text-5xl mb-4">☕</div>
+<h4 class="font-bold text-xl mb-2">충분한 휴식</h4>
+<p class="text-sm text-slate-400">피로 누적은 조작 미숙과 주의 태만을 부릅니다. 장거리 운행 시 졸음쉼터를 적극 활용하세요.</p>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="bg-slate-900 text-center py-6 border-t border-slate-800">
+<p class="text-slate-500 text-sm">본 인포그래픽은 교통사고 통계 데이터(합계 2,606건)를 바탕으로 제작되었습니다.</p>
+</footer>
+
+<script>
+function wrapLabel(label, maxChars = 16) {
+    const words = label.split(' ');
+    const lines = [];
+    let currentLine = '';
+    for (const word of words) {
+        if ((currentLine + word).length > maxChars && currentLine.length > 0) {
+            lines.push(currentLine.trim());
+            currentLine = word + ' ';
+        } else {
+            currentLine += word + ' ';
+        }
+    }
+    if (currentLine.trim().length > 0) {
+        lines.push(currentLine.trim());
+    }
+    return lines;
+}
+
+const customTooltipPlugin = {
+    tooltip: {
+        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+        titleFont: { size: 14, family: "'Noto Sans KR', sans-serif" },
+        bodyFont: { size: 13, family: "'Noto Sans KR', sans-serif" },
+        padding: 12,
+        cornerRadius: 8,
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            }
+        }
+    }
+};
+
+const donutCtx = document.getElementById('overviewDonutChart').getContext('2d');
+new Chart(donutCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['안전운전 의무 불이행', '기타 원인 (신호위반, 과속 등)'],
+        datasets: [{
+            data: [1318, 1288],
+            backgroundColor: ['#ef4444', '#cbd5e1'],
+            borderWidth: 2,
+            borderColor: '#ffffff',
+            hoverOffset: 4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: {
+            legend: { position: 'bottom', labels: { font: { family: "'Noto Sans KR', sans-serif" } } },
+            ...customTooltipPlugin
+        }
+    }
+});
+
+const rawBarLabels = ['그룹 1 (건수 최소)', '그룹 2', '그룹 3', '그룹 4', '그룹 5', '그룹 6 (숙련도 관련 1)', '그룹 7', '그룹 8', '그룹 9', '그룹 10 (숙련도 관련 2)', '기타 분류 (특수 상황)'];
+const wrappedBarLabels = rawBarLabels.map(label => wrapLabel(label));
+const barDataValues = [40.0, 0.0, 36.8, 48.6, 50.5, 53.8, 50.9, 48.8, 51.2, 54.2, 70.4];
+
+const backgroundColors = barDataValues.map(value => {
+    if (value > 70) return '#ef4444';
+    if (value >= 53) return '#f59e0b';
+    if (value === 0) return '#e2e8f0';
+    return '#94a3b8';
+});
+
+const barCtx = document.getElementById('detailBarChart').getContext('2d');
+new Chart(barCtx, {
+    type: 'bar',
+    data: {
+        labels: wrappedBarLabels,
+        datasets: [{
+            label: '안전운전 불이행 비율 (%)',
+            data: barDataValues,
+            backgroundColor: backgroundColors,
+            borderRadius: 6,
+            borderSkipped: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 80,
+                grid: { color: '#f1f5f9', drawBorder: false },
+                ticks: {
+                    font: { family: "'Noto Sans KR', sans-serif" },
+                    callback: function(value) { return value + '%'; }
+                }
+            },
+            x: {
+                grid: { display: false },
+                ticks: {
+                    font: { family: "'Noto Sans KR', sans-serif", size: 11 },
+                    maxRotation: 0,
+                    autoSkip: false
+                }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            ...customTooltipPlugin
+        }
+    }
+});
+</script>
+</body>
+</html>
