@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상관관계 분석 보고서 - Frutiger Aero & Wii Edition</title>
+    <style>
+        /* Import Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        /* CSS Reset & Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        :root {
+            --primary-blue: #0093e9;
+            --primary-green: #80d0c7;
+            --aero-blue: rgba(0, 147, 233, 0.4);
+            --aero-green: rgba(128, 208, 199, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.65);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #bbf2f6 0%, #86efac 50%, #93c5fd 100%);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* Frutiger Aero Background Bubbles */
+        .bubble-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -150px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.1) 70%, rgba(255, 255, 255, 0) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 10px 20px rgba(0, 0, 0, 0.05);
+            animation: rise 25s infinite linear;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-120vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Background Aurora light glow */
+        .aurora {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(0, 147, 233, 0.05) 50%, rgba(128, 208, 199, 0) 80%);
+            z-index: 0;
+            animation: drift 30s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Header UI */
+        header {
+            width: 100%;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .title-bar {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 12px 48px;
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .home-btn {
+            background: rgba(255, 255, 255, 0.65);
+            border: 2px solid var(--glass-border);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), inset 0 0 8px rgba(255, 255, 255, 0.6);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 20px;
+            text-decoration: none;
+            margin-right: 20px;
+            position: relative;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .home-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .home-btn:hover {
+            transform: scale(1.15);
+            border-color: #0284c7;
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.45), inset 0 0 10px rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .home-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Glossy overlay effect */
+        .title-bar::before, .wii-channel::before, .wii-btn::before, .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.15) 100%);
+            pointer-events: none;
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+        }
+
+        .title-bar h1 {
+            font-size: 24px;
+            color: #0f172a;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+            letter-spacing: -0.5px;
+            text-align: center;
+        }
+
+        /* Wii Channels Main Grid */
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 10;
+        }
+
+        .wii-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(250px, 320px));
+            grid-template-rows: repeat(2, 170px);
+            gap: 24px;
+            width: 100%;
+            max-width: 1060px;
+            justify-content: center;
+        }
+
+        .wii-channel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow), inset 0 0 15px rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Hover effect inspired by Nintendo Wii */
+        .wii-channel:hover {
+            transform: scale(1.06);
+            border-color: #0284c7;
+            box-shadow: 0 12px 40px rgba(2, 132, 199, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.65);
+        }
+
+        .wii-channel:active {
+            transform: scale(0.98);
+        }
+
+        .channel-icon {
+            font-size: 38px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .wii-channel:hover .channel-icon {
+            transform: translateY(-4px) scale(1.1);
+        }
+
+        .channel-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .channel-desc {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* Footer Navigation & Wii System Area */
+        footer {
+            width: 100%;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Options Button (Wii Option style) */
+        .wii-options-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: 2px solid var(--glass-border);
+            border-radius: 50%;
+            width: 68px;
+            height: 68px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--glass-shadow), inset 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .wii-options-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .wii-options-btn:hover {
+            transform: scale(1.08) rotate(15deg);
+            border-color: #16a34a;
+            box-shadow: 0 0 20px rgba(22, 163, 74, 0.35);
+        }
+
+        .wii-options-btn img {
+            width: 30px;
+            height: 30px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        /* Wii Clock Widget */
+        .wii-clock {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: 2px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 10px 24px;
+            box-shadow: var(--glass-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 160px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wii-clock::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 40px 40px 0 0;
+        }
+
+        .clock-time {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .clock-date {
+            font-size: 11px;
+            color: #475569;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* Large Action Button (PDF Download) */
+        .download-btn-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wii-btn {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            border-radius: 40px;
+            padding: 16px 48px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(2, 132, 199, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wii-btn:hover {
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 12px 30px rgba(2, 132, 199, 0.45), 0 0 15px rgba(255, 255, 255, 0.6);
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+        }
+
+        .wii-btn:active {
+            transform: scale(0.97) translateY(0);
+        }
+
+        /* Modal / Wii Subscreen Style */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border: 3px solid rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 850px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15), inset 0 0 25px rgba(255, 255, 255, 0.8);
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal.open .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 24px 32px 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            z-index: 2;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .close-btn {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid rgba(239, 68, 68, 0.4);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            color: #ef4444;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #ef4444;
+            color: #ffffff;
+            transform: scale(1.08);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+        }
+
+        .modal-body {
+            padding: 32px;
+            overflow-y: auto;
+            flex-grow: 1;
+            z-index: 2;
+        }
+
+        /* Styling inside modals */
+        .modal-body h2 {
+            font-size: 18px;
+            color: #0284c7;
+            margin-bottom: 12px;
+            border-left: 4px solid #0284c7;
+            padding-left: 8px;
+        }
+
+        .modal-body p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+
+        .modal-body ul {
+            margin-bottom: 16px;
+            padding-left: 20px;
+        }
+
+        .modal-body li {
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        /* Highlight Boxes in Modal */
+        .highlight-box {
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            border-left: 4px solid;
+        }
+        
+        .highlight-note {
+            background: rgba(14, 165, 233, 0.08);
+            border-color: #0ea5e9;
+            color: #0369a1;
+        }
+
+        .highlight-important {
+            background: rgba(34, 197, 94, 0.08);
+            border-color: #22c55e;
+            color: #15803d;
+        }
+
+        .highlight-warning {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: #f59e0b;
+            color: #b45309;
+        }
+
+        .highlight-box p {
+            margin: 4px 0;
+            font-size: 13.5px;
+            color: inherit;
+        }
+
+        /* Modal Tables */
+        .modal-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        .modal-table th, .modal-table td {
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        .modal-table th {
+            background-color: rgba(255, 255, 255, 0.6);
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .modal-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Modal Images */
+        .modal-image-wrapper {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .modal-image-wrapper img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 12px;
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        }
+
+        .modal-image-caption {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* Custom scrollbar for glass modal */
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .modal-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        
+        .modal-body::-webkit-scrollbar-thumb {
+            background: rgba(0, 147, 233, 0.3);
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 147, 233, 0.5);
+        }
+
+        /* Wii option gear svg */
+        .gear-svg {
+            animation: spin 8s infinite linear;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Custom interactive cursor for Wii Sports feel */
+        .wii-pointer {
+            width: 32px;
+            height: 32px;
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            transform: translate(-50%, -50%);
+            display: none;
+            transition: transform 0.05s ease;
+        }
+
+        @media (pointer: fine) {
+            body {
+                cursor: none; /* Hide default cursor on desktop to use Wii hand */
+            }
+            .wii-pointer {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Aurora & Bubbles Background -->
+    <div class="aurora"></div>
+    <div class="bubble-container" id="bubble-container"></div>
+
+    <!-- Wii Style Custom Hand Cursor -->
+    <svg class="wii-pointer" id="wii-pointer" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="1" dy="2" stdDeviation="1.5" flood-opacity="0.3"/>
+        </filter>
+        <!-- Blue pointer hand with white border inspired by Wii Remote cursor -->
+        <path d="M12 2 L14 4 L14 12 L18 12 L18 14 L12 14 Z" fill="none"/>
+        <g filter="url(#shadow)">
+            <path d="M10 2 Q11 0 13 2 L23 15 Q24 17 22 18 L18 19 L21 26 Q21 28 19 28 L17 27 L14 20 L10 23 Z" fill="white" stroke="#0093e9" stroke-width="2"/>
+            <path d="M11 4 L21 16 L17 17 L20 24 L18 25 L15 18 L11 21 Z" fill="#ffffff"/>
+            <circle cx="14" cy="9" r="2.5" fill="#0093e9"/>
+        </g>
+    </svg>
+
+    <!-- Header Area -->
+    <header>
+        <div class="title-bar">
+            <a href="https://niinniiin.github.io/2026-1-ai/" class="home-btn" title="홈으로 이동" onclick="playWiiClick()">🏠</a>
+            <h1>📊 삶의 만족도와 자살률 상관관계 분석 대시보드</h1>
+        </div>
+    </header>
+
+    <!-- Main Grid (Wii Channels) -->
+    <main>
+        <div class="wii-grid">
+            <!-- Channel 1: 개요 -->
+            <div class="wii-channel" onclick="openModal('modal-intro')">
+                <span class="channel-icon">📝</span>
+                <span class="channel-title">분석 개요</span>
+                <span class="channel-desc">연구 목적 및 데이터 모델 구성</span>
+            </div>
+
+            <!-- Channel 2: 전국 트렌드 -->
+            <div class="wii-channel" onclick="openModal('modal-trend')">
+                <span class="channel-icon">📈</span>
+                <span class="channel-title">전국 시계열 트렌드</span>
+                <span class="channel-desc">2020~2024년 두 지표의 디커플링</span>
+            </div>
+
+            <!-- Channel 3: 시도별 분산 -->
+            <div class="wii-channel" onclick="openModal('modal-scatter')">
+                <span class="channel-icon">🎯</span>
+                <span class="channel-title">시도별 분산 분석</span>
+                <span class="channel-desc">17개 시도 평균 데이터 비교</span>
+            </div>
+
+            <!-- Channel 4: 디커플링 분석 -->
+            <div class="wii-channel" onclick="openModal('modal-decoupling')">
+                <span class="channel-icon">🌐</span>
+                <span class="channel-title">디커플링 메커니즘</span>
+                <span class="channel-desc">대도시 vs 농어촌의 격차 원인</span>
+            </div>
+
+            <!-- Channel 5: 통계 데이터 -->
+            <div class="wii-channel" onclick="openModal('modal-data')">
+                <span class="channel-icon">📋</span>
+                <span class="channel-title">상세 데이터</span>
+                <span class="channel-desc">각 지표의 5개년 평균 데이터 표</span>
+            </div>
+
+            <!-- Channel 6: 정책 및 결론 -->
+            <div class="wii-channel" onclick="openModal('modal-conclusion')">
+                <span class="channel-icon">💡</span>
+                <span class="channel-title">정책 제언 & 결론</span>
+                <span class="channel-desc">데이터 기반 사회적 솔루션 제안</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Area -->
+    <footer>
+        <!-- Wii Settings Gear style options button -->
+        <div class="wii-options-btn" onclick="playWiiSound(); openModal('modal-settings')" title="정보 및 도움말">
+            <svg class="gear-svg" width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.14 12.94C19.18 12.63 19.2 12.32 19.2 12C19.2 11.68 19.18 11.37 19.14 11.06L21.4 9.3C21.6 9.14 21.66 8.86 21.53 8.64L19.4 4.95C19.27 4.73 19 4.64 18.77 4.73L16.11 5.8C15.55 5.37 14.94 5.02 14.28 4.75L13.88 1.9C13.84 1.66 13.63 1.48 13.38 1.48H9.13C8.88 1.48 8.67 1.66 8.63 1.9L8.23 4.75C7.57 5.02 6.96 5.38 6.4 5.8L3.74 4.73C3.51 4.64 3.24 4.73 3.11 4.95L0.98 8.64C0.85 8.86 0.91 9.14 1.11 9.3L3.37 11.06C3.33 11.37 3.31 11.69 3.31 12C3.31 12.31 3.33 12.63 3.37 12.94L1.11 14.7C0.91 14.86 0.85 15.14 0.98 15.36L3.11 19.05C3.24 19.27 3.51 19.36 3.74 19.27L6.4 18.2C6.96 18.63 7.57 18.98 8.23 19.25L8.63 22.1C8.67 22.34 8.88 22.52 9.13 22.52H13.38C13.63 22.52 13.84 22.34 13.88 22.1L14.28 19.25C14.94 18.98 15.55 18.62 16.11 18.2L18.77 19.27C19 19.36 19.27 19.27 19.4 19.05L21.53 15.36C21.66 15.14 21.6 14.86 21.4 14.7L19.14 12.94ZM11.25 15.62C9.25 15.62 7.62 14 7.62 12C7.62 10 9.25 8.38 11.25 8.38C13.25 8.38 14.88 10 14.88 12C14.88 14 13.25 15.62 11.25 15.62Z" fill="#334155"/>
+            </svg>
+        </div>
+
+        <!-- Center: Download Button -->
+        <div class="download-btn-container">
+            <button class="wii-btn" onclick="downloadPDF(); playWiiClick();">
+                <span style="font-size: 24px;">📥</span> PDF 리포트 다운로드
+            </button>
+        </div>
+
+        <!-- Right: Wii Clock Widget -->
+        <div class="wii-clock" id="wii-clock">
+            <span class="clock-time" id="clock-time">00:00 AM</span>
+            <span class="clock-date" id="clock-date">2026. 06. 19 (금)</span>
+        </div>
+    </footer>
+
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- Modal 1: 개요 -->
+    <div class="modal" id="modal-intro" onclick="closeModalOnOutsideClick(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">📝 분석 개요 및 데이터 구성</div>
+                <div class="close-btn" onclick="closeModal('modal-intro')">X</div>
+            </div>
+            <div class="modal-body">
+                <h2>1. 연구의 필요성 및 배경</h2>
+                <p>기존의 복지 정책 수립 과정에서는 주관적으로 응답한 사회조사(삶의 만족도) 결과를 주요 평가지표로 활용해 왔습니다. 하지만 주관적으로 응답한 만족도가 실제 극단적인 위기 상황을 보여주는 행정 등록 통계(자살률)와 일치하는지에 대해서는 실증적 분석이 다소 부족했습니다. 본 분석은 2020년부터 2024년까지의 5개년 대한민국 광역지자체 단위 데이터를 연결하여 이 두 지표 간의 다차원적 상관관계를 정밀 연구하였습니다.</p>
+                
+                <h2>2. 데이터 수집 및 설계</h2>
+                <ul>
+                    <li><strong>삶의 만족도 (통계청 사회조사)</strong>: 매년 실시되는 표본 가구 대상 설문 자료입니다. 매우 만족(5점), 약간 만족(4점), 보통(3점), 약간 불만족(2점), 매우 불만족(1점)의 비중을 가중 평균하여 지역별 <code>삶의 만족도 점수 (Satisfaction Score)</code>를 산출했습니다.</li>
+                    <li><strong>자살률 (통계청 사망원인통계)</strong>: 연령 표준화 등을 반영한 실제 주민등록상 인구 10만 명당 자살 사망자 수의 행정 확정 데이터입니다.</li>
+                </ul>
+
+                <div class="highlight-box highlight-note">
+                    <div class="alert-title">💡 데이터 전처리 노트</div>
+                    <p>행정 구역 명칭에 대한 한글 자소 정규화(NFD -> NFC)를 거쳤으며, 연도별 명칭 차이(예: 강원도 -> 강원특별자치도, 전라북도 -> 전북특별자치도, 제주도 -> 제주특별자치도)를 통일하는 전처리 맵을 설계하여 100% 매핑에 성공했습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: 전국 트렌드 -->
+    <div class="modal" id="modal-trend" onclick="closeModalOnOutsideClick(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">📈 전국 시계열 트렌드 (2020~2024)</div>
+                <div class="close-btn" onclick="closeModal('modal-trend')">X</div>
+            </div>
+            <div class="modal-body">
+                <h2>1. 만족도와 자살률의 시계열 추이 비교</h2>
+                <p>지난 5년간 전국 평균 데이터를 살펴보면, 주관적인 평가인 '만족도' 지표와 극단적 지표인 '자살률'이 매칭되지 않고 비동기화(디커플링)되어 변화해 온 양상을 확인할 수 있습니다.</p>
+
+                <div class="modal-image-wrapper">
+                    <img src="./national_trend.png" alt="전국 삶의 만족도 및 자살률 추이">
+                    <div class="modal-image-caption">그림 1. 대한민국 삶의 만족도 및 자살률 추이 (2020~2024)</div>
+                </div>
+
+                <div class="highlight-box highlight-warning">
+                    <div class="alert-title">⚠️ 팬데믹 장기화 충격과 포스트 코로나 역설</div>
+                    <p><strong>2021년 팬데믹 장기화</strong>: 주관적 삶의 만족도 평균 점수가 3.161점(긍정 34.0%, 부정 22.9%)으로 수직 하강했으나 실제 자살률은 26.0명으로 전년(25.7명) 대비 큰 변동을 겪지 않았습니다. 사회적 긴장과 팬데믹 대출 등 임시 지원이 버팀목 역할을 한 것으로 보입니다.</p>
+                    <p><strong>포스트 코로나 시기 (2023~2024년)</strong>: 일상 회복으로 인해 만족도는 3.36점 이상으로 회복되었음에도 불구하고, 고물가·고금리·사회적 고립 누적 효과가 후행적으로 표출되면서 실제 자살률은 <strong>29.1명(2024년)</strong>으로 급증하여 최고치에 도달했습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: 시도별 분산 -->
+    <div class="modal" id="modal-scatter" onclick="closeModalOnOutsideClick(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">🎯 시도별 분산 분석 및 상관관계</div>
+                <div class="close-btn" onclick="closeModal('modal-scatter')">X</div>
+            </div>
+            <div class="modal-body">
+                <h2>1. 피어슨 상관계수 (Pearson Correlation) 분석</h2>
+                <p>피어슨 상관계수(r)는 -1에서 1 사이의 값으로, -1에 가까울수록 음의 상관관계, 1에 가까울수록 양의 상관관계를 뜻합니다.</p>
+                
+                <div class="modal-image-wrapper">
+                    <img src="./decoupling_scatter.png" alt="시도별 삶의 만족도 vs 자살률 분산 관계">
+                    <div class="modal-image-caption">그림 2. 상관관계: 삶의 만족도 vs. 자살률 (17개 시도 평균)</div>
+                </div>
+
+                <table class="modal-table">
+                    <thead>
+                        <tr>
+                            <th>분석 단위 (N=85)</th>
+                            <th>만족도 점수 vs 자살률</th>
+                            <th>만족(긍정) 비율 vs 자살률</th>
+                            <th>불만족(부정) 비율 vs 자살률</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>전체 (Total)</strong></td>
+                            <td>-0.0477</td>
+                            <td>-0.1704</td>
+                            <td>-0.1767</td>
+                        </tr>
+                        <tr>
+                            <td><strong>남성 (Male)</strong></td>
+                            <td>-0.0313</td>
+                            <td>-0.1208</td>
+                            <td>-0.1765</td>
+                        </tr>
+                        <tr>
+                            <td><strong>여성 (Female)</strong></td>
+                            <td>0.0141</td>
+                            <td>-0.0422</td>
+                            <td>-0.0674</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box highlight-important">
+                    <div class="alert-title">📢 통계적 시사점</div>
+                    <p>17개 시도별 5개년 데이터를 전체 결합(Pooled)하여 계산했을 때, 종합 만족도 점수와 자살률의 상관관계는 <strong>-0.0477</strong>로 <strong>거의 선형적 상관관계가 존재하지 않는 무상관 상태</strong>에 가깝습니다. 이는 단순히 삶에 만족한다고 대답하는 사람이 많다고 해서 자살률이 낮고, 만족한다는 사람이 적다고 해서 자살률이 높은 단순 1차원적 공식이 지역 단위에서는 성립하지 않음을 명명백백히 입증합니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4: 디커플링 분석 -->
+    <div class="modal" id="modal-decoupling" onclick="closeModalOnOutsideClick(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">🌐 디커플링 메커니즘 분석</div>
+                <div class="close-btn" onclick="closeModal('modal-decoupling')">X</div>
+            </div>
+            <div class="modal-body">
+                <h2>1. 지역별 '디커플링'의 두 가지 패턴</h2>
+                <p>시도별 5개년 평균 통계를 보면, '대도시형'과 '농어촌형' 지역 간의 인프라 및 가구 특성 격차가 만족도-자살률의 역설을 만들어냅니다.</p>
+
+                <div class="highlight-box highlight-note">
+                    <div class="alert-title">🏢 1) 대도시형 패턴 (도시형 디커플링)</div>
+                    <p><strong>서울, 경기, 인천, 대구</strong> 등의 대도시 지역은 높은 스트레스와 팍팍한 경쟁으로 주관적 삶의 만족도나 긍정 비율이 낮고, 불만족 비율(15%~18%)이 타 지역에 비해 유의미하게 높습니다. 하지만 자살률은 <strong>서울(22.8명), 경기(24.7명), 대구(27.4명)</strong>로 상대적으로 낮게 억제됩니다.</p>
+                    <p><strong>원인</strong>: 촘촘한 의료 안전망 및 긴급 의료 기관 접근성, 1인 가구 대상 복지 전달 체계 작동, 상대적으로 활발한 커뮤니티 예방 정책 등이 원인입니다.</p>
+                </div>
+
+                <div class="highlight-box highlight-warning">
+                    <div class="alert-title">🌾 2) 도(道) 단위 농어촌형 패턴 (은폐된 취약성)</div>
+                    <p><strong>충남(34.3명), 강원(33.6명), 충북(30.6명), 전남(29.8명)</strong> 등 도 단위 지역은 주관적 불만족(부정) 응답 비율이 11%~14% 대로 대도시보다 오히려 낮습니다. 즉, 설문상으로는 무난한 질적 평가를 내리지만 실제 극단적 자살 지표는 <strong>전국 최악</strong>입니다.</p>
+                    <p><strong>원인</strong>: 고령층 비율이 높고 정서적 체념으로 인해 설문조사 시 "보통"으로 무난히 평가하는 반면, 실상 이면에는 <strong>노인 빈곤, 사회적 소외(독거노인), 우울 진료 지연, 긴급 응급구조 이송의 지연</strong> 등으로 극단적 위험에 노출 시 즉각적인 보호를 받기 어렵습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 5: 상세 데이터 -->
+    <div class="modal" id="modal-data" onclick="closeModalOnOutsideClick(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">📋 17개 시도별 5개년 평균 데이터 (자살률 순)</div>
+                <div class="close-btn" onclick="closeModal('modal-data')">X</div>
+            </div>
+            <div class="modal-body">
+                <h2>17개 광역 지자체 5개년(2020~2024) 평균 종합 데이터</h2>
+                <p>아래 표는 17개 시도의 평균 연간 인구 10만 명당 자살 사망자 수를 기준으로 내림차순 정렬된 지표입니다.</p>
+                
+                <table class="modal-table">
+                    <thead>
+                        <tr>
+                            <th>순위</th>
+                            <th>행정구역 (시도)</th>
+                            <th>평균 자살률 (명)</th>
+                            <th>평균 만족도 점수</th>
+                            <th>평균 만족(긍정) 비율</th>
+                            <th>평균 불만족(부정) 비율</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Will be populated by JS to avoid duplication -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 6: 결론 및 정책제언 -->
+    <div class="modal" id="modal-conclusion" onclick="closeModalOnOutsideClick(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">💡 결론 및 정책 제언</div>
+                <div class="close-btn" onclick="closeModal('modal-conclusion')">X</div>
+            </div>
+            <div class="modal-body">
+                <h2>1. 데이터 기반 보정 및 지표 다원화</h2>
+                <p>주관적인 만족도 조사만을 기반으로 지역별 복지 수준이나 자살 예방 안전망 예산을 고르게 분배해서는 안 됩니다. 설문에서는 부정적 비율이 낮아 보이나 실제 자살 위험군이 밀집되어 있는 도 단위 취약 지역을 별도로 식별하기 위해 복합 지표(노인 부양비, 1인가구 비율, 응급의료 지체 시간 등)를 결합한 '사회적 위기 밀도지수' 개발이 필요합니다.</p>
+
+                <h2>2. 농어촌 농가 및 밀착형 공동체 케어</h2>
+                <p>충남, 강원, 충북 등 자살 위험이 심각한 도 단위 지역은 복지 센터의 내방을 기다리는 방식이 아닌, 이장/청년회/우체부 등 지역 밀착 네트워킹을 활용해 숨겨진 고위험 우울증 노인들을 사전 스크리닝하고, 지역 보건소와 연결해 항우울제 치료 및 정서 지원을 의무화하는 정책적 개입이 필요합니다.</p>
+
+                <h2>3. 포스트 코로나 복합 경제 충격 집중 케어</h2>
+                <p>2023~2024년 전국적 자살률 급증은 금리 및 부채 상환 압력 등 다층적 고통이 한계 시점에 다다랐음을 뜻합니다. 전반적인 주민 대상 축제나 복지 지원 예산을 한시적으로 재조정하여 다중채무자, 폐업 자영업자 등 붕괴 위험에 놓인 타겟 취약계층에 대한 금융-심리 치료 원스톱 연계망을 긴급 투입해야 합니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings/Help Modal -->
+    <div class="modal" id="modal-settings" onclick="closeModalOnOutsideClick(event)">
+        <div class="modal-content" style="max-width: 500px; height: auto;">
+            <div class="modal-header">
+                <div class="modal-title">ℹ️ 정보 및 도움말</div>
+                <div class="close-btn" onclick="closeModal('modal-settings')">X</div>
+            </div>
+            <div class="modal-body" style="text-align: center; padding: 24px;">
+                <p style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">대한민국 삶의 만족도와 자살률 상관관계 분석</p>
+                <p style="font-size: 13px; color: #64748b; margin-bottom: 24px;">이 대시보드는 2000년대 중후반의 대표적인 디자인 테마인 <strong>Frutiger Aero (프루티거 에어로)</strong> 테마와 <strong>Nintendo Wii 홈 화면</strong> UI/UX를 모티브로 리모델링되었습니다.</p>
+                
+                <div style="background: rgba(255,255,255,0.5); border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px; font-size: 12px; text-align: left; margin-bottom: 24px;">
+                    <div style="font-weight: 700; margin-bottom: 4px;">🎨 주요 디자인 테마 특징:</div>
+                    <div>- 맑은 하늘색과 초록색 중심의 에어로 글래스 그라디언트</div>
+                    <div>- 입체감 넘치는 둥근 버튼 및 윈도우 스타일 Glossy 마감</div>
+                    <div>- Wii 홈 화면 리모컨 조작을 구현한 커스텀 마우스 포인터</div>
+                    <div>- 배경을 부드럽게 유영하는 유리 물방울 애니메이션</div>
+                </div>
+                
+                <button class="wii-btn" style="padding: 10px 32px; font-size: 14px; margin: 0 auto;" onclick="closeModal('modal-settings')">확인</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        // Wii Clock Widget Logic
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12; // 0 should be 12
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            const timeStr = `${hours}:${minutes} ${ampm}`;
+            
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const date = String(now.getDate()).padStart(2, '0');
+            const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+            const day = dayNames[now.getDay()];
+            
+            const dateStr = `${year}. ${month}. ${date} (${day})`;
+            
+            document.getElementById('clock-time').textContent = timeStr;
+            document.getElementById('clock-date').textContent = dateStr;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Custom Mouse Pointer for Nintendo Wii style hand
+        const pointer = document.getElementById('wii-pointer');
+        
+        document.addEventListener('mousemove', (e) => {
+            pointer.style.left = e.clientX + 'px';
+            pointer.style.top = e.clientY + 'px';
+        });
+
+        // Hover scale/sound indicators
+        const channels = document.querySelectorAll('.wii-channel, .wii-btn, .wii-options-btn, .close-btn, .home-btn');
+        channels.forEach(ch => {
+            ch.addEventListener('mouseenter', () => {
+                playWiiHover();
+            });
+        });
+
+        // Web Audio API Synth for classic Wii click/hover sound effects (No assets required!)
+        let audioCtx;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioCtx;
+        }
+
+        function playWiiHover() {
+            try {
+                const ctx = getAudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                
+                const osc = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(880, ctx.currentTime); // A5 note
+                osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.08);
+                
+                gainNode.gain.setValueAtTime(0.04, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                
+                osc.connect(gainNode);
+                gainNode.connect(ctx.destination);
+                
+                osc.start();
+                osc.stop(ctx.currentTime + 0.08);
+            } catch(e) {}
+        }
+
+        function playWiiClick() {
+            try {
+                const ctx = getAudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                
+                const osc = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1000, ctx.currentTime); // C6 note
+                osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.15);
+                
+                gainNode.gain.setValueAtTime(0.12, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+                
+                osc.connect(gainNode);
+                gainNode.connect(ctx.destination);
+                
+                osc.start();
+                osc.stop(ctx.currentTime + 0.15);
+            } catch(e) {}
+        }
+
+        function playWiiSound() {
+            try {
+                const ctx = getAudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                
+                const osc = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, ctx.currentTime);
+                osc.frequency.setValueAtTime(800, ctx.currentTime + 0.06);
+                osc.frequency.setValueAtTime(1000, ctx.currentTime + 0.12);
+                
+                gainNode.gain.setValueAtTime(0.08, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+                
+                osc.connect(gainNode);
+                gainNode.connect(ctx.destination);
+                
+                osc.start();
+                osc.stop(ctx.currentTime + 0.3);
+            } catch(e) {}
+        }
+
+        // Generate bubbles programmatically
+        const bubbleContainer = document.getElementById('bubble-container');
+        const bubbleColors = [
+            'rgba(255, 255, 255, 0.45)',
+            'rgba(186, 230, 253, 0.35)',
+            'rgba(220, 252, 231, 0.35)'
+        ];
+
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            
+            const size = Math.random() * 100 + 40; // 40px to 140px
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            
+            bubble.style.left = Math.random() * 100 + '%';
+            
+            const duration = Math.random() * 15 + 15; // 15s to 30s
+            bubble.style.animationDuration = duration + 's';
+            
+            const delay = Math.random() * 5;
+            bubble.style.animationDelay = delay + 's';
+            
+            bubble.style.background = `radial-gradient(circle at 30% 30%, ${bubbleColors[Math.floor(Math.random() * bubbleColors.length)]} 0%, rgba(255,255,255,0) 70%)`;
+            
+            bubbleContainer.appendChild(bubble);
+            
+            // Remove after animation finished
+            setTimeout(() => {
+                bubble.remove();
+            }, (duration + delay) * 1000);
+        }
+
+        // Initialize bubbles
+        for (let i = 0; i < 8; i++) {
+            createBubble();
+        }
+        setInterval(createBubble, 3000);
+
+        // Modal Functions
+        function openModal(modalId) {
+            playWiiClick();
+            const modal = document.getElementById(modalId);
+            modal.classList.add('open');
+        }
+
+        function closeModal(modalId) {
+            playWiiClick();
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('open');
+        }
+
+        function closeModalOnOutsideClick(event) {
+            if (event.target.classList.contains('modal')) {
+                playWiiClick();
+                event.target.classList.remove('open');
+            }
+        }
+
+        // PDF download logic
+        function downloadPDF() {
+            const link = document.createElement('a');
+            link.href = './상관관계_분석_보고서.pdf';
+            link.download = '상관관계_분석_보고서.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Table dynamic populating
+        const regionAverages = [
+            { region: "충청남도", suicideRate: 34.3, satScore: 3.444, positive: "43.3%", negative: "11.1%" },
+            { region: "강원특별자치도", suicideRate: 33.6, satScore: 3.410, positive: "43.6%", negative: "13.5%" },
+            { region: "충청북도", suicideRate: 30.6, satScore: 3.359, positive: "40.9%", negative: "14.4%" },
+            { region: "전라남도", suicideRate: 29.8, satScore: 3.376, positive: "41.1%", negative: "13.4%" },
+            { region: "제주특별자치도", suicideRate: 29.8, satScore: 3.431, positive: "44.5%", negative: "12.8%" },
+            { region: "경상북도", suicideRate: 29.3, satScore: 3.278, positive: "36.9%", negative: "16.0%" },
+            { region: "울산광역시", suicideRate: 28.6, satScore: 3.337, positive: "40.2%", negative: "15.7%" },
+            { region: "부산광역시", suicideRate: 28.4, satScore: 3.289, positive: "38.0%", negative: "16.4%" },
+            { region: "전북특별자치도", suicideRate: 28.1, satScore: 3.365, positive: "43.0%", negative: "14.6%" },
+            { region: "대전광역시", suicideRate: 28.0, satScore: 3.435, positive: "45.7%", negative: "13.4%" },
+            { region: "인천광역시", suicideRate: 27.6, satScore: 3.287, positive: "36.1%", negative: "15.6%" },
+            { region: "대구광역시", suicideRate: 27.4, satScore: 3.250, positive: "35.8%", negative: "18.5%" },
+            { region: "경상남도", suicideRate: 27.1, satScore: 3.358, positive: "41.7%", negative: "14.2%" },
+            { region: "광주광역시", suicideRate: 26.2, satScore: 3.394, positive: "42.3%", negative: "13.2%" },
+            { region: "경기도", suicideRate: 24.7, satScore: 3.320, positive: "39.4%", negative: "16.2%" },
+            { region: "서울특별시", suicideRate: 22.8, satScore: 3.355, positive: "42.4%", negative: "15.7%" },
+            { region: "세종특별자치시", suicideRate: 20.7, satScore: 3.524, positive: "50.7%", negative: "14.1%" }
+        ];
+
+        const tableBody = document.getElementById('table-body');
+        regionAverages.forEach((d, idx) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${idx + 1}</strong></td>
+                <td><strong>${d.region}</strong></td>
+                <td style="color:#ef4444; font-weight:700;">${d.suicideRate.toFixed(1)}</td>
+                <td>${d.satScore.toFixed(3)}</td>
+                <td>${d.positive}</td>
+                <td>${d.negative}</td>
+            `;
+            tableBody.appendChild(tr);
+        });
+    </script>
+</body>
+</html>
