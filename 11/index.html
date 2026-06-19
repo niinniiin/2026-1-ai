@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>음악 분야 저작권 침해 대응 전략 보고서</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js for interactive data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Frutiger Aero & Windows Aero & Nintendo Wii Theme Styling */
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+        :root {
+            --wii-blue: #00a0e9;
+            --wii-green: #8fc31f;
+            --aero-light-blue: rgba(184, 233, 252, 0.45);
+            --aero-glass: rgba(255, 255, 255, 0.75);
+        }
+
+        body {
+            font-family: 'Nunito', 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #cbebf6 0%, #e1f4f9 35%, #eef9e7 70%, #d5f2bf 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+            color: #2c3e50;
+        }
+
+        /* Aero Glass Effect */
+        .aero-glass {
+            background: var(--aero-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.9);
+        }
+
+        /* Glossy Highlight for Frutiger Aero look */
+        .glossy-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        .glossy-glow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.35) 0%,
+                rgba(255, 255, 255, 0.1) 40%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            pointer-events: none;
+        }
+
+        /* Liquid bubble background animation */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: inset 0 4px 6px rgba(255,255,255,0.4), 0 4px 10px rgba(0,0,0,0.03);
+            pointer-events: none;
+            animation: floatBubble 12s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-40px) scale(1.1) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Wii Style Hover Bounce */
+        .wii-hover-bounce {
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .wii-hover-bounce:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 160, 233, 0.15), inset 0 0 12px rgba(255,255,255,0.8);
+        }
+        .wii-hover-bounce:active {
+            transform: scale(0.98);
+        }
+
+        /* Custom Scrollbar for Aero design */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #a6e3e9 0%, #71c9ce 100%);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Soft neon glow for active items */
+        .glow-active {
+            box-shadow: 0 0 15px rgba(0, 160, 233, 0.4), inset 0 0 8px rgba(255, 255, 255, 0.6);
+            border-color: #00a0e9;
+        }
+
+        /* Wii Fit Style Message Pop-ups */
+        .wii-balloon {
+            position: relative;
+            background: #ffffff;
+            border: 3px solid #8fc31f;
+            border-radius: 20px;
+        }
+        .wii-balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 30px;
+            border-width: 15px 15px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+            display: block;
+            width: 0;
+        }
+        .wii-balloon::before {
+            content: '';
+            position: absolute;
+            bottom: -19px;
+            left: 28px;
+            border-width: 17px 17px 0;
+            border-style: solid;
+            border-color: #8fc31f transparent;
+            display: block;
+            width: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative py-4 px-2 md:px-8 flex flex-col justify-between">
+
+    <!-- Ambient Bubbles (Frutiger Aero Core Style) -->
+    <div class="bubble w-20 h-20" style="top: 15%; left: 5%; animation-delay: 0s;"></div>
+    <div class="bubble w-32 h-32" style="top: 60%; left: 8%; animation-delay: 2s;"></div>
+    <div class="bubble w-24 h-24" style="top: 25%; right: 7%; animation-delay: 4s;"></div>
+    <div class="bubble w-40 h-40" style="bottom: 10%; right: 15%; animation-delay: 1s;"></div>
+    <div class="bubble w-16 h-16" style="top: 5%; left: 45%; animation-delay: 3s;"></div>
+
+    <!-- SOUND PLAYBACK AND Wii INTERACTION LOGIC (Using Web Audio API synthesize for clicks/hover) -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playWiiSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'hover') {
+                // Soft airy Wii-like cursor slide
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(587.33, audioCtx.currentTime + 0.08); // A4 to D5
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.08);
+            } else if (type === 'click') {
+                // Crisp pop sound common in Wii menus
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.12); // A5
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.13);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.13);
+            } else if (type === 'success') {
+                // Wii Sports Success Chime
+                const now = audioCtx.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.type = 'sine';
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.frequency.setValueAtTime(freq, now + idx * 0.07);
+                    g.gain.setValueAtTime(0.08, now + idx * 0.07);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.25);
+                    o.start(now + idx * 0.07);
+                    o.stop(now + idx * 0.07 + 0.25);
+                });
+            } else if (type === 'page') {
+                // Page slide swoosh
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
+            }
+        }
+    </script>
+
+    <!-- Top Navigation Bar & Time Display (Windows Aero Taskbar/Top-bar Style) -->
+    <header class="aero-glass rounded-2xl p-4 mb-6 z-10 flex flex-col md:flex-row justify-between items-center glossy-glow border-b">
+        <div class="flex items-center space-x-3 mb-2 md:mb-0">
+            <!-- Simulated Wii Console Disc Drive / Home Glow Icon -->
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#00a0e9] to-[#8fc31f] flex items-center justify-center text-white shadow-inner relative overflow-hidden glossy-glow">
+                <i data-lucide="disc" class="w-6 h-6 animate-spin" style="animation-duration: 6s;"></i>
+            </div>
+            <div>
+                <h1 class="text-xl md:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-2">
+                    K-MUSIC <span class="text-xs bg-[#00a0e9] text-white px-2 py-0.5 rounded-full font-bold">저작권 대응 포털</span>
+                </h1>
+                <p class="text-xs text-slate-500 font-medium">데이터 분석 및 고강도 입법·정책적 구제 방안 분석</p>
+            </div>
+        </div>
+
+        <!-- Right Side: Channel Switch Info & Real-Time Date/Clock -->
+        <div class="flex items-center space-x-4">
+            <div class="text-right hidden sm:block">
+                <div id="liveClock" class="text-lg font-bold text-[#00a0e9]">12:00:00 PM</div>
+                <div id="liveDate" class="text-xs text-slate-500 font-semibold">2026.06.19 (금)</div>
+            </div>
+            <!-- System Home Button -->
+            <button onclick="playWiiSound('click'); setTimeout(() => { window.location.href = '../index.html'; }, 150);" class="aero-glass wii-hover-bounce px-4 py-2 rounded-xl text-slate-700 font-bold text-sm flex items-center gap-1.5 border border-slate-300">
+                <i data-lucide="home" class="w-4 h-4 text-[#00a0e9]"></i>
+                <span>HOME</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start z-10 flex-grow">
+        
+        <!-- Left Column: Nintendo Wii Console-style Channel Navigation (Sticky Panel) -->
+        <section class="lg:col-span-3 lg:sticky lg:top-24 flex flex-col space-y-4">
+            <div class="aero-glass rounded-2xl p-4 glossy-glow">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-200">
+                    <span class="text-xs font-black text-slate-500 uppercase tracking-wider">Menu</span>
+                    <span class="text-xs bg-[#8fc31f] text-white px-2 py-0.5 rounded-full font-bold">LIVE</span>
+                </div>
+
+                <!-- Navigation Channels (Wii Channel grid style) -->
+                <div class="grid grid-cols-2 lg:grid-cols-1 gap-2.5">
+                    
+                    <!-- Channel 1: 빌드업 스토리 -->
+                    <button id="nav-btn-0" onclick="switchChannel(0)" onmouseenter="playWiiSound('hover')" class="nav-btn wii-hover-bounce p-3 rounded-xl flex items-center space-x-2.5 text-left border-2 border-transparent transition-all">
+                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white shadow shadow-inner">
+                            <i data-lucide="compass" class="w-5 h-5"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 class="text-xs text-slate-400 font-bold uppercase tracking-tight">Channel 01</h3>
+                            <p class="text-xs md:text-sm font-bold text-slate-700 truncate">분석 빌드업 스토리</p>
+                        </div>
+                    </button>
+
+                    <!-- Channel 2: 실태 대시보드 -->
+                    <button id="nav-btn-1" onclick="switchChannel(1)" onmouseenter="playWiiSound('hover')" class="nav-btn wii-hover-bounce p-3 rounded-xl flex items-center space-x-2.5 text-left border-2 border-transparent transition-all">
+                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white shadow shadow-inner">
+                            <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 class="text-xs text-slate-400 font-bold uppercase tracking-tight">Channel 02</h3>
+                            <p class="text-xs md:text-sm font-bold text-slate-700 truncate">불법유통 실태 분석</p>
+                        </div>
+                    </button>
+
+                    <!-- Channel 3: 침해 기술 & 포렌식 -->
+                    <button id="nav-btn-2" onclick="switchChannel(2)" onmouseenter="playWiiSound('hover')" class="nav-btn wii-hover-bounce p-3 rounded-xl flex items-center space-x-2.5 text-left border-2 border-transparent transition-all">
+                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow shadow-inner">
+                            <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 class="text-xs text-slate-400 font-bold uppercase tracking-tight">Channel 03</h3>
+                            <p class="text-xs md:text-sm font-bold text-slate-700 truncate">침해 기술 & 추적포렌식</p>
+                        </div>
+                    </button>
+
+                    <!-- Channel 4: 개정 저작권법 -->
+                    <button id="nav-btn-3" onclick="switchChannel(3)" onmouseenter="playWiiSound('hover')" class="nav-btn wii-hover-bounce p-3 rounded-xl flex items-center space-x-2.5 text-left border-2 border-transparent transition-all">
+                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-lime-400 to-emerald-500 flex items-center justify-center text-white shadow shadow-inner">
+                            <i data-lucide="scale" class="w-5 h-5"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 class="text-xs text-slate-400 font-bold uppercase tracking-tight">Channel 04</h3>
+                            <p class="text-xs md:text-sm font-bold text-slate-700 truncate">2026 고강도 법안 개정</p>
+                        </div>
+                    </button>
+
+                    <!-- Channel 5: 롯데GRS 판례 분석 -->
+                    <button id="nav-btn-4" onclick="switchChannel(4)" onmouseenter="playWiiSound('hover')" class="nav-btn wii-hover-bounce p-3 rounded-xl flex items-center space-x-2.5 text-left border-2 border-transparent transition-all">
+                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#00a0e9] to-blue-600 flex items-center justify-center text-white shadow shadow-inner">
+                            <i data-lucide="gavel" class="w-5 h-5"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 class="text-xs text-slate-400 font-bold uppercase tracking-tight">Channel 05</h3>
+                            <p class="text-xs md:text-sm font-bold text-slate-700 truncate">매장 공연권 판례 분석</p>
+                        </div>
+                    </button>
+
+                    <!-- Channel 6: 정책 및 제언 -->
+                    <button id="nav-btn-5" onclick="switchChannel(5)" onmouseenter="playWiiSound('hover')" class="nav-btn wii-hover-bounce p-3 rounded-xl flex items-center space-x-2.5 text-left border-2 border-transparent transition-all">
+                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#8fc31f] to-emerald-600 flex items-center justify-center text-white shadow shadow-inner">
+                            <i data-lucide="lightbulb" class="w-5 h-5"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 class="text-xs text-slate-400 font-bold uppercase tracking-tight">Channel 06</h3>
+                            <p class="text-xs md:text-sm font-bold text-slate-700 truncate">법 정책 보완 제언</p>
+                        </div>
+                    </button>
+
+                </div>
+
+                <!-- Channel Help Tip Bubble -->
+                <div class="mt-4 p-3 bg-white/70 border border-[#8fc31f]/30 rounded-xl text-xs text-slate-600 font-medium">
+                    <span class="font-bold text-[#8fc31f] flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> 채널가이드</span>
+                    각 채널을 터치하거나 키보드 좌우 화살표를 통해 슬라이드를 넘길 수 있습니다.
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Slide Display Area -->
+        <section class="lg:col-span-9 flex flex-col space-y-4">
+            
+            <!-- Slide Stage Box -->
+            <div id="slideStage" class="aero-glass rounded-3xl p-6 md:p-8 glossy-glow min-h-[550px] relative transition-all duration-350 flex flex-col justify-between border-t border-l border-white/80">
+                
+                <!-- Active Content Container (Dynamically Swapped) -->
+                <div id="channelContent" class="flex-grow transition-opacity duration-300">
+                    <!-- Slides are rendered dynamically by JavaScript -->
+                </div>
+
+                <!-- Footer Operations (Wii Menu Screen Style) -->
+                <div class="mt-8 pt-4 border-t border-slate-200/50 flex flex-row justify-between items-center">
+                    <!-- Page Indicator -->
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-extrabold text-[#00a0e9] tracking-widest uppercase">Channel Stage</span>
+                        <div class="flex space-x-1" id="carouselDots">
+                            <!-- Dots generated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Slide Controller (Nintendo Wii Controller Layout style) -->
+                    <div class="flex items-center space-x-3 bg-white/50 p-1.5 rounded-2xl border border-slate-200/80 shadow-inner">
+                        <button onclick="prevChannel()" onmouseenter="playWiiSound('hover')" class="wii-hover-bounce bg-white hover:bg-[#00a0e9]/10 text-slate-700 hover:text-[#00a0e9] w-10 h-10 rounded-xl flex items-center justify-center shadow-sm border border-slate-200 transition-all">
+                            <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                        </button>
+                        <span id="pageFraction" class="text-sm font-black text-slate-600 px-2">1 / 6</span>
+                        <button onclick="nextChannel()" onmouseenter="playWiiSound('hover')" class="wii-hover-bounce bg-white hover:bg-[#00a0e9]/10 text-slate-700 hover:text-[#00a0e9] w-10 h-10 rounded-xl flex items-center justify-center shadow-sm border border-slate-200 transition-all">
+                            <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Double-Check / Quick Summary Tooltip (Wii Fit Style) -->
+            <div class="aero-glass rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0 md:space-x-4 border border-white/50 glossy-glow">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-[#8fc31f] text-white flex items-center justify-center text-xl font-bold shadow-md">
+                        💡
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-black text-slate-700">이의신청 긴급 해제 조항 우려 해소 가능할까?</h4>
+                        <p class="text-xs text-slate-500">긴급차단제 시행 시 이의신청 시 차단 해제 유보 및 소명 의무화 입법 필요성이 제기됩니다.</p>
+                    </div>
+                </div>
+                <button onclick="playWiiSound('success'); showQuickModal();" class="wii-hover-bounce bg-[#8fc31f] hover:bg-[#7db115] text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-lg border-t border-white/30 transition-all">
+                    포인트 팝업 열기
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Custom Modal instead of window.alert() - Rule Guardrail -->
+    <div id="quickModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="aero-glass rounded-3xl p-6 max-w-md w-full glossy-glow border border-white/60 shadow-2xl relative">
+            <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-14 h-14 rounded-full bg-[#8fc31f] text-white flex items-center justify-center shadow-lg text-2xl font-bold">
+                ★
+            </div>
+            <div class="text-center mt-6">
+                <h3 class="text-lg font-black text-slate-800">핵심 소구점 요약</h3>
+                <p class="text-xs text-[#00a0e9] font-bold uppercase tracking-wider mb-4">Core Takeaway Summary</p>
+                
+                <div class="text-left space-y-2 text-sm text-slate-600 mb-6 bg-white/50 p-4 rounded-2xl border border-slate-100">
+                    <div class="flex items-start space-x-2">
+                        <span class="text-[#8fc31f] font-bold">1.</span>
+                        <p><strong>압도적인 음악 침해 비중:</strong> 2024년 기준 전체 불법 복제 유통의 무려 <strong>83.2%</strong>가 음악 분야로, 타겟화된 강력한 대응이 시급합니다.</p>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                        <span class="text-[#8fc31f] font-bold">2.</span>
+                        <p><strong>5배 징벌제 & 긴급 차단:</strong> 2026년부터 도입되는 혁신적 구제 수단의 유기적 결합만이 고지능 범죄를 차단할 수 있습니다.</p>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                        <span class="text-[#8fc31f] font-bold">3.</span>
+                        <p><strong>상업 매장 방조 책임 부과:</strong> 롯데GRS 판례처럼 프랜차이즈 본사 역시 책임에서 자유롭지 못해 적극적 계약 보전이 필요합니다.</p>
+                    </div>
+                </div>
+
+                <button onclick="playWiiSound('click'); hideQuickModal();" class="wii-hover-bounce bg-[#00a0e9] text-white font-extrabold text-sm py-2.5 px-6 rounded-2xl shadow-lg border-t border-white/30 w-full transition-all">
+                    확인하고 닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Footer -->
+    <footer class="mt-8 text-center text-xs text-slate-500 font-medium z-10 py-4 border-t border-slate-200/30">
+        <p>© 2026 K-Music Copyright Protection Portal. Powered by Frutiger Aero / Wii Interactive Technology.</p>
+    </footer>
+
+    <!-- Presentation Engine Data and Interactive Scripts -->
+    <script>
+        // Slides Content Array containing structured data from PDFs
+        const slidesData = [
+            {
+                id: 0,
+                title: "데이터 기반의 분석 빌드업 과정",
+                subtitle: "당초 웹툰/영상 위주의 가설에서 음악 저작물로의 연구 집중 및 고도화 여정",
+                html: `
+                    <div class="space-y-6">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/40 p-4 rounded-2xl border border-white/50">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-full bg-amber-400 text-white flex items-center justify-center font-bold text-lg shadow">🔍</div>
+                                <div>
+                                    <h4 class="font-black text-slate-800 text-sm md:text-base">초기 가설의 한계 및 진화</h4>
+                                    <p class="text-xs text-slate-500">대외 노출도가 높은 웹툰, 영화/영상에서 '음악'으로의 대전환</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-amber-600 bg-amber-100 px-3 py-1 rounded-full self-start md:self-auto">데이터가 알려준 반전</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Step 1 -->
+                            <div class="p-4 bg-white/60 border border-slate-100 rounded-2xl flex flex-col justify-between shadow-sm">
+                                <div>
+                                    <div class="w-8 h-8 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center text-xs font-bold mb-3">01</div>
+                                    <h5 class="font-extrabold text-sm text-slate-700 mb-2">초기 가설 설정</h5>
+                                    <p class="text-xs text-slate-500 leading-relaxed">대외적 주목도가 아주 높은 웹툰 및 대형 영화·영상 분야의 불법 유통 실태를 우선 분석 과제로 착수함.</p>
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="p-4 bg-white/80 border border-[#00a0e9]/20 rounded-2xl flex flex-col justify-between shadow relative">
+                                <div class="absolute -top-2.5 -right-2 bg-[#00a0e9] text-white text-[9px] px-2 py-0.5 rounded-full font-bold">FACT FOUND</div>
+                                <div>
+                                    <div class="w-8 h-8 rounded-full bg-[#00a0e9] text-white flex items-center justify-center text-xs font-bold mb-3">02</div>
+                                    <h5 class="font-extrabold text-sm text-slate-800 mb-2">실증적 데이터 발견</h5>
+                                    <p class="text-xs text-slate-600 leading-relaxed">저작물 불법 이용량 통계 분석 결과, 전체 불법 유통량의 절대다수인 <strong>약 83.2%</strong>가 '음악' 저작물임을 입증하는 예상 밖의 사실을 확인.</p>
+                                </div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="p-4 bg-white/60 border border-slate-100 rounded-2xl flex flex-col justify-between shadow-sm">
+                                <div>
+                                    <div class="w-8 h-8 rounded-full bg-[#8fc31f] text-white flex items-center justify-center text-xs font-bold mb-3">03</div>
+                                    <h5 class="font-extrabold text-sm text-slate-700 mb-2">분석 방향 고도화</h5>
+                                    <p class="text-xs text-slate-500 leading-relaxed">음악 저작권 침해 현황을 핵심 의제로 긴급 추가하고, 단순 실태 파악을 넘어 기술적·제도적·사법적 해결방안까지 전격 심층 조사함.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wii-balloon p-4 mt-2">
+                            <p class="text-xs text-slate-700 font-semibold leading-relaxed">
+                                <span class="text-[#8fc31f] font-bold">★ 빌드업 인사이트:</span> 
+                                대중적인 선입견(웹툰/영화가 피해가 클 것이라는 예견)과 실제 유통 침해량 간의 거대한 간극을 "저작물_종류별_불법복제물_이용량.csv" 분석을 통해 입증하며 논리적 타당성을 완벽히 확보했습니다.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 1,
+                title: "음악 분야 불법 복제물 유통 및 침해 실태",
+                subtitle: "온라인 유통 비중 99.2% 돌파 및 전체 불법복제물의 83.2%가 음악에 집중된 상황",
+                html: `
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Left: Key Chart & Data Info -->
+                            <div class="bg-white/55 p-4 rounded-2xl border border-slate-200">
+                                <h4 class="font-bold text-xs text-slate-400 mb-2 uppercase tracking-wide">3개년 불법 복제물 이용량 통계</h4>
+                                <div class="relative w-full h-[180px] flex items-center justify-center">
+                                    <canvas id="piracyChart" class="max-w-full max-h-full"></canvas>
+                                </div>
+                                <div class="mt-4 grid grid-cols-2 gap-2 text-center">
+                                    <div class="bg-white/70 p-2 rounded-xl border border-slate-100">
+                                        <p class="text-[10px] font-bold text-slate-400">2024 음악 불법 이용</p>
+                                        <p class="text-sm font-black text-[#00a0e9]">1,041,978 건</p>
+                                    </div>
+                                    <div class="bg-white/70 p-2 rounded-xl border border-slate-100">
+                                        <p class="text-[10px] font-bold text-slate-400">전체 대비 비중</p>
+                                        <p class="text-sm font-black text-emerald-500">약 83.2 %</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Stat Grid and Commentary -->
+                            <div class="flex flex-col justify-between space-y-4">
+                                <div class="bg-white/85 p-4 rounded-2xl border border-[#00a0e9]/20 relative">
+                                    <span class="absolute top-2 right-2 text-[10px] bg-[#00a0e9]/10 text-[#00a0e9] font-black px-2 py-0.5 rounded-full">핵심 정량 데이터</span>
+                                    <h4 class="font-black text-slate-700 text-sm mb-3">연도별 음악 불법복제 이용량 추이 (건)</h4>
+                                    
+                                    <div class="space-y-2.5">
+                                        <div class="flex justify-between items-center text-xs">
+                                            <span class="font-medium text-slate-500">2022년 이용량</span>
+                                            <span class="font-bold text-slate-700">1,056,096 건 (온라인 1,053,312)</span>
+                                        </div>
+                                        <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                                            <div class="bg-slate-400 h-full" style="width: 100%"></div>
+                                        </div>
+
+                                        <div class="flex justify-between items-center text-xs">
+                                            <span class="font-medium text-slate-500">2023년 이용량</span>
+                                            <span class="font-bold text-slate-700">947,119 건 (온라인 945,048)</span>
+                                        </div>
+                                        <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                                            <div class="bg-slate-400 h-full" style="width: 89.6%"></div>
+                                        </div>
+
+                                        <div class="flex justify-between items-center text-xs">
+                                            <span class="font-medium text-slate-700">2024년 이용량</span>
+                                            <span class="font-bold text-[#00a0e9]">1,041,978 건 (온라인 1,039,896)</span>
+                                        </div>
+                                        <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                                            <div class="bg-[#00a0e9] h-full animate-pulse" style="width: 98.6%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-slate-600">
+                                    <strong class="text-emerald-700">💡 So What (전략적 시사점)?</strong>
+                                    음악 분야는 온라인을 중심으로 한 불법 복제가 주를 이루며, 2024년 기준 99.8%가 온라인입니다. 유통 구조가 스트리밍 우회로 고도화되고 있어 이를 차단할 타겟 정책이 아주 시급합니다.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "침해 기술 고도화와 추적을 위한 포렌식 프로세스",
+                subtitle: "스트림 리핑, 도메인 호핑 범죄에 맞서는 비대칭형 핑거프린팅과 6단계 과학적 수사 절차",
+                html: `
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Left Card: Evolution of Attacks -->
+                            <div class="p-4 bg-white/75 rounded-2xl border border-slate-200">
+                                <h4 class="font-black text-slate-800 text-sm mb-3 flex items-center gap-1">
+                                    <i data-lucide="zap-off" class="w-4 h-4 text-amber-500"></i> 우회 침해 수법의 진화
+                                </h4>
+                                <ul class="space-y-3 text-xs text-slate-600">
+                                    <li class="bg-white/40 p-2.5 rounded-xl border border-slate-100">
+                                        <strong class="text-slate-800">1. 스트림 리핑 (Stream Ripping)</strong><br>
+                                        유튜브 등 정식 스트리밍 플랫폼의 오디오 신호를 우회 캡처하고 롤링 암호를 우회하여 고음질 음원으로 불법 가공·배포.
+                                    </li>
+                                    <li class="bg-white/40 p-2.5 rounded-xl border border-slate-100">
+                                        <strong class="text-slate-800">2. 도메인 호핑 (Domain Hopping)</strong><br>
+                                        불법 도메인을 매주 수차례씩 신속하게 바꾸며 행정 당국의 추적 및 IP 접속 차단 명령을 무력화시키는 수법.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Right Card: Science Forensic & Tracing -->
+                            <div class="p-4 bg-white/75 rounded-2xl border border-slate-200">
+                                <h4 class="font-black text-slate-800 text-sm mb-3 flex items-center gap-1">
+                                    <i data-lucide="fingerprint" class="w-4 h-4 text-[#00a0e9]"></i> 암호화 유출자 추적 과학 수사
+                                </h4>
+                                <ul class="space-y-2.5 text-xs text-slate-600">
+                                    <li class="flex items-start gap-1.5">
+                                        <span class="text-[#00a0e9] font-bold">✔</span>
+                                        <p><strong>비대칭형 핑거프린팅:</strong> 구매자와 판매자가 프로토콜에 동시 참여하며 오직 구매자만의 비밀키로 최종 소지자 식별 가능.</p>
+                                    </li>
+                                    <li class="flex items-start gap-1.5">
+                                        <span class="text-[#00a0e9] font-bold">✔</span>
+                                        <p><strong>공모보안코드 (Collusion Secure Code):</strong> 다수의 이용자가 불법으로 음원을 변조 또는 대조하여 식별 마크를 제거하려는 악성 공모 공격을 원천 방어 및 추적.</p>
+                                    </li>
+                                    <li class="flex items-start gap-1.5">
+                                        <span class="text-emerald-500 font-bold">✔</span>
+                                        <p><strong>I-COP 모니터링:</strong> 게시글 텍스트 및 화면 박제 증거 자동 채증으로 24시간 실시간 감시 체계 운용.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 6-Step Standard Forensic Procedure Slider/Row -->
+                        <div class="bg-white/50 p-4 rounded-2xl border border-slate-200/60">
+                            <h4 class="font-bold text-xs text-slate-400 mb-3 uppercase tracking-wide">6단계 사법 포렌식 표준 절차 (증거능력 확보)</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-6 gap-2 text-center">
+                                <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="text-[10px] font-bold text-[#00a0e9]">Step 01</span>
+                                    <p class="font-extrabold text-xs text-slate-700 mt-1">사전 조사</p>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">화면 캡처/IP 특정</p>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="text-[10px] font-bold text-[#00a0e9]">Step 02</span>
+                                    <p class="font-extrabold text-xs text-slate-700 mt-1">증거 수집</p>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">디스크 이미징/해시확인</p>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="text-[10px] font-bold text-[#00a0e9]">Step 03</span>
+                                    <p class="font-extrabold text-xs text-slate-700 mt-1">증거 이송</p>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">전자파 방지/물리봉인</p>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="text-[10px] font-bold text-[#00a0e9]">Step 04</span>
+                                    <p class="font-extrabold text-xs text-slate-700 mt-1">증거 분석</p>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">데이터복구/로그분석</p>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                                    <span class="text-[10px] font-bold text-[#00a0e9]">Step 05</span>
+                                    <p class="font-extrabold text-xs text-slate-700 mt-1">결과 보고</p>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">침해금액 산정 보고</p>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-xl border border-emerald-500/30 shadow-sm">
+                                    <span class="text-[10px] font-bold text-emerald-500">Step 06</span>
+                                    <p class="font-extrabold text-xs text-slate-700 mt-1">증거 파기</p>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">와이핑(Wiping) 기술</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "2026년 개정 저작권법에 따른 고강도 신속 대응 체계",
+                subtitle: "5배 징벌적 손해배상 도입과 문체부의 긴급 접속 차단제를 통한 즉시 대응 구조",
+                html: `
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-2 bg-emerald-50 border border-[#8fc31f]/20 p-3.5 rounded-2xl">
+                            <span class="text-xl">⚖</span>
+                            <p class="text-xs text-slate-700 leading-relaxed font-semibold">
+                                <strong class="text-emerald-700">핵심 입법 기조:</strong> 기존 사후 구제 한계 극복을 위해 
+                                <strong class="text-[#00a0e9]">강력한 금전적 징벌</strong>과 <strong class="text-[#00a0e9]">실시간 선조치 후심의 차단</strong>이라는 투 트랙 고강도 압박을 적용합니다.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- 징벌제 -->
+                            <div class="p-4 bg-white/80 rounded-2xl border border-slate-200/80 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[10px] bg-red-100 text-red-600 font-extrabold px-2.5 py-0.5 rounded-full uppercase">2026.08 시행</span>
+                                    <h4 class="font-black text-slate-800 text-sm mt-2.5 mb-1.5">5배 징벌적 손해배상</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        고의적 저작권 침해에 대해 법적 <strong>손해배상 한도를 최대 5배</strong>까지 확대 규정. 침해 기간, 빈도, 고의성 및 얻은 부당 이득을 엄격히 계량화하여 원천적 동기 차단.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 긴급차단 -->
+                            <div class="p-4 bg-white/80 rounded-2xl border border-slate-200/80 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[10px] bg-amber-100 text-amber-600 font-extrabold px-2.5 py-0.5 rounded-full uppercase">2026.05 시행</span>
+                                    <h4 class="font-black text-slate-800 text-sm mt-2.5 mb-1.5">문체부 긴급차단제</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        수주가 소요되던 방심위의 기존 중개 심의를 우회하여, <strong>문체부 장관이 망사업자에 접속 차단을 다이렉트로 긴급 명령</strong>할 수 있는 '선조치 후심의' 패러다임 도입.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 형사처벌 -->
+                            <div class="p-4 bg-white/80 rounded-2xl border border-slate-200/80 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[10px] bg-slate-100 text-slate-600 font-extrabold px-2.5 py-0.5 rounded-full uppercase">공포 즉시 시행</span>
+                                    <h4 class="font-black text-slate-800 text-sm mt-2.5 mb-1.5">형사 사법 조치 대폭 상향</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        저작권 범죄 법정형 상한을 기존 5년에서 <strong>7년 이하의 징역</strong> 또는 <strong>1억 원 이하의 벌금</strong>으로 대폭 승급시켜 중범죄로 다스리기 시작함.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table comparisons -->
+                        <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white/30 text-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-slate-100 text-slate-700 font-bold">
+                                    <tr>
+                                        <th class="p-2 border-b">구분</th>
+                                        <th class="p-2 border-b">개정 전 체계</th>
+                                        <th class="p-2 border-b text-[#00a0e9]">개정 후 (2026년 신법)</th>
+                                        <th class="p-2 border-b">시행 시점</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 text-slate-600">
+                                    <tr>
+                                        <td class="p-2 font-bold">민사 배상</td>
+                                        <td class="p-2">실손해 증명 및 제한적 배상</td>
+                                        <td class="p-2 font-bold text-[#00a0e9]">징벌적 손해배상 (최대 5배 산정)</td>
+                                        <td class="p-2">2026년 08월</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 font-bold">행정 조치</td>
+                                        <td class="p-2">방심위 심의 대기 (평균 수 주 소요)</td>
+                                        <td class="p-2 font-bold text-emerald-500">문체부 장관 직접 다이렉트 긴급차단</td>
+                                        <td class="p-2">2026년 05월</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "상업 공간 매장 음악 공연권 침해 및 대법원 판례",
+                subtitle: "롯데GRS 대법원 판결 심층 분석: '판매용 음반' 협소 해석과 프랜차이즈 본사 방조 책임의 전이 리스크",
+                html: `
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <!-- Case study core details -->
+                            <div class="bg-white/80 p-5 rounded-2xl border border-rose-100 shadow-sm flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center space-x-2 text-rose-500 mb-2">
+                                        <span class="text-xs font-bold uppercase tracking-wide bg-rose-100 px-2 py-0.5 rounded-full">중요 판례 (2025.01 대법원)</span>
+                                    </div>
+                                    <h4 class="font-black text-slate-800 text-base mb-2">롯데GRS 8억 원대 공연권 판결 요지</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed space-y-2">
+                                        대법원은 저작권법상 공연권 납부 예외 규정인 '판매용 음반'의 법리적 해석 기준을 <strong>"최초 제작 당시 일반에 판매할 목적이었는가"</strong>로 한정했습니다.<br><br>
+                                        스트리밍 음원 서버에서 별도로 가공·배포되어 가맹 매장에 직접 전송 재생되는 디지털 음원은 판매용 음반에 저촉되지 않으므로, <strong>공연권 사용료를 개별적으로 추가 정산해야 한다</strong>고 판결했습니다.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Corporate Risks and Precaution -->
+                            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                                <div>
+                                    <h4 class="font-black text-slate-800 text-sm mb-3">프랜차이즈 본사의 '방조 및 공동 책임' 확산</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                                        단순히 용역업체에 매장 음악 계약 비용을 위탁했다고 해서 법적 책임이 회피되지 않습니다. 프랜차이즈 본사가 해당 매장음악서비스를 일괄 배급한 경우, <strong>가맹점의 무단 이용을 유도 내지 방치한 '방조자'의 사법적 공동 침해 책임</strong>이 인정되어 수억 원 대 배상 의무가 발생합니다.
+                                    </p>
+                                    
+                                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                                        <h5 class="text-xs font-bold text-slate-700">⚠️ 업주 적용 필수 가이드라인</h5>
+                                        <p class="text-[10px] text-slate-500 leading-relaxed mt-0.5">
+                                            헬스장, 대형 카페, 프랜차이즈 매장 점주들은 음악 스트리밍 계약 시 계약서상 '공연권료 면책 보전' 조항이 명문화되었는지 선제 검증할 필요가 있습니다.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wii-balloon p-4 mt-2">
+                            <p class="text-xs text-slate-700 font-semibold leading-relaxed">
+                                <span class="text-[#8fc31f] font-bold">⚖ 법리 판단 기준:</span> 
+                                “서버 수신형 디지털 파일 전송은 유통망 상의 음반 유통으로 볼 수 없다.” 이 판결로 인해 향후 상업적 목적 매장 재생에 대한 사법 분쟁의 새로운 기준이 완전히 수립되었습니다.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "정책적 보완 제언 및 거시적 기대 효과",
+                subtitle: "긴급차단제 이의신청 우회로 개혁, AI 기술 R&D 확대, 연간 4조 K-콘텐츠 시장 보전 효과",
+                html: `
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <!-- Policy Suggestions -->
+                            <div class="p-5 bg-white/75 rounded-2xl border border-slate-200">
+                                <h4 class="font-black text-slate-800 text-sm mb-3 flex items-center gap-1.5">
+                                    <i data-lucide="lightbulb" class="w-4 h-4 text-amber-500"></i> 사각지대 타파를 위한 3대 과제
+                                </h4>
+                                <ul class="space-y-3.5 text-xs text-slate-600">
+                                    <li>
+                                        <strong>1. 긴급차단제 이의신청 악용 유보 조항 개정</strong><br>
+                                        <span class="text-[11px] text-slate-500">현재 규정상 불법 업자가 이의신청만 하면 차단이 즉시 해제되어 무력화 우려가 있습니다. '이의 제기 시 소명 자료 제출을 의무화'하고 최종 법적 확인 전까지 차단 유지를 유지하는 보호 장치를 마련해야 합니다.</span>
+                                    </li>
+                                    <li>
+                                        <strong>2. 상업 계약서 표준화 문구 강제 제도</strong><br>
+                                        <span class="text-[11px] text-slate-500">매장 음악 유통 계약 단계에서 공연권 해결 여부를 기재하도록 표준 제도를 도입하여 분쟁을 조기 방지해야 합니다.</span>
+                                    </li>
+                                    <li>
+                                        <strong>3. AI 음원 변조(Speed-Up) 대응 기술 투자</strong><br>
+                                        <span class="text-[11px] text-slate-500">인위적으로 피치(Pitch)나 속도를 변조한 우회 음원을 완벽 차단하도록 핑거프린팅 AI 분석 엔진 고도화 정부 지원이 시급합니다.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Financial Effects and Ecosystem Protection -->
+                            <div class="p-5 bg-white/75 rounded-2xl border border-[#8fc31f]/20 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="font-black text-slate-800 text-sm mb-3 flex items-center gap-1.5">
+                                        <i data-lucide="trending-up" class="w-4 h-4 text-emerald-500"></i> 입법 안착 시 연쇄적 거시 효과
+                                    </h4>
+                                    
+                                    <div class="space-y-4">
+                                        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+                                            <p class="text-xs font-bold text-slate-400">연간 회수 기대 재원 가치</p>
+                                            <p class="text-lg font-black text-[#8fc31f] mt-0.5">약 4조 원 규모 피해 예방</p>
+                                            <p class="text-[10px] text-slate-500 leading-relaxed">온라인 우회 유통 및 불법 다운로드 유입 경로의 신속 긴급차단을 통해 누수되고 있던 K-콘텐츠의 정당한 지식재산권 가치 복원.</p>
+                                        </div>
+
+                                        <div class="bg-[#00a0e9]/5 p-3 rounded-xl border border-[#00a0e9]/10">
+                                            <p class="text-xs font-bold text-slate-400">선순환 창작 생태계 완성</p>
+                                            <p class="text-[10px] text-slate-600 leading-relaxed mt-1">이용자의 합법 플랫폼 정착 ➡ 분배율 투명화를 통한 창작자의 정당한 로열티 소득 향상 ➡ 대규모 제작 재정 투자 회생 ➡ 세계 시장 경쟁력 배가.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // System State
+        let currentChannelIndex = 0;
+        let chartInstance = null;
+
+        // Init App on Window Load
+        window.onload = function() {
+            // Setup Clock
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // Setup Slides
+            renderChannel(currentChannelIndex);
+            generateDots();
+            
+            // Add Global Keyboard Listener for left/right arrow slides
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    nextChannel();
+                } else if (e.key === 'ArrowLeft') {
+                    prevChannel();
+                }
+            });
+        };
+
+        // Live Clock Generator
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // hour 0 should be 12
+            
+            document.getElementById('liveClock').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+
+            // Format date: YYYY.MM.DD (DAY)
+            const days = ['일', '월', '화', '수', '목', '금', '토'];
+            const formattedDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} (${days[now.getDay()]})`;
+            document.getElementById('liveDate').textContent = formattedDate;
+        }
+
+        // Render Slide Logic
+        function renderChannel(index) {
+            const slide = slidesData[index];
+            const contentContainer = document.getElementById('channelContent');
+            
+            // Apply Fade transitions
+            contentContainer.style.opacity = '0';
+            
+            setTimeout(() => {
+                contentContainer.innerHTML = `
+                    <div class="mb-4">
+                        <div class="flex items-center space-x-2 text-xs font-bold text-[#8fc31f] uppercase tracking-wider mb-1">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#8fc31f] animate-pulse inline-block"></span>
+                            <span>Interactive Chapter 0${index + 1}</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-black text-slate-800 leading-snug">${slide.title}</h2>
+                        <p class="text-xs md:text-sm text-slate-500 font-semibold mt-1">${slide.subtitle}</p>
+                    </div>
+                    ${slide.html}
+                `;
+                
+                // Active nav styles
+                const navButtons = document.querySelectorAll('.nav-btn');
+                navButtons.forEach((btn, idx) => {
+                    if (idx === index) {
+                        btn.classList.add('glow-active', 'bg-white', 'shadow-md');
+                        btn.classList.remove('bg-transparent');
+                    } else {
+                        btn.classList.remove('glow-active', 'bg-white', 'shadow-md');
+                        btn.classList.add('bg-transparent');
+                    }
+                });
+
+                // Update fraction indicator
+                document.getElementById('pageFraction').textContent = `${index + 1} / ${slidesData.length}`;
+                
+                // Render Chart if on Stat Slide (Index 1)
+                if (index === 1) {
+                    setTimeout(initPiracyChart, 50); // slight delay to ensure canvas is in DOM
+                }
+
+                // Update Dots
+                updateDots(index);
+
+                // Re-initialize lucide icons inside dynamically injected HTML
+                lucide.createIcons();
+
+                contentContainer.style.opacity = '1';
+            }, 150);
+        }
+
+        // Navigation controls
+        function switchChannel(index) {
+            if (index === currentChannelIndex) return;
+            playWiiSound('page');
+            currentChannelIndex = index;
+            renderChannel(currentChannelIndex);
+        }
+
+        function nextChannel() {
+            if (currentChannelIndex < slidesData.length - 1) {
+                switchChannel(currentChannelIndex + 1);
+            } else {
+                // Loop back with success sound for presentation finish
+                playWiiSound('success');
+                switchChannel(0);
+            }
+        }
+
+        function prevChannel() {
+            if (currentChannelIndex > 0) {
+                switchChannel(currentChannelIndex - 1);
+            } else {
+                switchChannel(slidesData.length - 1);
+            }
+        }
+
+        function resetPresentation() {
+            switchChannel(0);
+        }
+
+        // Carousel Indicator Dots
+        function generateDots() {
+            const container = document.getElementById('carouselDots');
+            container.innerHTML = '';
+            slidesData.forEach((_, idx) => {
+                const dot = document.createElement('div');
+                dot.className = `w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-[#00a0e9] w-4' : 'bg-slate-300'}`;
+                dot.onclick = () => switchChannel(idx);
+                container.appendChild(dot);
+            });
+        }
+
+        function updateDots(index) {
+            const dots = document.getElementById('carouselDots').children;
+            Array.from(dots).forEach((dot, idx) => {
+                if (idx === index) {
+                    dot.className = "w-4 h-2 rounded-full bg-[#00a0e9] transition-all duration-300";
+                } else {
+                    dot.className = "w-2 h-2 rounded-full bg-slate-300 transition-all duration-300";
+                }
+            });
+        }
+
+        // Modal Controls
+        function showQuickModal() {
+            document.getElementById('quickModal').classList.remove('hidden');
+        }
+
+        function hideQuickModal() {
+            document.getElementById('quickModal').classList.add('hidden');
+        }
+
+        // Stats Chart (Chart.js)
+        function initPiracyChart() {
+            const ctx = document.getElementById('piracyChart').getContext('2d');
+            
+            // Destroy existing chart to avoid overlay bugs
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2022년', '2023년', '2024년'],
+                    datasets: [
+                        {
+                            label: '음악 불법복제물 이용량 (건)',
+                            data: [1056096, 947119, 1041978],
+                            backgroundColor: 'rgba(0, 160, 233, 0.7)',
+                            borderColor: '#00a0e9',
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            barThickness: 24,
+                        },
+                        {
+                            label: '전체 저작물 불법 이용량 (건)',
+                            data: [1381754, 1197707, 1251870],
+                            backgroundColor: 'rgba(143, 195, 31, 0.4)',
+                            borderColor: '#8fc31f',
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            barThickness: 24,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    family: 'Noto Sans KR',
+                                    size: 10,
+                                    weight: 'bold'
+                                },
+                                boxWidth: 12
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw.toLocaleString() + ' 건';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    size: 8
+                                },
+                                callback: function(value) {
+                                    return (value / 10000).toLocaleString() + '만';
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 10,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
